@@ -1,0 +1,15 @@
+@import url('../../assets/styles/variables.css');
+
+.layout__container {
+  background-color: var(--color-background);
+  background-image:
+    url('../../assets/img/blueEllipse.svg'),
+    url('../../assets/img/redEllipse.svg');
+  background-repeat: no-repeat;
+  background-position: top 664px left, top 113px right -130px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 172px 695px 241px;
+  width: 100%;
+  justify-items: center;
+}

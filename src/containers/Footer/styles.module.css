@@ -1,0 +1,13 @@
+@import url('../../assets/styles/variables.css');
+
+.footer__container {
+  display: grid;
+  width: 100%;
+  max-width: var(--max-width);
+  height: 156px;
+  align-self: flex-end;
+  padding: 48px 0;
+  grid-template-columns: 1fr 68px 1fr;
+  align-items: center;
+  border-top: 1px solid var(--color-middle);
+}
