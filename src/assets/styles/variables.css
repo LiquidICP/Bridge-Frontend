@@ -1,3 +1,20 @@
 :root {
   --main-bg-color: #E3E6E9;
+  --color-background: #000000;
+  --color-primary: #3357FA;
+  --color-dark-blue: #141522;
+  --color-middle: #2F3149;
+  --color-middle2: #878895;
+  --color-white-font: #FCFCFC;
+  --color-secondary: #00C775;
+  --color-gradient-start: #FF3C36;
+  --color-gradient-middle: #A04DCD;
+  --color-gradient-end: #3357FA;
+
+  --font-size-footer-header: 16px;
+  --font-size-labels: 14px;
+  --font-size-default: 18px;
+
+  --height-button: 56px;
+  --height-input: 60px;
 }
