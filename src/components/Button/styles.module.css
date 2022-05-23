@@ -61,6 +61,8 @@
   font-size: var(--font-size-default);
   font-family: 'Heebo', sans-serif;
   font-weight: 800;
+  height: 60px;
+  padding: 0 24px;
 }
 
 .icon {

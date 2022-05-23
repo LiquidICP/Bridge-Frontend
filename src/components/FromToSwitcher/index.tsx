@@ -9,11 +9,15 @@ type SwitcherProps = {
   element1: ReactNode;
   element2: ReactNode;
   switchButton?: ReactNode;
+  label1: string;
+  label2: string;
 };
 
 const FromToSwitcher = memo(({
   element1,
   element2,
+  label1,
+  label2,
   switchButton,
 }: SwitcherProps) => {
   const [from1to2, setFrom1to2] = useState(true);
@@ -24,7 +28,10 @@ const FromToSwitcher = memo(({
 
   return (
     <section className={styles.switcher__container}>
-      {from1to2 ? element1 : element2}
+      <div>
+        <p className={styles.switcher__label}>{label1}</p>
+        {from1to2 ? element1 : element2}
+      </div>
       {switchButton || (
         <Button
           onClick={onSwitch}
@@ -34,7 +41,10 @@ const FromToSwitcher = memo(({
           <img src={ChangeIcon} alt="swap" />
         </Button>
       )}
-      {from1to2 ? element2 : element1}
+      <div>
+        <p className={styles.switcher__label}>{label2}</p>
+        {from1to2 ? element2 : element1}
+      </div>
     </section>
   );
 });
