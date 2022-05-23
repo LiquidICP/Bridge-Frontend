@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes as RoutesDom } from 'react-router-dom';
+import { HomePage } from 'pages/HomePage';
 import { Layout } from 'components';
 
 export const Routes = () => (
@@ -8,7 +9,7 @@ export const Routes = () => (
       path="/"
       element={<Layout />}
     >
-      <Route path="/" element={<h1>Hello world!</h1>} />
+      <Route path="/" element={<HomePage />} />
     </Route>
   </RoutesDom>
 );
