@@ -6,11 +6,11 @@ import styles from './styles.module.css';
 const Footer: FC = () => (
   <footer className={styles.footer__container}>
     <section className={styles.footer__links__box}>
-      <div>
+      <div className={styles.links_top__box}>
         <Link to="/">Terms of Use</Link>
         <Link to="/">Privacy policy</Link>
       </div>
-      <div>
+      <div className={styles.links_soc_media__box}>
         <Link to="/">Telegram</Link>
         <Link to="/">Twitter</Link>
         <Link to="/">Discord</Link>

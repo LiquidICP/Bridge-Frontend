@@ -11,3 +11,36 @@
   align-items: center;
   border-top: 1px solid var(--color-middle);
 }
+
+.footer__copy__box {
+  display: grid;
+  align-content: center;
+}
+
+.footer__copy__box p {
+  font-family: 'Heebo', sans-serif;
+  font-size: var(--font-size-footer-header);
+  color: var(--color-middle2);
+  text-align: right;
+  margin: 0;
+  padding: 0;
+}
+
+.links_top__box {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  column-gap: 52px;
+}
+
+.links_soc_media__box {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  column-gap: 16px;
+}
+
+.links_top__box a,
+.links_soc_media__box a {
+  color: var(--color-middle2);
+  font-size: var(--font-size-footer-header);
+  font-family: 'Heebo', san-serif;
+}
