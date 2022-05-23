@@ -6,8 +6,8 @@ import { Tabs } from './Tabs';
 const Main: FC = () => (
   <main className={styles.main__container}>
     <Tabs />
-    <Button theme="outline_gradient" onClick={() => {}}>
-      Back
+    <Button theme="icon" onClick={() => {}}>
+      Ba
     </Button>
   </main>
 );
