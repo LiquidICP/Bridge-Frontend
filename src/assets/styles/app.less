@@ -1,8 +1,38 @@
 @import '~antd/dist/antd.less';
 @import 'assets/styles/variables.css';
 
+@import 'assets/fonts/Satoshi/stylesheet.css';
+@import 'assets/fonts/Heebo/stylesheet.css';
+
 body {
     background-color: var(--main-bg-color);
+}
+
+//Modal
+.ant-modal-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 488px;
+  height: 440px;
+  background-color: var(--color-dark-blue);
+  border-radius: 30px;
+  background-image:
+    url('../../assets/img/greenEllipse.svg');
+  background-position: top 50% left 50%;
+  background-repeat: no-repeat;
+  padding: 50px;
+}
+
+.ant-modal-close-x {
+    color: var(--color-white-font);
+    margin-top: 45px;
+    margin-right: 30px;
+}
+
+.ant-modal-body {
+  padding: 0;
+  height: 100%;
 }
 
 // Select
@@ -10,7 +40,13 @@ body {
 
 
 // Typography
-// ---
+.ant-typography {
+  font-family: 'Heebo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--color-white-font);
+}
 
 //Table
 // ---
