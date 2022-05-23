@@ -1,0 +1,30 @@
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: var(--color-middle);
+  border-radius: 50%;
+  color: white;
+}
+
+.line {
+  width: 70px;
+  border: 1px solid var(--color-middle2);
+  margin: 0 5px;
+}
+
+.active {
+  background-color: var(--color-primary);
+}
+
+.completed {
+  background-color: var(--color-secondary);
+}
