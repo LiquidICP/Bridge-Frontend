@@ -1,0 +1,13 @@
+.switcher__container {
+  position: relative;
+  display: grid;
+  grid-template-rows: 84px 84px;
+  row-gap: 16px;
+}
+
+.switcher__button {
+  position: absolute;
+  top: 79px;
+  z-index: 3;
+  left: 334px;
+}

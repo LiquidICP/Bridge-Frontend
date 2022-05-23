@@ -9,6 +9,7 @@
 
 .primary {
   background-color: var(--color-primary);
+  height: 60px;
 }
 
 .gray {
