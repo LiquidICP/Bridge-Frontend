@@ -45,7 +45,6 @@
     "@typescript-eslint/parser": "5.8.1",
     "craco-less": "2.0.0",
     "env-cmd": "10.1.0",
-    "eslint": "7.32.0",
     "eslint-config-airbnb": "18.1.0",
     "eslint-config-airbnb-typescript": "16.1.0",
     "eslint-plugin-import": "2.25.3",

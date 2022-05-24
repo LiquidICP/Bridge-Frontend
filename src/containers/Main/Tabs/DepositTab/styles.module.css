@@ -1,0 +1,18 @@
+.deposit__container {
+  display: grid;
+  justify-content: center;
+  width: 100%;
+  grid-template-columns: 1fr;
+}
+
+.deposit__container h2 {
+  font-size: 48px;
+  font-weight: 900;
+  font-family: 'Satoshi', sans-serif;
+  color: var(--color-white-font);
+  text-align: center;
+  line-height: 110%;
+  margin-top: 24px;
+  margin-bottom: 32px;
+  padding: 0;
+}

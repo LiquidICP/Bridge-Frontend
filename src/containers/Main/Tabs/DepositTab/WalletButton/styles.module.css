@@ -1,0 +1,26 @@
+.wallet_button__container {
+  height: 60px;
+  width: 100%;
+}
+
+.wallet_button__button {
+  display: grid;
+  grid-template-columns: 24px max-content;
+  column-gap: 16px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.wallet_button__text {
+  padding: 0;
+  margin: 0;
+  font-size: var(--font-size-default);
+  color: var(--color-white-font);
+  font-family: 'Heebo', sans-serif;
+  font-weight: 400;
+}
+
+.wallet_button__button img {
+  justify-self: flex-end;
+}

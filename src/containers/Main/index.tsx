@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import styles from './styles.module.css';
+import './styles.css';
 import { Tabs } from './Tabs';
 
 const Main: FC = () => (
-  <main className={styles.main__container}>
+  <main className="main__container">
     <Tabs />
   </main>
 );

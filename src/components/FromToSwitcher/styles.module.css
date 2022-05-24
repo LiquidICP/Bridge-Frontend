@@ -5,6 +5,14 @@
   row-gap: 16px;
 }
 
+.switcher__label {
+  color: var(--color-gray);
+  font-family: 'Heebo', sans-serif;
+  font-size: var(--font-size-labels);
+  padding: 0;
+  margin: 0;
+}
+
 .switcher__button {
   position: absolute;
   top: 79px;

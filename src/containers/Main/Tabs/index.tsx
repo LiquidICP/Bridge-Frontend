@@ -1,13 +1,17 @@
 import React, { FC } from 'react';
 import { Tabs as TabsAntd } from 'antd';
+import { DepositTab } from './DepositTab';
 // import styles from './styles.module.css';
 
 const { TabPane } = TabsAntd;
 
 const Tabs: FC = () => (
-  <TabsAntd>
+  <TabsAntd
+    centered
+    animated={{ inkBar: true, tabPane: false }}
+  >
     <TabPane tab="Deposit" key="1">
-      <h2>Deposit</h2>
+      <DepositTab />
     </TabPane>
     <TabPane tab="Withdraw" key="2">
       <h2>Withdraw</h2>

@@ -1,0 +1,15 @@
+.step1__container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+}
+
+.step1__input {
+  margin-top: 16px;
+}
+
+.step1__next_button {
+  width: max-content;
+  margin: 63px auto 50px;
+}

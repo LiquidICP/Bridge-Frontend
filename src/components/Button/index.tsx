@@ -1,11 +1,12 @@
 import React, { memo, ReactNode } from 'react';
 import cx from 'classnames';
+import { ThemeButton } from 'types/themes';
 import styles from './styles.module.css';
 
 type ButtonProps = {
   className?: string;
   onClick: () => void;
-  theme: 'primary' | 'gray' | 'outline' | 'icon' | 'outline_gradient' | 'gradient';
+  theme: ThemeButton;
   isDisabled?: boolean;
   children: ReactNode;
 };
@@ -23,8 +24,7 @@ const Button = memo(({
     <button
       className={cx(
         styles.button__container,
-        classTheme,
-        { [styles.button__disabled]: isDisabled },
+        isDisabled ? styles.button__disabled : classTheme,
         className,
       )}
       disabled={isDisabled}
