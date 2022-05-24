@@ -6,7 +6,10 @@ import { DepositTab } from './DepositTab';
 const { TabPane } = TabsAntd;
 
 const Tabs: FC = () => (
-  <TabsAntd>
+  <TabsAntd
+    centered
+    animated={{ inkBar: true, tabPane: false }}
+  >
     <TabPane tab="Deposit" key="1">
       <DepositTab />
     </TabPane>
