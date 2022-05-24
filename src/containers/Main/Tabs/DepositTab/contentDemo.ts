@@ -6,8 +6,10 @@ export const addresses = {
 export const fee = '0.02 ICP';
 
 export const addressesForStep2 = {
-  from: 'ICa9059...x928c5y9x2yr',
-  to: 'Pola9c29059...92y9x2yr',
+  // from: 'ICa9059...x928c5y9x2yr',
+  // to: 'Pola9c29059...92y9x2yr',
+  from: 'ICa90596yg98afr663582x928c5y9x2yr',
+  to: 'Pola9c29059aht6778ed8890s98792y9x2yr',
 };
 
 export const infoBlocks = {

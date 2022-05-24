@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { ellipsis } from 'utils/ellipsis';
 import styles from './styles.module.css';
 
 type InfoProps = {
@@ -15,7 +16,7 @@ const InfoCard = memo(({
       {label}
     </p>
     <div className={styles.info_card__box}>
-      {text}
+      {ellipsis(text, 20)}
     </div>
   </div>
 ));
