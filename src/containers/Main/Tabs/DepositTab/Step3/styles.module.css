@@ -1,0 +1,37 @@
+.step3__container {
+  display: grid;
+  grid-auto-flow: row;
+  justify-self: center;
+  justify-items: center;
+  background-image: url('../../../../../assets/img/greenEllipse.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  max-width: 324px;
+  padding-top: 95px;
+}
+
+.step3__text {
+  font-size: var(--font-size-default);
+  font-family: var(--font-family-default);
+  color: var(--color-white-font);
+  line-height: 130%;
+  font-weight: 400;
+  text-align: center;
+}
+
+.step3__text a {
+  text-decoration: underline;
+}
+
+p.step3__receiving {
+  font-size: 36px;
+  font-family: var(--font-family-default);
+  color: var(--color-white-font);
+  line-height: 110%;
+  font-weight: 400;
+  margin: 16px 0;
+}
+
+.step3__button {
+  margin-top: 83px;
+}
