@@ -36,3 +36,11 @@ p.step3__receiving {
 .step3__button {
   margin-top: 83px;
 }
+
+@media (max-width: 421px) {
+  .step3__container {
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

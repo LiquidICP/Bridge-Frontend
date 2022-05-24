@@ -13,3 +13,9 @@
   width: 100%;
   justify-items: center;
 }
+
+@media (max-width: 421px) {
+  .layout__container {
+    grid-template-rows: auto;
+  }
+}

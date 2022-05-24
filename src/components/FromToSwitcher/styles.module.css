@@ -19,3 +19,15 @@
   z-index: 3;
   left: 334px;
 }
+
+@media (max-width: 421px) {
+  .switcher__container {
+    row-gap: 42px;
+  }
+  
+  .switcher__button {
+    width: 50px; 
+    left: calc(50% - 25px);
+    top: 92px;
+  }
+}
