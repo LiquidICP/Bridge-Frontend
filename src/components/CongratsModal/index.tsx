@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Modal, Typography } from 'antd';
 import cx from 'classnames';
 import { Button } from 'components';
@@ -23,6 +23,10 @@ export const CongratsModal: FC<CongratsModalProps> = ({
   address,
   amount,
 }) => {
+  useEffect(() => {
+    if (isModalVisible) rootBlur(true);
+  }, [isModalVisible]);
+
   const handleOk = () => {
     rootBlur(false);
     setIsModalVisible(false);

@@ -17,3 +17,8 @@ export const infoBlocks = {
   fees: '0.05 ICP',
   receiving: '99.95 ICP',
 };
+
+export const congratulation = {
+  amount: 100,
+  address: 'xjirm290m20ie0xir...cn3285',
+};
