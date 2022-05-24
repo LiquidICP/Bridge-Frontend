@@ -3,6 +3,7 @@ import { MetamaskIcon, PlugIcon } from 'assets/img';
 import { Button, FromToSwitcher, Input } from 'components';
 import { WalletButton } from '../WalletButton';
 import styles from './styles.module.css';
+import { addresses, fee } from '../contentDemo';
 
 type Step1Props = {
   onNextClick: () => void;
@@ -13,6 +14,8 @@ const Step1 = memo(({
 }: Step1Props) => {
   const [amount, setAmount] = useState('');
   const [isNextDisabled, setIsNextDisabled] = useState(true);
+  const [plugIsConnected, setPlugIsConnected] = useState(false);
+  const [metamaskIsConnected, setMetamaskIsConnected] = useState(false);
   
   const onChangeAmount = useCallback((t: string) => {
     setAmount(t);
@@ -23,11 +26,21 @@ const Step1 = memo(({
     }
   }, []);
 
+  const onMetamaskClick = useCallback(() => {
+    setMetamaskIsConnected(true);
+  }, []);
+
+  const onPlugClick = useCallback(() => {
+    setPlugIsConnected(true);
+  }, []);
+
   const switchElement1 = (
     <WalletButton
       icon={PlugIcon}
       text="Connect to Plug"
-      onClick={() => {}}
+      onClick={onPlugClick}
+      textIsClicked={addresses.plug}
+      isConnected={plugIsConnected}
     />
   );
 
@@ -35,7 +48,9 @@ const Step1 = memo(({
     <WalletButton
       icon={MetamaskIcon}
       text="Connect to Metamask"
-      onClick={() => {}}
+      onClick={onMetamaskClick}
+      textIsClicked={addresses.metamask}
+      isConnected={metamaskIsConnected}
     />
   );
   
@@ -54,6 +69,19 @@ const Step1 = memo(({
         onChange={onChangeAmount}
         classNameContainer={styles.step1__input}
       />
+      <p className={styles.step1__fee}>
+        {metamaskIsConnected && plugIsConnected
+          ? (
+            <>
+              Fee:
+              {' '}
+              <span>
+                {fee}
+              </span>
+            </>
+          )
+          : <>&nbsp;</>}
+      </p>
       <Button
         theme="gradient"
         onClick={onNextClick}

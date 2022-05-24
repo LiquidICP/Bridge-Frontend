@@ -1,3 +1,4 @@
+import { Steps } from 'components';
 import React, { FC, useState, useCallback } from 'react';
 import { Step1 } from './Step1';
 import styles from './styles.module.css';
@@ -12,6 +13,7 @@ const DepositTab: FC = () => {
   return (
     <section className={styles.deposit__container}>
       <h2>Deposit</h2>
+      <Steps step={step} />
       <Step1 onNextClick={onNextClick} />
     </section>
   );
