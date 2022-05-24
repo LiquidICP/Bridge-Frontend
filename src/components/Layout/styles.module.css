@@ -6,7 +6,7 @@
     url('../../assets/img/blueEllipse.svg'),
     url('../../assets/img/redEllipse.svg');
   background-repeat: no-repeat;
-  background-position: top 664px left, top 113px right -130px;
+  background-position: top 400px left, top 113px right -130px;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 172px 695px 241px;
