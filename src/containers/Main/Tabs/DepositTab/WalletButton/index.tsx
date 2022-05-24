@@ -10,6 +10,8 @@ type WalletButtonProps = {
   theme?: ThemeButton;
   classNameButton?: string;
   onClick: () => void;
+  textIsClicked: string;
+  isConnected: boolean,
 };
 
 const WalletButton = memo(({
@@ -18,15 +20,23 @@ const WalletButton = memo(({
   theme = 'primary',
   onClick,
   classNameButton,
+  textIsClicked,
+  isConnected,
 }: WalletButtonProps) => (
   <section className={styles.wallet_button__container}>
     <Button
       onClick={onClick}
-      theme={theme}
-      className={cx(styles.wallet_button__button, classNameButton)}
+      theme={isConnected ? 'gray' : theme}
+      className={cx(
+        styles.wallet_button__button,
+        classNameButton,
+        { [styles.wallet_button__gray]: isConnected },
+      )}
     >
       <img src={icon} alt="Wallet icon" />
-      <p className={styles.wallet_button__text}>{text}</p>
+      <p className={styles.wallet_button__text}>
+        {isConnected ? textIsClicked : text}
+      </p>
     </Button>
   </section>
 ));

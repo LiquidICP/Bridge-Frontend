@@ -3,6 +3,7 @@
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
+  margin-top: 24px;
 }
 
 .step1__input {
@@ -11,5 +12,17 @@
 
 .step1__next_button {
   width: max-content;
-  margin: 63px auto 50px;
+  margin: 32px auto 50px;
+}
+
+.step1__fee {
+  font-size: var(--font-size-labels);
+  font-family: 'Heebo', sans-serif;
+  color: var(--color-middle2);
+  justify-self: center;
+  margin: 16px 0 0 0;
+}
+
+.step1__fee span {
+  color: var(--color-primary);
 }

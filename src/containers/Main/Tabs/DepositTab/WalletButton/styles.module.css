@@ -10,6 +10,12 @@
   align-items: center;
   align-content: center;
   justify-content: center;
+  height: 60px;
+  padding-left: 20px;
+}
+
+.wallet_button__gray {
+  justify-content: flex-start;
 }
 
 .wallet_button__text {
@@ -23,4 +29,8 @@
 
 .wallet_button__button img {
   justify-self: flex-end;
+}
+
+.wallet_button__button.wallet_button__gray img {
+  justify-self: flex-start;
 }
