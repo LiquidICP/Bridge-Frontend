@@ -18,7 +18,7 @@
 }
 
 .footer__copy__box p {
-  font-family: 'Heebo', sans-serif;
+  font-family: var(--font-family-default);
   font-size: var(--font-size-footer-header);
   color: var(--color-middle2);
   text-align: right;
