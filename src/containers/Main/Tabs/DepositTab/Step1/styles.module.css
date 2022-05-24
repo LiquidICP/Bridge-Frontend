@@ -1,9 +1,11 @@
 .step1__container {
   width: 100%;
+  max-width: 404px;
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
   margin-top: 24px;
+  justify-self: center;
 }
 
 .step1__input {
@@ -17,7 +19,7 @@
 
 .step1__fee {
   font-size: var(--font-size-labels);
-  font-family: 'Heebo', sans-serif;
+  font-family: var(--font-family-default);
   color: var(--color-middle2);
   justify-self: center;
   margin: 16px 0 0 0;

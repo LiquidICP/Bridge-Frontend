@@ -37,7 +37,7 @@
   color: white;
   font-size: var(--font-size-default);
   font-weight: 800;
-  font-family: 'Heebo', sans-serif;
+  font-family: var(--font-family-default);
 }
 
 .outline_gradient__internal {
@@ -51,7 +51,7 @@
   padding: 0 24px;
   font-weight: 800;
   font-size: var(--font-size-default);
-  font-family: 'Heebo', sans-serif;
+  font-family: var(--font-family-default);
 }
 
 .button__disabled {
@@ -59,7 +59,7 @@
   background-color: var(--color-dark-blue);
   color: var(--color-disabled);
   font-size: var(--font-size-default);
-  font-family: 'Heebo', sans-serif;
+  font-family: var(--font-family-default);
   font-weight: 800;
   height: 60px;
   padding: 0 24px;
