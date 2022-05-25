@@ -4,7 +4,7 @@
   grid-template-areas: 'logo menu space';
   width: 100%;
   max-width: var(--max-width);
-  padding-top: 37.5px;
+  padding: 37.5px 0 0 0;
 }
 
 .header__logo__box {
@@ -49,6 +49,13 @@ li.item_menu__active {
 .header__button__box {
   display: none;
   grid-area: burger;
+}
+
+@media (max-width: 1242px) {
+  .header__container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 
 @media (max-width: 421px) {

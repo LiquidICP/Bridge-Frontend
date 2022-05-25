@@ -30,7 +30,7 @@
   list-style-type: none;
 }
 
-@media (max-width: 421px) {
+@media (max-width: 551px) {
   .footer_mobile__container {
     display: block;
     padding: 0 20px;

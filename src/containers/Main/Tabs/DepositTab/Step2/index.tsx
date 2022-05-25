@@ -39,12 +39,14 @@ const Step2 = memo(({
       <Button
         theme="outline_gradient"
         onClick={onBackClick}
+        className={styles.step2__button}
       >
         Back
       </Button>
       <Button
         theme="gradient"
         onClick={onConfirmClick}
+        className={styles.step2__button}
       >
         Confirm
       </Button>
