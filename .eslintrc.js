@@ -55,6 +55,13 @@ module.exports = {
     'no-console': 2,
     '@typescript-eslint/no-unused-vars': 2,
     'func-names': 0,
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "react/function-component-definition": [
+      2,
+      {
+        namedComponents: "arrow-function",
+        unnamedComponents: "arrow-function",
+      },
+    ],
   }
 };

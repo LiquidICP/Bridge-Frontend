@@ -83,6 +83,7 @@
     ]
   },
   "eslintConfig": {
+    "extends": "react-app",
     "overrides": [
       {
         "files": [
