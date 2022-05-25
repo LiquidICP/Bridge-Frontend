@@ -1,16 +1,3 @@
-.congratsModal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 488px;
-  height: 414px;
-  background-color: var(--color-dark-blue);
-  border-radius: 30px;
-  background-image:
-    url('../../assets/img/blueEllipse.svg');
-  background-position: top 50% left 50%,
-}
-
 .modal__button {
   width: 172px;
   margin-top: 43px;
@@ -20,11 +7,11 @@
   font-weight: 900;
   font-size: 30px;
   color: var(--color-white-font);
-  font-family: 'Satoshi-Variable';
+  font-family: 'Satoshi';
   margin-bottom: 50px;
 }
 
-.modal_content__container {
+.modal__content__container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,9 +19,12 @@
 }
 .modal__text {
   text-align: center;
+  color: var(--color-white-font);
   max-width: 324px;
+  font-size: 18px;
+  font-family: 'Heebo-Regular';
 }
 
-.modal__bigger_text {
+.modal__text_bigger {
   font-size: 36px;
 }

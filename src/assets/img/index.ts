@@ -7,3 +7,4 @@ export { default as RedEllipse } from './redEllipse.svg';
 export { default as BlueEllipse } from './blueEllipse.svg';
 export { default as GreenEllipse } from './greenEllipse.svg';
 export { default as MenuIcon } from './menuIcon.svg';
+export { default as CloseIcon } from './closeIcon.svg';
