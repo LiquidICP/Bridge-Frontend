@@ -33,3 +33,23 @@
   margin: 0;
   padding: 0;
 }
+
+@media (max-width: 421px) {
+  .main__container {
+    width: 100vw;
+    border: 0;
+  }
+
+  body .ant-modal .ant-modal-content {
+    max-width: calc(100vw - 40px);
+  }
+
+  body .ant-modal-wrap {
+    left: 20px;
+    right: 20px;
+  }
+
+  body .ant-modal-close-x {
+    margin: 8px 8px 0 0;
+  }
+}

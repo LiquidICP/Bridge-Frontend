@@ -1,4 +1,5 @@
 @import url('../../assets/styles/variables.css');
+@import url('../../assets/fonts/Gilroy/stylesheet.css');
 
 .layout__container {
   background-color: var(--color-background);
@@ -12,4 +13,10 @@
   grid-template-rows: 172px 695px 241px;
   width: 100%;
   justify-items: center;
+}
+
+@media (max-width: 421px) {
+  .layout__container {
+    grid-template-rows: auto;
+  }
 }

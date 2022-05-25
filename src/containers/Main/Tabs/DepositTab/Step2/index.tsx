@@ -32,6 +32,7 @@ const Step2 = memo(({
       <InfoBlock
         label="Receiving"
         text={infoBlocks.receiving}
+        className={styles.step2__last_block}
       />
     </section>
     <section className={styles.step2__buttons__box}>

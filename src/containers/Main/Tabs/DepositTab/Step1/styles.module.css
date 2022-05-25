@@ -17,7 +17,7 @@
   margin: 32px auto 50px;
 }
 
-.step1__fee {
+p.step1__fee {
   font-size: var(--font-size-labels);
   font-family: var(--font-family-default);
   color: var(--color-middle2);
@@ -27,4 +27,14 @@
 
 .step1__fee span {
   color: var(--color-primary);
+}
+
+@media (max-width: 421px) {
+  .step1__container {
+    padding: 0 20px;
+  }
+
+  .step1__next_button {
+    width: 100%;
+  }
 }
