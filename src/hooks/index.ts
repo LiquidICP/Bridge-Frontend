@@ -1,1 +1,1 @@
-export default null;
+export { useMobile } from './useMobile';
