@@ -34,12 +34,14 @@
   padding: 0;
 }
 
-@media (max-width: 421px) {
+@media (max-width: 738px) {
   .main__container {
-    width: 100vw;
-    border: 0;
+    width: calc(100% - 40px);
+    padding: 50px 20px;
   }
+}
 
+@media (max-width: 551px) {
   body .ant-modal .ant-modal-content {
     max-width: calc(100vw - 40px);
   }
@@ -51,5 +53,12 @@
 
   body .ant-modal-close-x {
     margin: 8px 8px 0 0;
+  }
+}
+
+@media (max-width: 421px) {
+  .main__container {
+    width: 100vw;
+    border: 0;
   }
 }

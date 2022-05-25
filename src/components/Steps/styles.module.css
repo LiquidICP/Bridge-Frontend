@@ -1,10 +1,10 @@
-.steps {
+.steps__container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.dot {
+.steps__dot {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,16 +15,16 @@
   color: var(--color-white-font);
 }
 
-.line {
+.steps__line {
   width: 70px;
   border: 1px solid var(--color-middle2);
   margin: 0 5px;
 }
 
-.active {
+.steps__dot_active {
   background-color: var(--color-primary);
 }
 
-.completed {
+.steps__dot_completed {
   background-color: var(--color-secondary);
 }

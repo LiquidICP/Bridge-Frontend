@@ -45,7 +45,13 @@
   font-family: 'Heebo', san-serif;
 }
 
-@media (max-width: 421px) {
+@media (max-width: 1242px) {
+  .footer__container {
+    padding: 48px 20px 48px 20px;
+  }
+}
+
+@media (max-width: 551px) {
   .footer__container {
     display: none;
   }

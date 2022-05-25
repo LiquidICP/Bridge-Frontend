@@ -46,22 +46,22 @@ export const CongratsModal: FC<CongratsModalProps> = ({
       footer={null}
       closeIcon={<CloseIcon />}
     >
-      <div className={styles.modalContent}>
-        <Text className={styles.title}>Congratulation!</Text>
-        <Text className={styles.text}>You wrapped</Text>
-        <Text className={cx(styles.text, styles.biggerText)}>
+      <div className={styles.modal_content__container}>
+        <Text className={styles.modal__title}>Congratulation!</Text>
+        <Text className={styles.modal__text}>You wrapped</Text>
+        <Text className={cx(styles.modal__text, styles.modal__bigger_text)}>
           {amount}
           {' '}
           ICP
         </Text>
-        <Text className={styles.text}>
+        <Text className={styles.modal__text}>
           <a href="/">{getShortAddress(address, 15)}</a>
           {` address received ${amount} ICP-20`}
         </Text>
         <Button
           onClick={handleCancel}
           theme="gradient"
-          className={styles.button}
+          className={styles.modal__button}
         >
           Got it!
         </Button>

@@ -15,6 +15,12 @@
   justify-items: center;
 }
 
+@media (max-width: 738px) {
+  .layout__container {
+    grid-template-rows: 172px auto 241px;
+  }
+}
+
 @media (max-width: 421px) {
   .layout__container {
     grid-template-rows: auto;
