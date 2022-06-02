@@ -17,7 +17,10 @@ const FooterDesktop: FC = () => (
       </div>
     </section>
     <section className={styles.footer__logo__box}>
-      <img src={BridgeLogo} alt="" />
+      <img
+        src={BridgeLogo}
+        alt="Logo Bridge"
+      />
     </section>
     <section className={styles.footer__copy__box}>
       <p>&copy; Copyright 2020-2021. All Rights Reserved</p>

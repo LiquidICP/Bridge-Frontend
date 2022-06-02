@@ -9,7 +9,7 @@ const Step3: FC = () => {
   const onClick = useCallback(() => {
     setIsModalOpen(true);
   }, []);
-  
+
   return (
     <section className={styles.step3__container}>
       <p className={styles.step3__text}>
@@ -22,7 +22,11 @@ const Step3: FC = () => {
         coins to Polygon, your ICP-20 tokens will be sent within 12 hours else
         contact our support team in
         {' '}
-        <a href="https://discord.com" target="_blank" rel="noreferrer">
+        <a
+          href="https://discord.com"
+          target="_blank"
+          rel="noreferrer"
+        >
           Discord
         </a>
       </p>

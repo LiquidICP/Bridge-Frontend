@@ -17,8 +17,14 @@ const Step2 = memo(({
   <section className={styles.step2__container}>
     <h3 className={styles.step2__title}>Details</h3>
     <section className={styles.step2__from_to__box}>
-      <InfoCard label="From" text={addressesForStep2.from} />
-      <InfoCard label="To" text={addressesForStep2.to} />
+      <InfoCard
+        label="From"
+        text={addressesForStep2.from}
+      />
+      <InfoCard
+        label="To"
+        text={addressesForStep2.to}
+      />
     </section>
     <section className={styles.step2__datas__box}>
       <InfoBlock

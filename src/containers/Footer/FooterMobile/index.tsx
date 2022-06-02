@@ -26,17 +26,29 @@ const FooterMobile: FC = () => (
       </ul>
       <ul>
         <li>
-          <a href="https://facebook.com" target="_blank" rel="noreferrer">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noreferrer"
+          >
             Facebook
           </a>
         </li>
         <li>
-          <a href="https://twitter.com" target="_blank" rel="noreferrer">
+          <a
+            href="https://twitter.com"
+            target="_blank"
+            rel="noreferrer"
+          >
             Twitter
           </a>
         </li>
         <li>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer">
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noreferrer"
+          >
             Linkedin
           </a>
         </li>

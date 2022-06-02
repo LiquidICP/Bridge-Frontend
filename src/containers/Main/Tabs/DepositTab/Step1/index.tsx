@@ -16,7 +16,7 @@ const Step1 = memo(({
   const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [plugIsConnected, setPlugIsConnected] = useState(false);
   const [metamaskIsConnected, setMetamaskIsConnected] = useState(false);
-  
+
   const onChangeAmount = useCallback((t: string) => {
     setAmount(t);
     if (t === '') {
@@ -53,7 +53,7 @@ const Step1 = memo(({
       isConnected={metamaskIsConnected}
     />
   );
-  
+
   return (
     <section className={styles.step1__container}>
       <FromToSwitcher

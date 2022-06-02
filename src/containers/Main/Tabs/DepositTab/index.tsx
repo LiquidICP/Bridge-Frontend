@@ -9,7 +9,7 @@ import { Step3 } from './Step3';
 
 const DepositTab: FC = () => {
   const [step, setStep] = useState(1);
-  
+
   const onNextClick = useCallback(() => {
     setStep(step + 1);
   }, [step]);
@@ -20,7 +20,10 @@ const DepositTab: FC = () => {
 
   const stepElements: Record<string, ReactNode> = {
     step1: <Step1 onNextClick={onNextClick} />,
-    step2: <Step2 onBackClick={onBackClick} onConfirmClick={onNextClick} />,
+    step2: <Step2
+      onBackClick={onBackClick}
+      onConfirmClick={onNextClick}
+    />,
     step3: <Step3 />,
   };
 

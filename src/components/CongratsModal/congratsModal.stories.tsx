@@ -18,7 +18,10 @@ export const Primary: ComponentStory<typeof CongratsModal> = () => {
 
   return (
     <>
-      <Button onClick={handleShowModal} theme="primary">
+      <Button
+        onClick={handleShowModal}
+        theme="primary"
+      >
         Show Modal
       </Button>
       <CongratsModal

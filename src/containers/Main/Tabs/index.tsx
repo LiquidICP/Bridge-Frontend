@@ -10,10 +10,16 @@ const Tabs: FC = () => (
     centered
     animated={{ inkBar: true, tabPane: false }}
   >
-    <TabPane tab="Deposit" key="1">
+    <TabPane
+      tab="Deposit"
+      key="1"
+    >
       <DepositTab />
     </TabPane>
-    <TabPane tab="Withdraw" key="2">
+    <TabPane
+      tab="Withdraw"
+      key="2"
+    >
       <h2>Withdraw</h2>
     </TabPane>
   </TabsAntd>
