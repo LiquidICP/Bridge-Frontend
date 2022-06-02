@@ -1,6 +1,5 @@
 import { Button, CongratsModal } from 'components';
 import React, { FC, useCallback, useState } from 'react';
-import { postFetch } from 'utils/api/saveTransaction';
 import { congratulation, infoBlocks } from '../contentDemo';
 import styles from './styles.module.css';
 
@@ -8,16 +7,6 @@ const Step3: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onClick = useCallback(() => {
-    postFetch({
-      id: 0,
-      sender: 'string',
-      senderType: {},
-      amount: 'string',
-      recipient: 'string',
-      recipientType: {},
-      state: {},
-      polygonTransactionId: 'string',
-    });
     setIsModalOpen(true);
   }, []);
 

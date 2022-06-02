@@ -1,7 +1,6 @@
 import React, { memo, useState, useCallback } from 'react';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
 import { Button, FromToSwitcher, Input } from 'components';
-import { getDefault } from 'utils/api/default';
 import { WalletButton } from '../WalletButton';
 import styles from './styles.module.css';
 import { addresses, fee } from '../contentDemo';
@@ -33,7 +32,6 @@ const Step1 = memo(({
 
   const onPlugClick = useCallback(() => {
     setPlugIsConnected(true);
-    getDefault(addresses.plug);
   }, []);
 
   const switchElement1 = (
