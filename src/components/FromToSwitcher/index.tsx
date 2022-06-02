@@ -38,7 +38,10 @@ const FromToSwitcher = memo(({
           theme="icon"
           className={styles.switcher__button}
         >
-          <img src={ChangeIcon} alt="swap" />
+          <img
+            src={ChangeIcon}
+            alt="swap"
+          />
         </Button>
       )}
       <div>

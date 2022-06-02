@@ -42,7 +42,12 @@ export const CongratsModal: FC<CongratsModalProps> = ({
       onCancel={handleCancel}
       className={className}
       footer={null}
-      closeIcon={<img src={CloseIcon} alt="Close" />}
+      closeIcon={(
+        <img
+          src={CloseIcon}
+          alt="Close"
+        />
+      )}
     >
       <div className={styles.modal__content__container}>
         <h3 className={styles.modal__title}>Congratulation!</h3>

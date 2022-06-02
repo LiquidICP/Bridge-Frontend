@@ -1,5 +1,3 @@
-/* eslint-disable promise/always-return */
-/* eslint-disable no-console */
 import { apiBaseUrl } from 'appConstants';
 import { RequestSaveTransaction } from 'types/store/saveTransaction';
 import { ApiEndpoint } from './constants';

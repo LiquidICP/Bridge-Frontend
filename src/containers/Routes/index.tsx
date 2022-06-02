@@ -9,7 +9,10 @@ export const Routes = () => (
       path="/"
       element={<Layout />}
     >
-      <Route path="/" element={<HomePage />} />
+      <Route
+        path="/"
+        element={<HomePage />}
+      />
     </Route>
   </RoutesDom>
 );

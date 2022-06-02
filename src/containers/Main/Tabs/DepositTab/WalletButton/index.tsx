@@ -40,7 +40,10 @@ const WalletButton = memo(({
           { [styles.wallet_button__gray]: isConnected },
         )}
       >
-        <img src={icon} alt="Wallet icon" />
+        <img
+          src={icon}
+          alt="Wallet icon"
+        />
         <p className={styles.wallet_button__text}>
           {isConnected
             ? textOnButton

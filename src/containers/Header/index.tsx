@@ -7,7 +7,7 @@ import styles from './styles.module.css';
 
 const Header: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   const onMenuClick = useCallback(() => {
     setIsMenuOpen(!isMenuOpen);
   }, [isMenuOpen]);
@@ -17,7 +17,10 @@ const Header: FC = () => {
       <div className={styles.header__space} />
       <div className={styles.header__logo__box}>
         <Link to="/">
-          <img src={BridgeLogo} alt="Bridge logo" />
+          <img
+            src={BridgeLogo}
+            alt="Bridge logo"
+          />
         </Link>
       </div>
       <nav
@@ -40,7 +43,10 @@ const Header: FC = () => {
           className={styles.header__button}
           theme="icon"
         >
-          <img src={MenuIcon} alt="Menu" />
+          <img
+            src={MenuIcon}
+            alt="Menu"
+          />
         </Button>
       </div>
     </header>
