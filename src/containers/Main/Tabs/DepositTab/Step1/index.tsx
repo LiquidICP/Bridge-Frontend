@@ -1,5 +1,7 @@
 import React, { memo, useState, useCallback } from 'react';
+// import { useSelector } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
+import { metamaskConnect } from 'utils/metamask';
 import { Button, FromToSwitcher, Input } from 'components';
 import { WalletButton } from '../WalletButton';
 import styles from './styles.module.css';
@@ -12,13 +14,15 @@ type Step1Props = {
 const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
+  const [metamaskAccount, setMetamaskAccount] = useState('');
   const [amount, setAmount] = useState('');
   const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [plugIsConnected, setPlugIsConnected] = useState(false);
   const [metamaskIsConnected, setMetamaskIsConnected] = useState(false);
 
   const onChangeAmount = useCallback((t: string) => {
-    setAmount(t);
+    const tmp = t.replaceAll('ICP', '').trim();
+    setAmount(`${tmp} ICP`);
     if (t === '') {
       setIsNextDisabled(true);
     } else {
@@ -26,7 +30,9 @@ const Step1 = memo(({
     }
   }, []);
 
-  const onMetamaskClick = useCallback(() => {
+  const onMetamaskClick = useCallback(async () => {
+    const address = await metamaskConnect();
+    setMetamaskAccount(address[0]);
     setMetamaskIsConnected(true);
   }, []);
 
@@ -49,7 +55,7 @@ const Step1 = memo(({
       icon={MetamaskIcon}
       text="Connect to Metamask"
       onClick={onMetamaskClick}
-      textIsClicked={addresses.metamask}
+      textIsClicked={metamaskAccount}
       isConnected={metamaskIsConnected}
     />
   );
