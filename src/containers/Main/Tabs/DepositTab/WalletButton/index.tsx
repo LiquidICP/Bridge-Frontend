@@ -28,7 +28,6 @@ const WalletButton = memo(({
   const isMobile = useMobile();
   // eslint-disable-next-line prefer-const
   let ellipsisSize = isMobile ? 25 : 33;
-  console.log(textIsClicked);
 
   return (
     <section className={styles.wallet_button__container}>

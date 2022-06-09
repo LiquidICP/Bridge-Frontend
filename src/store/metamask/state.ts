@@ -1,5 +1,7 @@
-import { MetamaskState } from 'types/store/metamask';
+import { StateMetamask } from 'types/store/metamask';
 
-export const metamaskState: MetamaskState = {
+export const initialMetamaskState: StateMetamask = {
   address: '',
+  balance: undefined,
+  connected: false,
 };

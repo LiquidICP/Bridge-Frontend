@@ -1,16 +1,38 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import detectEthereumProvider from '@metamask/detect-provider';
 
 export type Provider = any;
 
-export const metamaskIsInstalled = async () => {
-  const ethProvider: Provider = await detectEthereumProvider();
-  return !(!ethProvider || !ethProvider.isMetaMask);
-};
+export async function metamaskIsInstalled() {
+  const provider: Provider = await detectEthereumProvider();
+  return !(!provider || !provider.isMetaMask);
+}
 
-export const metamaskConnect = async () => {
+export async function getAccountMetamask() {
   const provider: Provider = await detectEthereumProvider();
   const accounts = await provider.request({
     method: 'eth_requestAccounts',
   });
-  return accounts;
-};
+  return {
+    account: accounts[0],
+    provider,
+  };
+}
+
+export async function getBalanceMetamask() {
+  const { account, provider } = await getAccountMetamask();
+  const balance = await provider.request({
+    method: 'eth_getBalance',
+    params: [
+      account,
+      'latest',
+    ],
+  });
+  return balance;
+}
+
+export async function isConnectedMetamask() {
+  const provider: Provider = await detectEthereumProvider();
+  const isConnected = await provider.isConnected();
+  return isConnected;
+}

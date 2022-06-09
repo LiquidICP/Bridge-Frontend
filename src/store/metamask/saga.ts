@@ -1,14 +1,10 @@
-import { CONNECT_METAMASK } from 'appConstants';
 import { put } from 'redux-saga/effects';
-import { metamaskConnect } from 'utils/metamask';
+import { connectMetamask } from './actionsCreator';
 
-export function* getAccountsMetamask() {
+export async function* getAccount() {
   try {
-    const payload = metamaskConnect();
-    yield put({
-      type: CONNECT_METAMASK,
-      payload,
-    });
+    // const address = getAccountMetamask();
+    yield put(await connectMetamask());
   } catch (error) {
     return error;
   }
