@@ -8,11 +8,25 @@ function metamaskReducer(state = initialMetamaskState, action: ActionMetamask) {
     case ActionsMetamask.CONNECT_METAMASK:
       return {
         ...state,
-        address: action.payload.address,
-        balance: action.payload.balance,
+        ...action.payload,
       };
-    case ActionsMetamask.INITIAL_STATE:
+    case ActionsMetamask.INITIAL_STATE_METAMASK:
       return {
+        ...state,
+      };
+    case ActionsMetamask.IS_CONNECTED_METAMASK:
+      return {
+        ...state,
+        connected: action.payload.connected,
+      };
+    case ActionsMetamask.SET_ADDRESS_METAMASK:
+      return {
+        ...state,
+        address: action.payload.address,
+      };
+    case ActionsMetamask.GET_ACCOUNT_INFO_METAMASK:
+      return {
+        ...state,
         ...action.payload,
       };
     default: return state;

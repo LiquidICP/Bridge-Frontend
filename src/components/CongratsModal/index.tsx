@@ -11,7 +11,8 @@ interface CongratsModalProps {
   isModalVisible: boolean
   setIsModalVisible: (isModalVisible: boolean) => void
   address: string
-  amount: number
+  amount: string
+  receiving: string,
 }
 
 export const CongratsModal: FC<CongratsModalProps> = ({
@@ -20,6 +21,7 @@ export const CongratsModal: FC<CongratsModalProps> = ({
   setIsModalVisible,
   address,
   amount,
+  receiving,
 }) => {
   useEffect(() => {
     if (isModalVisible) rootBlur(true);
@@ -50,18 +52,16 @@ export const CongratsModal: FC<CongratsModalProps> = ({
       )}
     >
       <div className={styles.modal__content__container}>
-        <h3 className={styles.modal__title}>Congratulation!</h3>
+        <h3 className={styles.modal__title}>Congratulations!</h3>
         <p className={styles.modal__text}>
-          You wrapped
+          You bridged
           <br />
           <span className={cx(styles.modal__text, styles.modal__text_bigger)}>
             {amount}
-            {' '}
-            ICP
           </span>
           <br />
           <a href="/">{getShortAddress(address, 15)}</a>
-          {` address received ${amount} ICP-20`}
+          {` address received ${receiving}`}
         </p>
         <Button
           onClick={handleCancel}

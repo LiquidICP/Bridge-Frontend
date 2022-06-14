@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import detectEthereumProvider from '@metamask/detect-provider';
 
+declare let window: any;
+
 export type Provider = any;
 
 export async function metamaskIsInstalled() {
@@ -31,8 +33,7 @@ export async function getBalanceMetamask() {
   return balance;
 }
 
-export async function isConnectedMetamask() {
-  const provider: Provider = await detectEthereumProvider();
-  const isConnected = await provider.isConnected();
+export function isConnectedMetamask() {
+  const isConnected = window?.ethereum?.isConnected();
   return isConnected;
 }

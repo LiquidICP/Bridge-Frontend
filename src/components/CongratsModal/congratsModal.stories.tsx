@@ -28,7 +28,8 @@ export const Primary: ComponentStory<typeof CongratsModal> = () => {
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
         address="0x404DcB928a8640798D24E94fC0355D0B25940579"
-        amount={100}
+        amount="100 ICP"
+        receiving="100 WICP"
       />
     </>
   );

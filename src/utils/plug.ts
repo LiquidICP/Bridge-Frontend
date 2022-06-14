@@ -6,7 +6,7 @@ export function plugIsInstalled() {
   return false;
 }
 
-export async function plugIsConnect() {
+export function plugIsConnect() {
   if (plugIsInstalled()) {
     const connected = window?.ic?.plug.isConnected();
     return connected;

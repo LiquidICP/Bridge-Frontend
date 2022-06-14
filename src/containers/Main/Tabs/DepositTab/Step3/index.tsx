@@ -1,10 +1,31 @@
-import { Button, CongratsModal } from 'components';
 import React, { FC, useCallback, useState } from 'react';
-import { congratulation, infoBlocks } from '../contentDemo';
+import { Button, CongratsModal } from 'components';
+import { useSelector } from 'react-redux';
+import { getTransactionState } from 'store/transaction/selector';
+import { getMetamaskState } from 'store/metamask/selector';
+import { getPlugState } from 'store/plug/selector';
+// import { congratulation } from '../contentDemo';
 import styles from './styles.module.css';
 
 const Step3: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const stateTransaction = useSelector(getTransactionState);
+  const stateMetamask = useSelector(getMetamaskState);
+  const statePlug = useSelector(getPlugState);
+
+  let currency = '';
+  let currency2 = '';
+  let address = '';
+  if (stateTransaction.from === 'polygon') {
+    currency = 'WICP';
+    currency2 = 'ICP';
+    address = statePlug.accountId;
+  } else {
+    currency = 'ICP';
+    currency2 = 'WICP';
+    address = stateMetamask.address;
+  }
 
   const onClick = useCallback(() => {
     setIsModalOpen(true);
@@ -16,10 +37,13 @@ const Step3: FC = () => {
         You have bridged
       </p>
       <p className={styles.step3__receiving}>
-        {infoBlocks.receiving}
+        {`${stateTransaction.receiving} ${currency}`}
       </p>
       <p className={styles.step3__text}>
-        coins to Polygon, your ICP-20 tokens will be sent within 12 hours else
+        coins to Polygon, your
+        {' '}
+        {currency2}
+        -20 tokens will be sent within 12 hours else
         contact our support team in
         {' '}
         <a
@@ -40,8 +64,9 @@ const Step3: FC = () => {
       <CongratsModal
         isModalVisible={isModalOpen}
         setIsModalVisible={setIsModalOpen}
-        amount={congratulation.amount}
-        address={congratulation.address}
+        amount={`${stateTransaction.receiving} ${currency}`}
+        receiving={`${stateTransaction.receiving} ${currency2}`}
+        address={address}
       />
     </section>
   );

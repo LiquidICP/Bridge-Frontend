@@ -14,7 +14,7 @@ export const addressesForStep2 = {
 
 export const infoBlocks = {
   sending: '100 ICP',
-  fees: '0.05 ICP',
+  fees: 0.05,
   receiving: '99.95 ICP',
 };
 

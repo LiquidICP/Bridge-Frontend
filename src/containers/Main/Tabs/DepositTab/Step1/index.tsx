@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+/* eslint-disable no-console */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   memo, useState, useCallback, useEffect,
@@ -8,12 +10,20 @@ import { MetamaskIcon, PlugIcon } from 'assets/img';
 // import { getAccountMetamask, getBalanceMetamask } from 'utils/metamask';
 // import { ActionsMetamask } from 'store/metamask/constants';
 // import { getAccountID } from 'utils/plug';
+import {
+  connectMetamask,
+  getAccountInfoMetamask,
+  initStateMetamask,
+  isConnectMetamask,
+} from 'store/metamask/actionsCreator';
 import { getPlugState } from 'store/plug/selector';
-import { connectMetamask, initStateMetamask } from 'store/metamask/actionsCreator';
 import { getMetamaskState } from 'store/metamask/selector';
-import { initStatePlug } from 'store/plug/actionsCreator';
-import { getPlugAccountID } from 'utils/plug';
-import { Button, FromToSwitcher, Input } from 'components';
+import { getTransactionState } from 'store/transaction/selector';
+import { setAmount } from 'store/transaction/actionCreator';
+import { initStatePlug, connectPlug } from 'store/plug/actionsCreator';
+// import { getPlugAccountID } from 'utils/plug';
+import { Button, Input } from 'components';
+import { FromToSwitcher } from 'containers';
 import { WalletButton } from '../WalletButton';
 import styles from './styles.module.css';
 import { fee } from '../contentDemo';
@@ -26,27 +36,50 @@ const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
   const stateMetamask = useSelector(getMetamaskState);
-  const dispatch = useDispatch();
   const statePlug = useSelector(getPlugState);
-  const [amount, setAmount] = useState('');
+  const stateTransaction = useSelector(getTransactionState);
+  const dispatch = useDispatch();
+
+  let currency = '';
+  if (stateTransaction.from === 'polygon') {
+    currency = 'WICP';
+  } else {
+    currency = 'ICP';
+  }
+
+  let inputAmountInit = '';
+  if (stateTransaction.amount !== 0) {
+    inputAmountInit = `${stateTransaction.amount.toString()} ${currency}`;
+  }
+
+  const [amountInput, setAmountInput] = useState(inputAmountInit);
   const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [plugIsConnected, setPlugIsConnected] = useState(false);
   const [metamaskIsConnected, setMetamaskIsConnected] = useState(false);
 
   useEffect(() => {
-    dispatch(initStateMetamask());
-    dispatch(initStatePlug());
+    (async function () {
+      dispatch(await isConnectMetamask());
+      if (stateMetamask.connected) {
+        dispatch(await getAccountInfoMetamask());
+        setMetamaskIsConnected(true);
+      } else {
+        dispatch(initStateMetamask());
+      }
+      dispatch(initStatePlug());
+    }());
   }, [dispatch]);
 
   const onChangeAmount = useCallback((t: string) => {
-    const tmp = t.replaceAll('ICP', '');
-    setAmount(`${tmp}ICP`);
+    setAmountInput(
+      `${t.replaceAll(' ICP', '').replaceAll(' WICP', '')} ${currency}`,
+    );
     if (t === '') {
       setIsNextDisabled(true);
     } else {
       setIsNextDisabled(false);
     }
-  }, []);
+  }, [currency]);
 
   const onMetamaskClick = useCallback(async () => {
     dispatch(await connectMetamask());
@@ -54,16 +87,23 @@ const Step1 = memo(({
   }, [dispatch]);
 
   const onPlugClick = useCallback(async () => {
-    dispatch(await getPlugAccountID());
+    dispatch(await connectPlug());
+    console.log('account ID in component:', statePlug);
     setPlugIsConnected(true);
   }, [dispatch]);
+
+  const onNextButtonClick = useCallback(() => {
+    const amountForState = amountInput.replace(` ${currency}`, '');
+    dispatch(setAmount(amountForState));
+    onNextClick();
+  }, [amountInput, dispatch]);
 
   const switchElement1 = (
     <WalletButton
       icon={PlugIcon}
       text="Connect to Plug"
       onClick={onPlugClick}
-      textIsClicked={statePlug.accountID}
+      textIsClicked={statePlug.accountId}
       isConnected={plugIsConnected}
     />
   );
@@ -89,7 +129,7 @@ const Step1 = memo(({
       <Input
         label="Amount"
         placeholder="Enter amount"
-        value={amount}
+        value={amountInput}
         onChange={onChangeAmount}
         classNameContainer={styles.step1__input}
       />
@@ -108,7 +148,7 @@ const Step1 = memo(({
       </p>
       <Button
         theme="gradient"
-        onClick={onNextClick}
+        onClick={onNextButtonClick}
         isDisabled={isNextDisabled}
         className={styles.step1__next_button}
       >

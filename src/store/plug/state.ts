@@ -1,8 +1,9 @@
 import { StatePlug } from 'types/store/plug';
 
 export const initialStatePlug: StatePlug = {
-  isConnected: false,
+  connected: false,
   accountId: '',
   balance: 0,
   publicKey: [],
+  info: null,
 };
