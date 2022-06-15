@@ -1,22 +1,27 @@
 import React, {
-  FC, useState, useCallback, ReactNode,
+  FC, useCallback, ReactNode,
 } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Steps } from 'components';
+import { getStepsState } from 'store/steps/selector';
+import { decrementStep, incrementStep } from 'store/steps/actionCreator';
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import styles from './styles.module.css';
 import { Step3 } from './Step3';
 
 const DepositTab: FC = () => {
-  const [step, setStep] = useState(1);
+  // const [step, setStep] = useState(1);
+  const step = useSelector(getStepsState);
+  const dispatch = useDispatch();
 
   const onNextClick = useCallback(() => {
-    setStep(step + 1);
-  }, [step]);
+    dispatch(incrementStep());
+  }, [dispatch]);
 
   const onBackClick = useCallback(() => {
-    setStep(step - 1);
-  }, [step]);
+    dispatch(decrementStep());
+  }, [dispatch]);
 
   const stepElements: Record<string, ReactNode> = {
     step1: <Step1 onNextClick={onNextClick} />,
@@ -30,8 +35,8 @@ const DepositTab: FC = () => {
   return (
     <section className={styles.deposit__container}>
       <h2>Deposit</h2>
-      <Steps step={step} />
-      {stepElements[`step${step}`]}
+      <Steps step={step.step} />
+      {stepElements[`step${step.step}`]}
     </section>
   );
 };

@@ -24,7 +24,7 @@ import { initStatePlug, connectPlug } from 'store/plug/actionsCreator';
 // import { getPlugAccountID } from 'utils/plug';
 import { Button, Input } from 'components';
 import { FromToSwitcher } from 'containers';
-import { WalletButton } from '../WalletButton';
+import { WalletButton } from '../../../../../components/WalletButton';
 import styles from './styles.module.css';
 import { fee } from '../contentDemo';
 
@@ -88,7 +88,6 @@ const Step1 = memo(({
 
   const onPlugClick = useCallback(async () => {
     dispatch(await connectPlug());
-    console.log('account ID in component:', statePlug);
     setPlugIsConnected(true);
   }, [dispatch]);
 

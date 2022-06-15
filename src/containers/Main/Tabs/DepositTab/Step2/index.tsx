@@ -6,8 +6,8 @@ import { getPlugState } from 'store/plug/selector';
 import { getTransactionState } from 'store/transaction/selector';
 import { setReceiving } from 'store/transaction/actionCreator';
 import { infoBlocks } from '../contentDemo';
-import { InfoBlock } from '../InfoBlock';
-import { InfoCard } from '../InfoCard';
+import { InfoBlock } from '../../../../../components/InfoBlock';
+import { InfoCard } from '../../../../../components/InfoCard';
 import styles from './styles.module.css';
 
 type Step2Props = {
