@@ -11,7 +11,6 @@ import styles from './styles.module.css';
 import { Step3 } from './Step3';
 
 const DepositTab: FC = () => {
-  // const [step, setStep] = useState(1);
   const step = useSelector(getStepsState);
   const dispatch = useDispatch();
 

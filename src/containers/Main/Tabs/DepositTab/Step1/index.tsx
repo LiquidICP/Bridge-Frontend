@@ -4,12 +4,8 @@
 import React, {
   memo, useState, useCallback, useEffect,
 } from 'react';
-// import { useSelector } from 'react-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
-// import { getAccountMetamask, getBalanceMetamask } from 'utils/metamask';
-// import { ActionsMetamask } from 'store/metamask/constants';
-// import { getAccountID } from 'utils/plug';
 import {
   connectMetamask,
   getAccountInfoMetamask,
@@ -21,10 +17,8 @@ import { getMetamaskState } from 'store/metamask/selector';
 import { getTransactionState } from 'store/transaction/selector';
 import { setAmount } from 'store/transaction/actionCreator';
 import { initStatePlug, connectPlug } from 'store/plug/actionsCreator';
-// import { getPlugAccountID } from 'utils/plug';
-import { Button, Input } from 'components';
+import { Button, Input, WalletButton } from 'components';
 import { FromToSwitcher } from 'containers';
-import { WalletButton } from '../../../../../components/WalletButton';
 import styles from './styles.module.css';
 import { fee } from '../contentDemo';
 
@@ -49,11 +43,11 @@ const Step1 = memo(({
 
   let inputAmountInit = '';
   if (stateTransaction.amount !== 0) {
-    inputAmountInit = `${stateTransaction.amount.toString()} ${currency}`;
+    inputAmountInit = stateTransaction.amount.toString();
   }
 
   const [amountInput, setAmountInput] = useState(inputAmountInit);
-  const [isNextDisabled, setIsNextDisabled] = useState(true);
+  const [isNextDisabled, setIsNextDisabled] = useState(!amountInput);
   const [plugIsConnected, setPlugIsConnected] = useState(false);
   const [metamaskIsConnected, setMetamaskIsConnected] = useState(false);
 
@@ -71,9 +65,7 @@ const Step1 = memo(({
   }, [dispatch]);
 
   const onChangeAmount = useCallback((t: string) => {
-    setAmountInput(
-      `${t.replaceAll(' ICP', '').replaceAll(' WICP', '')} ${currency}`,
-    );
+    setAmountInput(t);
     if (t === '') {
       setIsNextDisabled(true);
     } else {
@@ -92,7 +84,7 @@ const Step1 = memo(({
   }, [dispatch]);
 
   const onNextButtonClick = useCallback(() => {
-    const amountForState = amountInput.replace(` ${currency}`, '');
+    const amountForState = amountInput;
     dispatch(setAmount(amountForState));
     onNextClick();
   }, [amountInput, dispatch]);
@@ -131,6 +123,7 @@ const Step1 = memo(({
         value={amountInput}
         onChange={onChangeAmount}
         classNameContainer={styles.step1__input}
+        currency={currency}
       />
       <p className={styles.step1__fee}>
         {metamaskIsConnected && plugIsConnected
