@@ -8,6 +8,7 @@ export const plugInitialState: Readonly<PlugState> = {
   balance: 0,
   publicKey: [],
   info: null,
+  isLoading: false,
 };
 
 export default createReducer(plugInitialState, plugHandlers);

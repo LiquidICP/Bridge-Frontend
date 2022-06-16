@@ -23,7 +23,7 @@ const metamaskPersistConfig = {
 const plugPersistConfig = {
   key: 'plug',
   storage,
-  whitelist: ['accountId', 'connected'] as Array<keyof PlugState>,
+  whitelist: ['accountId', 'connected', 'isLoading'] as Array<keyof PlugState>,
 };
 
 const reducers = {
