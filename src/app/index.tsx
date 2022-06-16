@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <Spin
-      spinning={!isLoading}
+      spinning={isLoading}
       tip="Please wait answer from Plug Wallet"
       size="large"
       style={{
