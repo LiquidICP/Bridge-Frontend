@@ -29,7 +29,7 @@ const plugPersistConfig = {
 const reducers = {
   ...reducer,
   metamask: persistReducer(metamaskPersistConfig, reducer.metamask),
-  plug: persistReducer(plugPersistConfig, reducer.plugReducer),
+  plug: persistReducer(plugPersistConfig, reducer.plug),
 };
 
 declare global {

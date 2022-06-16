@@ -1,7 +1,7 @@
 export type PlugState = {
   connected: boolean;
   accountId: string;
-  publicKey: [];
-  balance: 0;
+  publicKey: any;
+  balance: number;
   info: unknown | null,
 };

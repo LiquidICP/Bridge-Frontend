@@ -1,10 +1,10 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, InfoBlock, InfoCard } from 'components';
-import { plugSelectors } from 'store/plug/selector';
 import { getTransactionState } from 'store/transaction/selector';
 import { setReceiving } from 'store/transaction/actionCreator';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
+import { usePlugWallet } from 'hooks/usePlugWallet';
 import { infoBlocks } from '../contentDemo';
 import styles from './styles.module.css';
 
@@ -17,8 +17,8 @@ const Step2 = memo(({
   onBackClick,
   onConfirmClick,
 }: Step2Props) => {
-  const { accountId } = useSelector(plugSelectors.getState);
   const stateTransaction = useSelector(getTransactionState);
+  const { plugAddress } = usePlugWallet();
   const { metamaskAddres } = useMetamaskWallet();
 
   const dispatch = useDispatch();
@@ -29,11 +29,11 @@ const Step2 = memo(({
   if (stateTransaction.from === 'polygon') {
     currency = 'WICP';
     textFrom = metamaskAddres || '';
-    textTo = accountId;
+    textTo = plugAddress;
   } else {
     currency = 'ICP';
     textTo = metamaskAddres || '';
-    textFrom = accountId;
+    textFrom = plugAddress;
   }
 
   const fee = infoBlocks.fees;

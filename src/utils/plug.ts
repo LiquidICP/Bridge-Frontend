@@ -6,10 +6,10 @@ export function plugIsInstalled() {
   return false;
 }
 
-export function plugIsConnect() {
+export async function plugIsConnect() {
   if (plugIsInstalled()) {
-    const connected = window?.ic?.plug.isConnected();
-    return connected;
+    const connected = await window.ic.plug.isConnected();
+    return connected as boolean;
   }
   return false;
 }
@@ -34,5 +34,10 @@ export async function getPlugAccountID() {
   const connect = await window.ic.plug.requestConnect();
   if (!connect) return false;
   const accountID = window?.ic?.plug.accountId;
-  return accountID;
+  return accountID as string;
+}
+
+export async function getPlugBalance() {
+  const balance = await await window.ic.plug.requestBalance();
+  return balance as number;
 }

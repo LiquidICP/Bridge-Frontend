@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux';
 import { getTransactionState } from 'store/transaction/selector';
 // import { congratulation } from '../contentDemo';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
-import { plugSelectors } from 'store/plug/selector';
+import { usePlugWallet } from 'hooks/usePlugWallet';
 import styles from './styles.module.css';
 
 const Step3: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const stateTransaction = useSelector(getTransactionState);
-  const { accountId } = useSelector(plugSelectors.getState);
+  const { plugAddress } = usePlugWallet();
   const { metamaskAddres } = useMetamaskWallet();
 
   let currency = '';
@@ -20,7 +20,7 @@ const Step3: FC = () => {
   if (stateTransaction.from === 'polygon') {
     currency = 'WICP';
     currency2 = 'ICP';
-    address = accountId;
+    address = plugAddress;
   } else {
     currency = 'ICP';
     currency2 = 'WICP';
