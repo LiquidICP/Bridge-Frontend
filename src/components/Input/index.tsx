@@ -46,7 +46,7 @@ const Input = memo(({
       {currency && (
         <div
           className={styles.input__currency}
-          style={{ left: (value.length * 10.5) + 24 }}
+          style={{ left: (value.length * 10.25) + 26 }}
         >
           {value === '' ? '' : currency}
         </div>
