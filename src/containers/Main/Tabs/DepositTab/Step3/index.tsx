@@ -2,17 +2,17 @@ import React, { FC, useCallback, useState } from 'react';
 import { Button, CongratsModal } from 'components';
 import { useSelector } from 'react-redux';
 import { getTransactionState } from 'store/transaction/selector';
-import { getMetamaskState } from 'store/metamask/selector';
 import { getPlugState } from 'store/plug/selector';
 // import { congratulation } from '../contentDemo';
+import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import styles from './styles.module.css';
 
 const Step3: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const stateTransaction = useSelector(getTransactionState);
-  const stateMetamask = useSelector(getMetamaskState);
   const statePlug = useSelector(getPlugState);
+  const { metamaskAddres } = useMetamaskWallet();
 
   let currency = '';
   let currency2 = '';
@@ -24,7 +24,7 @@ const Step3: FC = () => {
   } else {
     currency = 'ICP';
     currency2 = 'WICP';
-    address = stateMetamask.address;
+    address = metamaskAddres || '';
   }
 
   const onClick = useCallback(() => {

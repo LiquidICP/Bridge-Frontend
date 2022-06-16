@@ -1,27 +1,29 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  createStore,
-  compose,
   applyMiddleware,
   combineReducers,
+  compose,
+  createStore,
 } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { persistStore } from 'redux-persist';
-import { createReduxHistoryContext } from 'redux-first-history';
-import { createBrowserHistory } from 'history';
+import storage from 'redux-persist/es/storage';
+import { persistStore, persistReducer } from 'redux-persist';
+import { configuredReactotron } from 'initialImports/reactotron';
 import reducer from './rootReducer';
 import rootSaga from './rootSaga';
-
-const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHistoryContext({
-  history: createBrowserHistory(),
-});
-
-const reducers = {
-  router: routerReducer,
-  ...reducer,
-};
+import { MetamaskState } from './metamask/types';
 
 const sagaMiddleware = createSagaMiddleware();
+
+const metamaskPersistConfig = {
+  key: 'metamask',
+  storage,
+  whitelist: ['address', 'status'] as Array<keyof MetamaskState>,
+};
+
+const reducers = {
+  ...reducer,
+  metamask: persistReducer(metamaskPersistConfig, reducer.metamask),
+};
 
 declare global {
   interface Window {
@@ -31,9 +33,10 @@ declare global {
 }
 
 export default (initialState: { [key: string]: never } = {}) => {
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    || window.__REDUX_DEVTOOLS_EXTENSION__
-    || compose;
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
+    window.__REDUX_DEVTOOLS_EXTENSION__ ||
+    compose;
 
   const store = createStore(
     combineReducers(reducers),
@@ -41,15 +44,15 @@ export default (initialState: { [key: string]: never } = {}) => {
     composeEnhancers(
       applyMiddleware(
         sagaMiddleware,
-        routerMiddleware,
       ),
+      configuredReactotron != null
+        ? configuredReactotron.createEnhancer()
+        : (nope: unknown) => nope,
     ),
   );
-
-  const history = createReduxHistory(store);
 
   sagaMiddleware.run(rootSaga);
   const persistor = persistStore(store);
 
-  return { store, persistor, history };
+  return { store, persistor };
 };
