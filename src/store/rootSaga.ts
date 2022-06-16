@@ -1,6 +1,8 @@
-// import { fork } from 'redux-saga/effects';
-// import { getAccount as getAccountMetamask } from './metamask/saga';
+import { all } from 'redux-saga/effects';
+import { metamaskEffects } from './metamask/sagas';
 
 export default function* rootSaga() {
-  // yield fork(getAccountMetamask);
+  yield all([
+    ...metamaskEffects,
+  ]);
 }

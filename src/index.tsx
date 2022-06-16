@@ -1,23 +1,29 @@
-import 'assets/styles/app.less';
+import 'initialImports';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { Routes } from 'containers';
+import { PersistGate } from 'redux-persist/integration/react';
+import { createRoot } from 'react-dom/client';
 import configureStore from 'store/configureStore';
-import { HistoryRouter as Router } from 'redux-first-history/rr6';
+import { BrowserRouter } from 'react-router-dom';
+import { App } from 'app';
+import 'assets/styles/app.less';
 
 const config = configureStore();
-export const { store, persistor, history } = config;
+export const { store, persistor } = config;
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement,
-);
+const rootElement = document.getElementById('root');
+
+const root = createRoot(rootElement as HTMLElement);
+
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Router history={history}>
-        <Routes />
-      </Router>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <PersistGate
+      loading={null}
+      persistor={persistor}
+    >
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
+  </Provider>,
 );
