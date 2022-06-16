@@ -1,13 +1,11 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button } from 'components';
+import { Button, InfoBlock, InfoCard } from 'components';
 import { getMetamaskState } from 'store/metamask/selector';
 import { getPlugState } from 'store/plug/selector';
 import { getTransactionState } from 'store/transaction/selector';
 import { setReceiving } from 'store/transaction/actionCreator';
 import { infoBlocks } from '../contentDemo';
-import { InfoBlock } from '../InfoBlock';
-import { InfoCard } from '../InfoCard';
 import styles from './styles.module.css';
 
 type Step2Props = {
@@ -25,10 +23,16 @@ const Step2 = memo(({
   const dispatch = useDispatch();
 
   let currency = '';
+  let textFrom = '';
+  let textTo = '';
   if (stateTransaction.from === 'polygon') {
     currency = 'WICP';
+    textFrom = stateMetamask.address;
+    textTo = statePlug.accountId;
   } else {
     currency = 'ICP';
+    textTo = stateMetamask.address;
+    textFrom = statePlug.accountId;
   }
 
   const fee = infoBlocks.fees;
@@ -45,13 +49,11 @@ const Step2 = memo(({
       <section className={styles.step2__from_to__box}>
         <InfoCard
           label="From"
-          // text={addressesForStep2.from}
-          text={statePlug.accountId}
+          text={textFrom}
         />
         <InfoCard
           label="To"
-          // text={addressesForStep2.to}
-          text={stateMetamask.address}
+          text={textTo}
         />
       </section>
       <section className={styles.step2__datas__box}>

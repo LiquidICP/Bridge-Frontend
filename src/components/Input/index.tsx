@@ -11,6 +11,7 @@ type InputProps = {
   classNameLabel?: string;
   placeholder?: string;
   label?: string;
+  currency?: string;
 };
 
 const Input = memo(({
@@ -22,6 +23,7 @@ const Input = memo(({
   label,
   placeholder,
   value,
+  currency,
 }: InputProps) => {
   const onChangeInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
@@ -41,7 +43,14 @@ const Input = memo(({
         disabled={isDisabled}
         className={cx(styles.input__field, className)}
       />
-      {/* </label> */}
+      {currency && (
+        <div
+          className={styles.input__currency}
+          style={{ left: (value.length * 10.5) + 24 }}
+        >
+          {value === '' ? '' : currency}
+        </div>
+      )}
     </div>
   );
 });
