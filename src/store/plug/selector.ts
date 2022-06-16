@@ -1,8 +1,8 @@
-import { StatePlug } from 'types/store/plug';
 import type { ReduxState } from '../types';
+import { PlugState } from './types';
 
 export const plugSelectors = {
-  getProp: <T extends keyof StatePlug>(propKey: T) => (state: ReduxState) =>
+  getProp: <T extends keyof PlugState>(propKey: T) => (state: ReduxState) =>
     state.plug[propKey],
   getState: (state: ReduxState) => state.plug,
 };

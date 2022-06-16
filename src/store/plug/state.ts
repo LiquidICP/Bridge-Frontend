@@ -1,6 +1,6 @@
-import { StatePlug } from 'types/store/plug';
+import { PlugState } from './types';
 
-export const initialStatePlug: StatePlug = {
+export const initialStatePlug: PlugState = {
   connected: false,
   accountId: '',
   balance: 0,

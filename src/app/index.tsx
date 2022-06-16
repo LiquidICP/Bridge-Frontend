@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-// import 'react-toastify/scss/main.scss';
+// import 'react-toastify/scss';
 import { useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { Routes } from 'containers';
@@ -22,7 +22,7 @@ const App = () => {
         autoClose={3000}
         draggable
         pauseOnHover
-        theme="dark"
+        theme="light"
       />
     </ModalProvider>
   );

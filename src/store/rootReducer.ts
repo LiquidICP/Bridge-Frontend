@@ -9,4 +9,4 @@ const rootReducer = combineReducers({
   steps: stepsReducer,
 });
 
-export default { rootReducer, metamask, plug: plugReducer };
+export default { rootReducer, metamask, plugReducer };
