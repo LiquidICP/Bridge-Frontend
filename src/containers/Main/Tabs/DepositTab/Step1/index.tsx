@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
-import { getPlugState } from 'store/plug/selector';
 import { getTransactionState } from 'store/transaction/selector';
 import { setAmount } from 'store/transaction/actionCreator';
 import { initStatePlug, connectPlug } from 'store/plug/actionsCreator';
@@ -14,6 +13,7 @@ import { Button, Input, WalletButton } from 'components';
 import { FromToSwitcher } from 'containers';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { metamaskConnect } from 'store/metamask/actionCreators';
+import { plugSelectors } from 'store/plug/selector';
 import styles from './styles.module.css';
 import { fee } from '../contentDemo';
 
@@ -24,7 +24,7 @@ type Step1Props = {
 const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
-  const statePlug = useSelector(getPlugState);
+  const { accountId } = useSelector(plugSelectors.getState);
   const stateTransaction = useSelector(getTransactionState);
   const dispatch = useDispatch();
 
@@ -77,7 +77,7 @@ const Step1 = memo(({
       icon={PlugIcon}
       text="Connect to Plug"
       onClick={onPlugClick}
-      textIsClicked={statePlug.accountId}
+      textIsClicked={accountId}
       isConnected={plugIsConnected}
     />
   );
