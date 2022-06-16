@@ -1,10 +1,10 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, InfoBlock, InfoCard } from 'components';
-import { getMetamaskState } from 'store/metamask/selector';
-import { getPlugState } from 'store/plug/selector';
+import { plugSelectors } from 'store/plug/selector';
 import { getTransactionState } from 'store/transaction/selector';
 import { setReceiving } from 'store/transaction/actionCreator';
+import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { infoBlocks } from '../contentDemo';
 import styles from './styles.module.css';
 
@@ -17,9 +17,10 @@ const Step2 = memo(({
   onBackClick,
   onConfirmClick,
 }: Step2Props) => {
-  const stateMetamask = useSelector(getMetamaskState);
-  const statePlug = useSelector(getPlugState);
+  const { accountId } = useSelector(plugSelectors.getState);
   const stateTransaction = useSelector(getTransactionState);
+  const { metamaskAddres } = useMetamaskWallet();
+
   const dispatch = useDispatch();
 
   let currency = '';
@@ -27,12 +28,12 @@ const Step2 = memo(({
   let textTo = '';
   if (stateTransaction.from === 'polygon') {
     currency = 'WICP';
-    textFrom = stateMetamask.address;
-    textTo = statePlug.accountId;
+    textFrom = metamaskAddres || '';
+    textTo = accountId;
   } else {
     currency = 'ICP';
-    textTo = stateMetamask.address;
-    textFrom = statePlug.accountId;
+    textTo = metamaskAddres || '';
+    textFrom = accountId;
   }
 
   const fee = infoBlocks.fees;
