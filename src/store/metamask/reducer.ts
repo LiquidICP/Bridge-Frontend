@@ -8,7 +8,6 @@ export const metamaskInitialState: Readonly<MetamaskState> = {
   status: MetamaskStatus.INIT,
   balance: 0,
   network: null,
-
   tokensBalance: undefined,
 };
 

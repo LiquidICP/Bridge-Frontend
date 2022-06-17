@@ -1,25 +1,28 @@
+/* eslint-disable no-console */
 import React, {
   FC, useCallback, ReactNode,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Steps } from 'components';
-import { getStepsState } from 'store/steps/selector';
-import { decrementStep, incrementStep } from 'store/steps/actionCreator';
+import { StepesSelector } from 'store/steps/selector';
+import { stepsIncrement, stepsDecrement } from 'store/steps/actionCreator';
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import styles from './styles.module.css';
 import { Step3 } from './Step3';
 
 const DepositTab: FC = () => {
-  const step = useSelector(getStepsState);
+  const step = useSelector(StepesSelector.getState);
   const dispatch = useDispatch();
 
+  console.log('step:', step);
+
   const onNextClick = useCallback(() => {
-    dispatch(incrementStep());
+    dispatch(stepsIncrement());
   }, [dispatch]);
 
   const onBackClick = useCallback(() => {
-    dispatch(decrementStep());
+    dispatch(stepsDecrement());
   }, [dispatch]);
 
   const stepElements: Record<string, ReactNode> = {

@@ -1,19 +1,21 @@
-import { ActionsSteps } from './constants';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { StepsActionType } from './actionTypes';
 
-export function incrementStep() {
-  return {
-    type: ActionsSteps.INCREMENT_STEP,
-  };
-}
+export const stepsSetState = (payload: any) => ({
+  type: StepsActionType.SET_STATE,
+  payload,
+});
 
-export function decrementStep() {
-  return {
-    type: ActionsSteps.DECREMENT_STEP,
-  };
-}
+export const stepsIncrement = () => ({
+  type: StepsActionType.INCREMENT_STEP,
+  // payload: {
+  //  step: payload + 1,
+  // },
+});
 
-export function initStep() {
-  return {
-    type: ActionsSteps.INITIAL_STEP,
-  };
-}
+export const stepsDecrement = () => ({
+  type: StepsActionType.DECREMENT_STEP,
+  // payload: {
+  //  step: payload - 1,
+  // },
+});
