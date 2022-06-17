@@ -1,5 +1,6 @@
-export enum ActionsSteps {
+export enum StepsActionType {
   INCREMENT_STEP = 'INCREMENT_STEP',
   DECREMENT_STEP = 'DECREMENT_STEP',
   INITIAL_STEP = 'INITIAL_STEP',
+  SET_STATE = 'SET_STATE',
 }

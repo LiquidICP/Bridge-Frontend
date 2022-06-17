@@ -2,10 +2,12 @@
 import { Action as ActionRedux } from 'redux';
 import { MetamaskState } from 'store/metamask/types';
 import { StatePlug } from 'types/store/plug';
+import { StepsState } from 'types/store/steps';
 
 export type ReduxState = {
   metamask: MetamaskState,
   plug:StatePlug,
+  steps: StepsState,
 };
 
 export type ActionFn<T, U> = (

@@ -6,7 +6,8 @@
   box-sizing: border-box;
 }
 
-.main__container .ant-tabs-nav::before {
+.main__container .ant-tabs-nav::before,
+.main__container .ant-tabs-top .ant-tabs-nav::before {
   border-bottom: 0;
 }
 
