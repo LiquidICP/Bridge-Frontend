@@ -1,6 +1,5 @@
 /* eslint-disable func-names */
 /* eslint-disable no-console */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   memo,
   useState,
@@ -53,7 +52,7 @@ const Step1 = memo(({
     } else {
       setIsNextDisabled(false);
     }
-  }, [currency]);
+  }, []);
 
   const onMetaMaskConnectClick = useCallback(() => {
     dispatch(metamaskConnect());
