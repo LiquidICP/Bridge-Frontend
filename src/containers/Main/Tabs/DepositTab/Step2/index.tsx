@@ -1,8 +1,11 @@
-import { Button } from 'components';
-import React, { memo } from 'react';
-import { addressesForStep2, infoBlocks } from '../contentDemo';
-import { InfoBlock } from '../InfoBlock';
-import { InfoCard } from '../InfoCard';
+import React, { memo, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Button, InfoBlock, InfoCard } from 'components';
+import { getTransactionState } from 'store/transaction/selector';
+import { setReceiving } from 'store/transaction/actionCreator';
+import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
+import { usePlugWallet } from 'hooks/usePlugWallet';
+import { infoBlocks } from '../contentDemo';
 import styles from './styles.module.css';
 
 type Step2Props = {
@@ -13,51 +16,80 @@ type Step2Props = {
 const Step2 = memo(({
   onBackClick,
   onConfirmClick,
-}: Step2Props) => (
-  <section className={styles.step2__container}>
-    <h3 className={styles.step2__title}>Details</h3>
-    <section className={styles.step2__from_to__box}>
-      <InfoCard
-        label="From"
-        text={addressesForStep2.from}
-      />
-      <InfoCard
-        label="To"
-        text={addressesForStep2.to}
-      />
+}: Step2Props) => {
+  const stateTransaction = useSelector(getTransactionState);
+  const { plugAddress } = usePlugWallet();
+  const { metamaskAddres } = useMetamaskWallet();
+
+  const dispatch = useDispatch();
+
+  let currency = '';
+  let textFrom = '';
+  let textTo = '';
+  if (stateTransaction.from === 'polygon') {
+    currency = 'WICP';
+    textFrom = metamaskAddres || '';
+    textTo = plugAddress;
+  } else {
+    currency = 'ICP';
+    textTo = metamaskAddres || '';
+    textFrom = plugAddress;
+  }
+
+  const fee = infoBlocks.fees;
+  const receiving = stateTransaction.amount - fee;
+
+  const onConfirmButtonClick = useCallback(() => {
+    dispatch(setReceiving(receiving));
+    onConfirmClick();
+  }, [dispatch, receiving, onConfirmClick]);
+
+  return (
+    <section className={styles.step2__container}>
+      <h3 className={styles.step2__title}>Details</h3>
+      <section className={styles.step2__from_to__box}>
+        <InfoCard
+          label="From"
+          text={textFrom}
+        />
+        <InfoCard
+          label="To"
+          text={textTo}
+        />
+      </section>
+      <section className={styles.step2__datas__box}>
+        <InfoBlock
+          label="Sending"
+          text={`${stateTransaction.amount} ${currency}`}
+        />
+        <InfoBlock
+          label="Fees"
+          text={`${fee} ${currency}`}
+        />
+        <InfoBlock
+          label="Receiving"
+          text={`${receiving} ${currency}`}
+          className={styles.step2__last_block}
+        />
+      </section>
+      <section className={styles.step2__buttons__box}>
+        <Button
+          theme="outline_gradient"
+          onClick={onBackClick}
+          className={styles.step2__button}
+        >
+          Back
+        </Button>
+        <Button
+          theme="gradient"
+          onClick={onConfirmButtonClick}
+          className={styles.step2__button}
+        >
+          Confirm
+        </Button>
+      </section>
     </section>
-    <section className={styles.step2__datas__box}>
-      <InfoBlock
-        label="Sending"
-        text={infoBlocks.sending}
-      />
-      <InfoBlock
-        label="Fees"
-        text={infoBlocks.fees}
-      />
-      <InfoBlock
-        label="Receiving"
-        text={infoBlocks.receiving}
-        className={styles.step2__last_block}
-      />
-    </section>
-    <section className={styles.step2__buttons__box}>
-      <Button
-        theme="outline_gradient"
-        onClick={onBackClick}
-        className={styles.step2__button}
-      >
-        Back
-      </Button>
-      <Button
-        theme="gradient"
-        onClick={onConfirmClick}
-        className={styles.step2__button}
-      >
-        Confirm
-      </Button>
-    </section>
-  </section>
-));
+  );
+});
 
 export { Step2 };

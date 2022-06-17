@@ -27,7 +27,7 @@ const WalletButton = memo(({
 }: WalletButtonProps) => {
   const isMobile = useMobile();
   // eslint-disable-next-line prefer-const
-  let textOnButton = isMobile ? ellipsis(textIsClicked, 25) : textIsClicked;
+  let ellipsisSize = isMobile ? 25 : 33;
 
   return (
     <section className={styles.wallet_button__container}>
@@ -46,7 +46,7 @@ const WalletButton = memo(({
         />
         <p className={styles.wallet_button__text}>
           {isConnected
-            ? textOnButton
+            ? ellipsis(textIsClicked, ellipsisSize)
             : text}
         </p>
       </Button>

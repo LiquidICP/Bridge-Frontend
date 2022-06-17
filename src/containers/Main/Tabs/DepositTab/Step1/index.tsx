@@ -1,9 +1,23 @@
-import React, { memo, useState, useCallback } from 'react';
+/* eslint-disable func-names */
+/* eslint-disable no-console */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {
+  memo,
+  useState,
+  useCallback,
+} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
-import { Button, FromToSwitcher, Input } from 'components';
-import { WalletButton } from '../WalletButton';
+import { getTransactionState } from 'store/transaction/selector';
+import { setAmount } from 'store/transaction/actionCreator';
+import { Button, Input, WalletButton } from 'components';
+import { FromToSwitcher } from 'containers';
+import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
+import { metamaskConnect } from 'store/metamask/actionCreators';
+import { plugConnect } from 'store/plug/actionsCreator';
+import { usePlugWallet } from 'hooks/usePlugWallet';
 import styles from './styles.module.css';
-import { addresses, fee } from '../contentDemo';
+import { fee } from '../contentDemo';
 
 type Step1Props = {
   onNextClick: () => void;
@@ -12,35 +26,56 @@ type Step1Props = {
 const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
-  const [amount, setAmount] = useState('');
-  const [isNextDisabled, setIsNextDisabled] = useState(true);
-  const [plugIsConnected, setPlugIsConnected] = useState(false);
-  const [metamaskIsConnected, setMetamaskIsConnected] = useState(false);
+  const stateTransaction = useSelector(getTransactionState);
+  const dispatch = useDispatch();
+
+  let currency = '';
+  if (stateTransaction.from === 'polygon') {
+    currency = 'WICP';
+  } else {
+    currency = 'ICP';
+  }
+
+  let inputAmountInit = '';
+  if (stateTransaction.amount !== 0) {
+    inputAmountInit = stateTransaction.amount.toString();
+  }
+
+  const [amountInput, setAmountInput] = useState(inputAmountInit);
+  const [isNextDisabled, setIsNextDisabled] = useState(!amountInput);
+  const { isMetaMaskConnected, metamaskAddres } = useMetamaskWallet();
+  const { isPlugConnected, plugAddress } = usePlugWallet();
 
   const onChangeAmount = useCallback((t: string) => {
-    setAmount(t);
+    setAmountInput(t);
     if (t === '') {
       setIsNextDisabled(true);
     } else {
       setIsNextDisabled(false);
     }
-  }, []);
+  }, [currency]);
 
-  const onMetamaskClick = useCallback(() => {
-    setMetamaskIsConnected(true);
-  }, []);
+  const onMetaMaskConnectClick = useCallback(() => {
+    dispatch(metamaskConnect());
+  }, [dispatch]);
 
-  const onPlugClick = useCallback(() => {
-    setPlugIsConnected(true);
-  }, []);
+  const onPlugConnectClick = useCallback(() => {
+    dispatch(plugConnect());
+  }, [dispatch]);
+
+  const onNextButtonClick = useCallback(() => {
+    const amountForState = amountInput;
+    dispatch(setAmount(amountForState));
+    onNextClick();
+  }, [amountInput, dispatch]);
 
   const switchElement1 = (
     <WalletButton
       icon={PlugIcon}
       text="Connect to Plug"
-      onClick={onPlugClick}
-      textIsClicked={addresses.plug}
-      isConnected={plugIsConnected}
+      onClick={onPlugConnectClick}
+      textIsClicked={plugAddress}
+      isConnected={isPlugConnected}
     />
   );
 
@@ -48,9 +83,9 @@ const Step1 = memo(({
     <WalletButton
       icon={MetamaskIcon}
       text="Connect to Metamask"
-      onClick={onMetamaskClick}
-      textIsClicked={addresses.metamask}
-      isConnected={metamaskIsConnected}
+      onClick={onMetaMaskConnectClick}
+      textIsClicked={metamaskAddres || ''}
+      isConnected={isMetaMaskConnected}
     />
   );
 
@@ -65,12 +100,13 @@ const Step1 = memo(({
       <Input
         label="Amount"
         placeholder="Enter amount"
-        value={amount}
+        value={amountInput}
         onChange={onChangeAmount}
         classNameContainer={styles.step1__input}
+        currency={currency}
       />
       <p className={styles.step1__fee}>
-        {metamaskIsConnected && plugIsConnected
+        {isMetaMaskConnected && isPlugConnected
           ? (
             <>
               Fee:
@@ -84,7 +120,7 @@ const Step1 = memo(({
       </p>
       <Button
         theme="gradient"
-        onClick={onNextClick}
+        onClick={onNextButtonClick}
         isDisabled={isNextDisabled}
         className={styles.step1__next_button}
       >

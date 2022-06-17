@@ -1,5 +1,10 @@
-// import { fork } from 'redux-saga/effects';
+import { all } from 'redux-saga/effects';
+import { metamaskEffects } from './metamask/sagas';
+import { plugEffects } from './plug/sagas';
 
 export default function* rootSaga() {
-  // yield fork();
+  yield all([
+    ...metamaskEffects,
+    ...plugEffects,
+  ]);
 }

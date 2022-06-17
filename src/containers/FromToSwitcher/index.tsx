@@ -3,6 +3,8 @@ import React, {
 } from 'react';
 import { Button } from 'components/Button';
 import { ChangeIcon } from 'assets/img';
+import { useDispatch } from 'react-redux';
+import { setFrom } from 'store/transaction/actionCreator';
 import styles from './styles.module.css';
 
 type SwitcherProps = {
@@ -21,10 +23,12 @@ const FromToSwitcher = memo(({
   switchButton,
 }: SwitcherProps) => {
   const [from1to2, setFrom1to2] = useState(true);
+  const dispatch = useDispatch();
 
   const onSwitch = useCallback(() => {
     setFrom1to2(!from1to2);
-  }, [from1to2]);
+    dispatch(setFrom(from1to2 ? 'polygon' : 'plug'));
+  }, [from1to2, dispatch]);
 
   return (
     <section className={styles.switcher__container}>
