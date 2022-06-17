@@ -18,12 +18,12 @@ const DepositTab: FC = () => {
   console.log('step:', step);
 
   const onNextClick = useCallback(() => {
-    dispatch(stepsIncrement(step));
-  }, [dispatch, step]);
+    dispatch(stepsIncrement());
+  }, [dispatch]);
 
   const onBackClick = useCallback(() => {
-    dispatch(stepsDecrement(step));
-  }, [dispatch, step]);
+    dispatch(stepsDecrement());
+  }, [dispatch]);
 
   const stepElements: Record<string, ReactNode> = {
     step1: <Step1 onNextClick={onNextClick} />,

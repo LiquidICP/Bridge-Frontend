@@ -6,16 +6,16 @@ export const stepsSetState = (payload: any) => ({
   payload,
 });
 
-export const stepsIncrement = (payload: any) => ({
+export const stepsIncrement = () => ({
   type: StepsActionType.INCREMENT_STEP,
-  payload: {
-    step: payload + 1,
-  },
+  // payload: {
+  //  step: payload + 1,
+  // },
 });
 
-export const stepsDecrement = (payload: any) => ({
+export const stepsDecrement = () => ({
   type: StepsActionType.DECREMENT_STEP,
-  payload: {
-    step: payload - 1,
-  },
+  // payload: {
+  //  step: payload - 1,
+  // },
 });
