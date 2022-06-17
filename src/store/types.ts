@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action as ActionRedux } from 'redux';
 import { MetamaskState } from 'store/metamask/types';
-import { StatePlug } from 'types/store/plug';
+import { PlugState } from './plug/types';
 
 export type ReduxState = {
   metamask: MetamaskState,
-  plug:StatePlug,
+  plug:PlugState,
 };
 
 export type ActionFn<T, U> = (
