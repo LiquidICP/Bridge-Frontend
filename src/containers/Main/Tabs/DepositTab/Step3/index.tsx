@@ -1,18 +1,23 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { Button, CongratsModal } from 'components';
 import { useSelector } from 'react-redux';
 import { transactionSelector } from 'store/transaction/selector';
-// import { congratulation } from '../contentDemo';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import styles from './styles.module.css';
 
-const Step3: FC = () => {
+type Step3Props = {
+  onBackClick: () => void;
+};
+
+const Step3 = memo(({
+  onBackClick,
+}: Step3Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const stateTransaction = useSelector(transactionSelector.getState);
   const { plugAddress } = usePlugWallet();
-  const { metamaskAddres } = useMetamaskWallet();
+  const { metamaskAddress } = useMetamaskWallet();
 
   let currency = '';
   let currency2 = '';
@@ -24,7 +29,7 @@ const Step3: FC = () => {
   } else {
     currency = 'ICP';
     currency2 = 'WICP';
-    address = metamaskAddres || '';
+    address = metamaskAddress || '';
   }
 
   const onClick = useCallback(() => {
@@ -54,13 +59,20 @@ const Step3: FC = () => {
           Discord
         </a>
       </p>
-      <Button
-        theme="gradient"
-        onClick={onClick}
-        className={styles.step3__button}
-      >
-        Got It
-      </Button>
+      <div className={styles.step3__buttons__box}>
+        <Button
+          theme="outline_gradient"
+          onClick={onBackClick}
+        >
+          Back
+        </Button>
+        <Button
+          theme="gradient"
+          onClick={onClick}
+        >
+          Got It
+        </Button>
+      </div>
       <CongratsModal
         isModalVisible={isModalOpen}
         setIsModalVisible={setIsModalOpen}
@@ -70,6 +82,6 @@ const Step3: FC = () => {
       />
     </section>
   );
-};
+});
 
 export { Step3 };
