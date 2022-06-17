@@ -1,13 +1,11 @@
-import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux';
 import metamask from 'store/metamask/reducer';
 import plug from 'store/plug/reducer';
 import steps from './steps/reducer';
-import { transactionReduser } from './transaction/reducer';
+import transaction from './transaction/reducer';
 
-const rootReducer = combineReducers({
-  transaction: transactionReduser,
-});
+// const rootReducer = combineReducers({});
 
 export default {
-  rootReducer, metamask, plug, steps,
+  metamask, plug, steps, transaction,
 };

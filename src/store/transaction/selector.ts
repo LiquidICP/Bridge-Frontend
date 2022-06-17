@@ -1,5 +1,8 @@
-import { State } from 'types/store';
+import { ReduxState } from 'store/types';
+import { StateTransaction } from './types';
 
-export function getTransactionState(state: State) {
-  return state.rootReducer.transaction;
-}
+export const transactionSelector = {
+  getProp: <T extends keyof StateTransaction>(propKey: T) =>
+    (state: ReduxState) => state.transaction[propKey],
+  getState: (state: ReduxState) => state.transaction,
+};

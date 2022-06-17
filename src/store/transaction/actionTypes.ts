@@ -1,4 +1,4 @@
-export enum ActionsTransaction {
+export enum TransactionActionsType {
   SENDING = 'SENDING',
   SET_AMOUNT = 'SET_AMOUNT',
   GET_AMOUNT = 'GET_AMOUNT',

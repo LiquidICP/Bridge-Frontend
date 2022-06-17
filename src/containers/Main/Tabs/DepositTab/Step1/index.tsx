@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
-import { getTransactionState } from 'store/transaction/selector';
+import { transactionSelector } from 'store/transaction/selector';
 import { setAmount } from 'store/transaction/actionCreator';
 import { Button, Input, WalletButton } from 'components';
 import { FromToSwitcher } from 'containers';
@@ -25,7 +25,7 @@ type Step1Props = {
 const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
-  const stateTransaction = useSelector(getTransactionState);
+  const stateTransaction = useSelector(transactionSelector.getState);
   const dispatch = useDispatch();
 
   let currency = '';
@@ -66,7 +66,7 @@ const Step1 = memo(({
     const amountForState = amountInput;
     dispatch(setAmount(amountForState));
     onNextClick();
-  }, [amountInput, dispatch]);
+  }, [amountInput, dispatch, onNextClick]);
 
   const switchElement1 = (
     <WalletButton

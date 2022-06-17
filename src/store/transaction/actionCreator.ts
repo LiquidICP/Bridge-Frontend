@@ -1,9 +1,9 @@
-import { ActionsTransaction } from './constants';
+import { TransactionActionsType } from './actionTypes';
 import { initialStateTransaction } from './state';
 
 export function initTransactionState() {
   return {
-    type: ActionsTransaction.INITIAL_STATE_TRANSACTION,
+    type: TransactionActionsType.INITIAL_STATE_TRANSACTION,
     payload: {
       ...initialStateTransaction,
     },
@@ -12,7 +12,7 @@ export function initTransactionState() {
 
 export function setAmount(amount: number | string) {
   return {
-    type: ActionsTransaction.SET_AMOUNT,
+    type: TransactionActionsType.SET_AMOUNT,
     payload: {
       amount,
     },
@@ -21,7 +21,7 @@ export function setAmount(amount: number | string) {
 
 export function setFrom(from: 'polygon' | 'plug') {
   return {
-    type: ActionsTransaction.SET_FROM,
+    type: TransactionActionsType.SET_FROM,
     payload: {
       from,
     },
@@ -30,19 +30,19 @@ export function setFrom(from: 'polygon' | 'plug') {
 
 export function getAmount() {
   return {
-    type: ActionsTransaction.GET_AMOUNT,
+    type: TransactionActionsType.GET_AMOUNT,
   };
 }
 
 export function getFrom() {
   return {
-    type: ActionsTransaction.GET_FROM,
+    type: TransactionActionsType.GET_FROM,
   };
 }
 
 export function setReceiving(receiving: number | string) {
   return {
-    type: ActionsTransaction.SET_RECEIVING,
+    type: TransactionActionsType.SET_RECEIVING,
     payload: {
       receiving,
     },
