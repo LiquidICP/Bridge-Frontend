@@ -4,5 +4,4 @@ export type PlugState = {
   publicKey: any;
   balance: number;
   info: unknown | null,
-  isLoading: boolean
 };
