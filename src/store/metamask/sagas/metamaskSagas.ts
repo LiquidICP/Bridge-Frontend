@@ -19,8 +19,9 @@ import {
 import {
   sagaExceptionHandler,
 } from 'utils';
-import { toast } from 'react-toastify';
 import { getMetamaskChainId, getMetamaskProvider, getNetworkById } from 'utils/metamask';
+import { notification } from 'antd';
+import { toast } from 'react-toastify';
 import { metamaskSetState } from '../actionCreators';
 import { metamaskSelectors } from '../selectors';
 import { MetamaskActionType } from '../actionTypes';
@@ -64,6 +65,10 @@ function* handleMetamskProviderEvents({
         }));
       } else {
         yield put(metamaskSetState({ status: MetamaskStatus.NOT_SUPPORT }));
+        notification.error({
+          message: 'Error',
+          description: ToastMessage.notSupported,
+        });
         toast.error(ToastMessage.notSupported);
       }
     }
@@ -76,6 +81,10 @@ function* handleMetamskProviderEvents({
           status: MetamaskStatus.CONNECTED,
           address,
         }));
+        notification.success({
+          message: 'Success',
+          description: ToastMessage.accountChanged,
+        });
         toast.success(ToastMessage.accountChanged);
       } else {
         yield put(metamaskSetState({
@@ -130,6 +139,10 @@ export function* connectMetamaskSaga() {
     metamaskProvider = yield getMetamaskProvider();
     if (!metamaskProvider || !metamaskProvider.isMetaMask) {
       yield put(metamaskSetState({ status: MetamaskStatus.LOST }));
+      notification.error({
+        message: 'Error',
+        description: ToastMessage.notInstalled,
+      });
       toast.error(ToastMessage.notInstalled);
     }
     if (metamaskProvider) {
@@ -162,6 +175,10 @@ export function* connectMetamaskSaga() {
           status: MetamaskStatus.NOT_SUPPORT,
         }));
         toast.error(ToastMessage.notSupported);
+        notification.error({
+          message: 'Error',
+          description: ToastMessage.notSupported,
+        });
       }
     }
   } catch (err) {

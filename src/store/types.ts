@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Action as ActionRedux } from 'redux';
 import { MetamaskState } from 'store/metamask/types';
-import { StatePlug } from 'types/store/plug';
 import { StepsState } from 'types/store/steps';
+import { PlugState } from './plug/types';
 
 export type ReduxState = {
   metamask: MetamaskState,
-  plug:StatePlug,
+  plug:PlugState,
   steps: StepsState,
 };
 

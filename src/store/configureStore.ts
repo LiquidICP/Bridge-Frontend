@@ -8,10 +8,10 @@ import createSagaMiddleware from 'redux-saga';
 import storage from 'redux-persist/es/storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import { configuredReactotron } from 'initialImports/reactotron';
-import { StatePlug } from 'types/store/plug';
 import reducer from './rootReducer';
 import rootSaga from './rootSaga';
 import { MetamaskState } from './metamask/types';
+import { PlugState } from './plug/types';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -23,7 +23,7 @@ const metamaskPersistConfig = {
 const plugPersistConfig = {
   key: 'plug',
   storage,
-  whitelist: ['accountId', 'connected'] as Array<keyof StatePlug>,
+  whitelist: ['accountId', 'connected', 'isLoading'] as Array<keyof PlugState>,
 };
 
 const reducers = {

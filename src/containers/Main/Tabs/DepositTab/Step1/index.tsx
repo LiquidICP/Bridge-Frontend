@@ -1,19 +1,20 @@
 /* eslint-disable func-names */
 /* eslint-disable no-console */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  memo, useState, useCallback, useEffect,
+  memo,
+  useState,
+  useCallback,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
 import { getTransactionState } from 'store/transaction/selector';
 import { setAmount } from 'store/transaction/actionCreator';
-import { initStatePlug, connectPlug } from 'store/plug/actionsCreator';
 import { Button, Input, WalletButton } from 'components';
 import { FromToSwitcher } from 'containers';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { metamaskConnect } from 'store/metamask/actionCreators';
-import { plugSelectors } from 'store/plug/selector';
+import { plugConnect } from 'store/plug/actionsCreator';
+import { usePlugWallet } from 'hooks/usePlugWallet';
 import styles from './styles.module.css';
 import { fee } from '../contentDemo';
 
@@ -24,7 +25,6 @@ type Step1Props = {
 const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
-  const { accountId } = useSelector(plugSelectors.getState);
   const stateTransaction = useSelector(getTransactionState);
   const dispatch = useDispatch();
 
@@ -42,11 +42,8 @@ const Step1 = memo(({
 
   const [amountInput, setAmountInput] = useState(inputAmountInit);
   const [isNextDisabled, setIsNextDisabled] = useState(!amountInput);
-  const [plugIsConnected, setPlugIsConnected] = useState(false);
   const { isMetaMaskConnected, metamaskAddres } = useMetamaskWallet();
-  useEffect(() => {
-    dispatch(initStatePlug());
-  }, [dispatch]);
+  const { isPlugConnected, plugAddress } = usePlugWallet();
 
   const onChangeAmount = useCallback((t: string) => {
     setAmountInput(t);
@@ -55,15 +52,14 @@ const Step1 = memo(({
     } else {
       setIsNextDisabled(false);
     }
-  }, [currency]);
+  }, []);
 
   const onMetaMaskConnectClick = useCallback(() => {
     dispatch(metamaskConnect());
   }, [dispatch]);
 
-  const onPlugClick = useCallback(async () => {
-    dispatch(await connectPlug());
-    setPlugIsConnected(true);
+  const onPlugConnectClick = useCallback(() => {
+    dispatch(plugConnect());
   }, [dispatch]);
 
   const onNextButtonClick = useCallback(() => {
@@ -76,9 +72,9 @@ const Step1 = memo(({
     <WalletButton
       icon={PlugIcon}
       text="Connect to Plug"
-      onClick={onPlugClick}
-      textIsClicked={accountId}
-      isConnected={plugIsConnected}
+      onClick={onPlugConnectClick}
+      textIsClicked={plugAddress}
+      isConnected={isPlugConnected}
     />
   );
 
@@ -109,7 +105,7 @@ const Step1 = memo(({
         currency={currency}
       />
       <p className={styles.step1__fee}>
-        {isMetaMaskConnected && plugIsConnected
+        {isMetaMaskConnected && isPlugConnected
           ? (
             <>
               Fee:
