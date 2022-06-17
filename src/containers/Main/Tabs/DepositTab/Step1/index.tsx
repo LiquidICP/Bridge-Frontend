@@ -43,7 +43,7 @@ const Step1 = memo(({
 
   const [amountInput, setAmountInput] = useState(inputAmountInit);
   const [isNextDisabled, setIsNextDisabled] = useState(!amountInput);
-  const { isMetaMaskConnected, metamaskAddres } = useMetamaskWallet();
+  const { isMetaMaskConnected, metamaskAddress } = useMetamaskWallet();
   const { isPlugConnected, plugAddress } = usePlugWallet();
   const [textPlugButton, setTextPlugButton] = useState('Connect to Plug');
 
@@ -88,7 +88,7 @@ const Step1 = memo(({
       icon={MetamaskIcon}
       text="Connect to Metamask"
       onClick={onMetaMaskConnectClick}
-      textIsClicked={metamaskAddres || ''}
+      textIsClicked={metamaskAddress || ''}
       isConnected={isMetaMaskConnected}
     />
   );

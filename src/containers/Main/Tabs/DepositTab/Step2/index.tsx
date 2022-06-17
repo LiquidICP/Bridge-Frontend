@@ -19,7 +19,7 @@ const Step2 = memo(({
 }: Step2Props) => {
   const stateTransaction = useSelector(transactionSelector.getState);
   const { plugAddress } = usePlugWallet();
-  const { metamaskAddres } = useMetamaskWallet();
+  const { metamaskAddress } = useMetamaskWallet();
 
   const dispatch = useDispatch();
 
@@ -28,11 +28,11 @@ const Step2 = memo(({
   let textTo = '';
   if (stateTransaction.from === 'polygon') {
     currency = 'WICP';
-    textFrom = metamaskAddres || '';
+    textFrom = metamaskAddress || '';
     textTo = plugAddress;
   } else {
     currency = 'ICP';
-    textTo = metamaskAddres || '';
+    textTo = metamaskAddress || '';
     textFrom = plugAddress;
   }
 
