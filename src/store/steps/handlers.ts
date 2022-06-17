@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { StepsActionType } from './actionTypes';
-import { StepesStateType } from './types';
+import { StepsStateType } from './types';
 
-const setState = (state: StepesStateType, { payload }: any) => ({
+const setState = (state: StepsStateType, { payload }: any) => ({
   ...state,
   ...payload,
 });
 
-const increment = (state: StepesStateType) => ({
+const increment = (state: StepsStateType) => ({
   ...state,
   step: state.step + 1,
 });
 
-const decrement = (state: StepesStateType) => ({
+const decrement = (state: StepsStateType) => ({
   ...state,
   step: state.step - 1,
 });

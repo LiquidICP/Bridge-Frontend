@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Steps } from 'components';
-import { StepesSelector } from 'store/steps/selector';
+import { StepsSelector } from 'store/steps/selector';
 import { stepsIncrement, stepsDecrement } from 'store/steps/actionCreator';
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';
@@ -12,10 +12,8 @@ import styles from './styles.module.css';
 import { Step3 } from './Step3';
 
 const DepositTab: FC = () => {
-  const step = useSelector(StepesSelector.getState);
+  const step = useSelector(StepsSelector.getState);
   const dispatch = useDispatch();
-
-  console.log('step:', step);
 
   const onNextClick = useCallback(() => {
     dispatch(stepsIncrement());

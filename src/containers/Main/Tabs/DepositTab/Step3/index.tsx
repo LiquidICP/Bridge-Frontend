@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useState } from 'react';
 import { Button, CongratsModal } from 'components';
 import { useSelector } from 'react-redux';
-import { getTransactionState } from 'store/transaction/selector';
+import { transactionSelector } from 'store/transaction/selector';
 // import { congratulation } from '../contentDemo';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { usePlugWallet } from 'hooks/usePlugWallet';
@@ -10,7 +10,7 @@ import styles from './styles.module.css';
 const Step3: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const stateTransaction = useSelector(getTransactionState);
+  const stateTransaction = useSelector(transactionSelector.getState);
   const { plugAddress } = usePlugWallet();
   const { metamaskAddres } = useMetamaskWallet();
 

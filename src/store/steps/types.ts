@@ -1,3 +1,3 @@
-export type StepesStateType = {
+export type StepsStateType = {
   step: number;
 };

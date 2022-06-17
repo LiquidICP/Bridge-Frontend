@@ -3,11 +3,13 @@ import { Action as ActionRedux } from 'redux';
 import { MetamaskState } from 'store/metamask/types';
 import { StepsState } from 'types/store/steps';
 import { PlugState } from './plug/types';
+import { StateTransaction } from './transaction/types';
 
 export type ReduxState = {
   metamask: MetamaskState,
   plug:PlugState,
   steps: StepsState,
+  transaction: StateTransaction,
 };
 
 export type ActionFn<T, U> = (

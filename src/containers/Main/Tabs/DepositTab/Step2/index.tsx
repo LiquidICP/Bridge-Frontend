@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, InfoBlock, InfoCard } from 'components';
-import { getTransactionState } from 'store/transaction/selector';
+import { transactionSelector } from 'store/transaction/selector';
 import { setReceiving } from 'store/transaction/actionCreator';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { usePlugWallet } from 'hooks/usePlugWallet';
@@ -17,7 +17,7 @@ const Step2 = memo(({
   onBackClick,
   onConfirmClick,
 }: Step2Props) => {
-  const stateTransaction = useSelector(getTransactionState);
+  const stateTransaction = useSelector(transactionSelector.getState);
   const { plugAddress } = usePlugWallet();
   const { metamaskAddres } = useMetamaskWallet();
 
@@ -37,7 +37,7 @@ const Step2 = memo(({
   }
 
   const fee = infoBlocks.fees;
-  const receiving = stateTransaction.amount - fee;
+  const receiving = Number(stateTransaction.amount) - fee;
 
   const onConfirmButtonClick = useCallback(() => {
     dispatch(setReceiving(receiving));

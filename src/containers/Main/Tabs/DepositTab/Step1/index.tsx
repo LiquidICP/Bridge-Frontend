@@ -7,8 +7,9 @@ import React, {
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
-import { getTransactionState } from 'store/transaction/selector';
+import { transactionSelector } from 'store/transaction/selector';
 import { setAmount } from 'store/transaction/actionCreator';
+import { plugIsInstalled } from 'utils/plug';
 import { Button, Input, WalletButton } from 'components';
 import { FromToSwitcher } from 'containers';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
@@ -25,7 +26,7 @@ type Step1Props = {
 const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
-  const stateTransaction = useSelector(getTransactionState);
+  const stateTransaction = useSelector(transactionSelector.getState);
   const dispatch = useDispatch();
 
   let currency = '';
@@ -44,6 +45,7 @@ const Step1 = memo(({
   const [isNextDisabled, setIsNextDisabled] = useState(!amountInput);
   const { isMetaMaskConnected, metamaskAddres } = useMetamaskWallet();
   const { isPlugConnected, plugAddress } = usePlugWallet();
+  const [textPlugButton, setTextPlugButton] = useState('Connect to Plug');
 
   const onChangeAmount = useCallback((t: string) => {
     setAmountInput(t);
@@ -59,6 +61,9 @@ const Step1 = memo(({
   }, [dispatch]);
 
   const onPlugConnectClick = useCallback(() => {
+    if (plugIsInstalled()) {
+      setTextPlugButton('Connecting…');
+    }
     dispatch(plugConnect());
   }, [dispatch]);
 
@@ -66,12 +71,12 @@ const Step1 = memo(({
     const amountForState = amountInput;
     dispatch(setAmount(amountForState));
     onNextClick();
-  }, [amountInput, dispatch]);
+  }, [amountInput, dispatch, onNextClick]);
 
   const switchElement1 = (
     <WalletButton
       icon={PlugIcon}
-      text="Connect to Plug"
+      text={textPlugButton}
       onClick={onPlugConnectClick}
       textIsClicked={plugAddress}
       isConnected={isPlugConnected}
