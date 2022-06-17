@@ -12,3 +12,10 @@ export const stepsIncrement = (payload: any) => ({
     step: payload + 1,
   },
 });
+
+export const stepsDecrement = (payload: any) => ({
+  type: StepsActionType.DECREMENT_STEP,
+  payload: {
+    step: payload - 1,
+  },
+});
