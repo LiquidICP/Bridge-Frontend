@@ -48,3 +48,7 @@ export function setReceiving(receiving: number | string) {
     },
   };
 }
+
+export const contractApprove = () => ({
+  type: TransactionActionsType.APPROVE,
+});

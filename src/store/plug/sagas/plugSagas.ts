@@ -36,7 +36,7 @@ export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
       connected: isConnectPlug,
       publicKey,
       accountId: accountId === false ? undefined : accountId,
-      balance,
+      balancePlug: balance,
     }));
   } catch (err) {
     sagaExceptionHandler(err);

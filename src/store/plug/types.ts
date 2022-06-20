@@ -3,6 +3,6 @@ export type PlugState = {
   connected: boolean;
   accountId: string;
   publicKey: any;
-  balance: number;
+  balancePlug: number;
   info: unknown | null,
 };
