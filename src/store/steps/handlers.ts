@@ -7,15 +7,27 @@ const setState = (state: StepsStateType, { payload }: any) => ({
   ...payload,
 });
 
-const increment = (state: StepsStateType) => ({
-  ...state,
-  step: state.step + 1,
-});
+const increment = (state: StepsStateType) => {
+  let step = 1;
+  if (state.step === 3) {
+    step = 0;
+  }
+  return {
+    ...state,
+    step: state.step + step,
+  };
+};
 
-const decrement = (state: StepsStateType) => ({
-  ...state,
-  step: state.step - 1,
-});
+const decrement = (state: StepsStateType) => {
+  let step = 0;
+  if (state.step > 1) {
+    step = -1;
+  }
+  return {
+    ...state,
+    step: state.step + step,
+  };
+};
 
 export const stepsHandlers = {
   [StepsActionType.SET_STATE]: setState,

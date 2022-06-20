@@ -8,8 +8,10 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
 import { transactionSelector } from 'store/transaction/selector';
+import { metamaskSelectors } from 'store/metamask/selectors';
 import { setAmount } from 'store/transaction/actionCreator';
 import { plugIsInstalled } from 'utils/plug';
+import { getBalanceMetaMask } from 'utils/metamask';
 import { Button, Input, WalletButton } from 'components';
 import { FromToSwitcher } from 'containers';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
@@ -27,6 +29,7 @@ const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
   const stateTransaction = useSelector(transactionSelector.getState);
+  const stateMetaMask = useSelector(metamaskSelectors.getState);
   const dispatch = useDispatch();
 
   let currency = '';
@@ -43,9 +46,12 @@ const Step1 = memo(({
 
   const [amountInput, setAmountInput] = useState(inputAmountInit);
   const [isNextDisabled, setIsNextDisabled] = useState(!amountInput);
-  const { isMetaMaskConnected, metamaskAddres } = useMetamaskWallet();
+  const { isMetaMaskConnected, metamaskAddress } = useMetamaskWallet();
   const { isPlugConnected, plugAddress } = usePlugWallet();
   const [textPlugButton, setTextPlugButton] = useState('Connect to Plug');
+  const [
+    textMetamaskButton, setTextMetamaskButton,
+  ] = useState('Connect to Metamask');
 
   const onChangeAmount = useCallback((t: string) => {
     setAmountInput(t);
@@ -57,8 +63,11 @@ const Step1 = memo(({
   }, []);
 
   const onMetaMaskConnectClick = useCallback(() => {
+    if (stateMetaMask.balance === '') {
+      setTextMetamaskButton('Connecting…');
+    }
     dispatch(metamaskConnect());
-  }, [dispatch]);
+  }, [dispatch, setTextMetamaskButton, stateMetaMask]);
 
   const onPlugConnectClick = useCallback(() => {
     if (plugIsInstalled()) {
@@ -67,10 +76,11 @@ const Step1 = memo(({
     dispatch(plugConnect());
   }, [dispatch]);
 
-  const onNextButtonClick = useCallback(() => {
+  const onNextButtonClick = useCallback(async () => {
     const amountForState = amountInput;
     dispatch(setAmount(amountForState));
     onNextClick();
+    await getBalanceMetaMask();
   }, [amountInput, dispatch, onNextClick]);
 
   const switchElement1 = (
@@ -86,9 +96,9 @@ const Step1 = memo(({
   const switchElement2 = (
     <WalletButton
       icon={MetamaskIcon}
-      text="Connect to Metamask"
+      text={textMetamaskButton}
       onClick={onMetaMaskConnectClick}
-      textIsClicked={metamaskAddres || ''}
+      textIsClicked={metamaskAddress || ''}
       isConnected={isMetaMaskConnected}
     />
   );

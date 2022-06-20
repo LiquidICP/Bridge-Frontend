@@ -19,7 +19,9 @@ import {
 import {
   sagaExceptionHandler,
 } from 'utils';
-import { getMetamaskChainId, getMetamaskProvider, getNetworkById } from 'utils/metamask';
+import {
+  getBalanceMetaMask, getMetamaskChainId, getMetamaskProvider, getNetworkById,
+} from 'utils/metamask';
 import { notification } from 'antd';
 import { toast } from 'react-toastify';
 import { metamaskSetState } from '../actionCreators';
@@ -159,6 +161,7 @@ export function* connectMetamaskSaga() {
         return;
       }
       const networkId: Unwrap<typeof getMetamaskChainId> = yield call(getMetamaskChainId);
+      const getBalance: Unwrap<typeof getBalanceMetaMask> = yield call(getBalanceMetaMask);
       const network: NetworkName | null = getNetworkById(networkId);
 
       if (network) {
@@ -169,6 +172,7 @@ export function* connectMetamaskSaga() {
         yield put(metamaskSetState({
           status: MetamaskStatus.CONNECTED,
           address: addresses[0],
+          balance: getBalance,
         }));
       } else {
         yield put(metamaskSetState({
