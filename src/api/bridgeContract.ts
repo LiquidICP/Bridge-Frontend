@@ -1,6 +1,6 @@
 import { bridgeAbi } from 'abi';
 import { ethers } from 'ethers';
-import { metamaskbridgeAddress } from 'global';
+import { metamaskbridgeAddress } from '../global/constants';
 
 export const getBridgeContract = () => {
   try {
@@ -8,6 +8,6 @@ export const getBridgeContract = () => {
     const CONTRACT = new ethers.Contract(metamaskbridgeAddress, bridgeAbi, provider.getSigner());
     return CONTRACT;
   } catch (error) {
-    throw new Error('Please install MetaMask');
+    throw new Error('bridge');
   }
 };

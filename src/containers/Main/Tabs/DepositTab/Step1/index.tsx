@@ -31,7 +31,7 @@ const Step1 = memo(({
   const stateTransaction = useSelector(transactionSelector.getState);
   const stateMetaMask = useSelector(metamaskSelectors.getState);
   const dispatch = useDispatch();
-
+  console.log(stateTransaction.amount);
   let currency = '';
   if (stateTransaction.from === 'polygon') {
     currency = 'WICP';

@@ -2,7 +2,7 @@ import React, { memo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, InfoBlock, InfoCard } from 'components';
 import { transactionSelector } from 'store/transaction/selector';
-import { setReceiving } from 'store/transaction/actionCreator';
+import { setReceiving, contractApprove } from 'store/transaction/actionCreator';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import { infoBlocks } from '../contentDemo';
@@ -41,6 +41,7 @@ const Step2 = memo(({
 
   const onConfirmButtonClick = useCallback(() => {
     dispatch(setReceiving(receiving));
+    dispatch(contractApprove());
     onConfirmClick();
   }, [dispatch, receiving, onConfirmClick]);
 

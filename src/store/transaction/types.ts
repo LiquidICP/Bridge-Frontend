@@ -3,4 +3,5 @@ export type StateTransaction = {
   from: 'polygon' | 'plug',
   fee: number,
   receiving: number | string,
+  status: string,
 };
