@@ -6,7 +6,7 @@ export const metamaskInitialState: Readonly<MetamaskState> = {
   isTokensBalanceLoading: false,
   address: undefined,
   status: MetamaskStatus.INIT,
-  balance: 0,
+  balance: '',
   network: null,
   tokensBalance: undefined,
 };

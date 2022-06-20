@@ -1,7 +1,12 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import detectEthereumProvider from '@metamask/detect-provider';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { ethers } from 'ethers';
 import { MetamaskRequestMethod } from 'store/metamask/types';
 import { NetworkName, networkChainIds } from '../global';
+
+export type Provider = any;
 
 export const getMetamaskProvider = async () => {
   const provider = await detectEthereumProvider();
@@ -55,4 +60,19 @@ export const getNetworkById = (chainId?: string): NetworkName | null => {
   const target = (Object.keys(networkChainIds) as NetworkName[]).find((key) =>
     networkChainIds[key] === chainId);
   return target || null;
+};
+
+export const getBalanceMetaMask = async () => {
+  const provider: Provider = await detectEthereumProvider();
+  const account = await provider?.request({
+    method: 'eth_requestAccounts',
+  });
+  const balance = await provider?.request({
+    method: 'eth_getBalance',
+    params: [
+      account[0],
+      'latest',
+    ],
+  });
+  return ethers.utils.formatUnits(balance.toString());
 };
