@@ -27,6 +27,7 @@ export type TransactionData = {
   amount: string,
   recipient: string,
   recipientType: string,
+  polygonTransactionId?:string,
   state: string,
   createdAt: string,
   updatedAt: string,

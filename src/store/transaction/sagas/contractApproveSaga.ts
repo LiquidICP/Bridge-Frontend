@@ -1,4 +1,5 @@
 /* eslint-disable no-empty-pattern */
+// import { Principal } from '@dfinity/principal';
 import { getContract } from 'api/contract';
 import {
   call, put, select, takeLatest,
@@ -11,6 +12,7 @@ import { getBridgeContract } from 'api/bridgeContract';
 import { notification } from 'antd';
 import { callApi } from 'utils/api';
 import { TransactionData } from 'store/types';
+import { getDfinityContract, TokenActor } from 'api/dfinityContract';
 import {
   metamaskbridgeAddress,
   tokenAddress,
@@ -28,22 +30,28 @@ function* metamaskToPlug(
   amount:string,
   from:string,
 ) {
-  console.log(
-    bridgeaddress,
-    ethers.utils.parseEther(amount).toString(),
-  );
+  const WICPAmount = ethers.utils.parseUnits(amount, 8).toString();
   const contract = getContract();
   const tx:ContractTransaction = yield contract.approve(
     bridgeaddress,
-    ethers.utils.parseEther(amount).toString(),
+    WICPAmount,
   );
+  notification.info({
+    message: 'INFO',
+    description: 'Please wait approve',
+  });
+  getDfinityContract();
   yield tx.wait();
 
   const bridgeContract = getBridgeContract();
   const bridgeTx:ContractTransaction = yield bridgeContract.requestBridgingToStart(
     token,
-    ethers.utils.parseEther(amount),
+    WICPAmount,
   );
+  notification.info({
+    message: 'INFO',
+    description: 'Please wait Transaction',
+  });
   const bridgeData:ContractReceipt = yield bridgeTx.wait();
 
   const responce:TransactionData = yield call(callApi, {
@@ -52,13 +60,13 @@ function* metamaskToPlug(
     data: {
       sender: metamaskAddress,
       senderType: from,
-      amount: ethers.utils.parseEther(amount),
+      amount: WICPAmount,
       recipient: accountId,
       recipientType: 'dfinity',
       polygonTransactionId: bridgeData.blockHash,
     },
   });
-
+  console.log(responce);
   yield put(transactionSetState({
     status: responce.state,
   }));
@@ -69,32 +77,34 @@ function* metamaskToPlug(
   });
 }
 
-// function* plugToMetamask(
-//   accountId:string,
-//   metamaskAddress:string,
-//   amount:string,
-//   from: string,
-//   plugbridge: string,
-// ) {
-//   const contract = getContract();
-//   if (!contract) return;
-//   const tx:ContractTransaction = yield contract.approve({
-//     principal: plugbridge,
-//     nat: ethers.utils.parseEther(amount),
-//   });
-//   yield tx.wait();
+function* plugToMetamask(
+  accountId:string,
+  metamaskAddress:string,
+  amount:string,
+  from: string,
+) {
+  const tokenActor:TokenActor = yield getDfinityContract();
+  if (!tokenActor) return;
+  // eslint-disable-next-line max-len
+  // tokenActor.approve(Principal.fromText('oa67n-laaaa-aaaai-qfm3q-cai'), ethers.utils.parseUnits(amount, 8).toNumber());
 
-//   const responce = yield call(callApi, {
-//     method: 'POST',
-//     payload: {
-//       sender: accountId,
-//       senderType: from,
-//       amount: ethers.utils.parseEther(amount),
-//       recipient: metamaskAddress,
-//       recipientType: 'polygon',
-//     },
-//   });
-// }
+  const responce:TransactionData = yield call(callApi, {
+    method: 'POST',
+    url: '/save-transaction',
+    data: {
+      sender: accountId,
+      senderType: from,
+      amount: ethers.utils.parseUnits(amount, 8).toString(),
+      recipient: metamaskAddress,
+      recipientType: 'polygon',
+    },
+  });
+
+  console.log(responce);
+  yield put(transactionSetState({
+    status: responce.state,
+  }));
+}
 
 export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
   try {
@@ -102,13 +112,13 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
     const { accountId } = yield select(plugSelectors.getState);
     const { amount, from } = yield select(transactionSelector.getState);
     if (from === 'plug') {
-      // yield plugToMetamask(
-      //   address,
-      //   accountId,
-      //   amount,
-      //   from,
-      //   plugbridgeAddress,
-      // );
+      yield plugToMetamask(
+        address,
+        accountId,
+        amount,
+        from,
+      // plugbridgeAddress,
+      );
     } else {
       yield metamaskToPlug(
         metamaskbridgeAddress,
