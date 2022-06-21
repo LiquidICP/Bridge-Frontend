@@ -74,7 +74,7 @@
     "webpack": "5.72.0"
   },
   "scripts": {
-    "start": "env-cmd -f .env.development craco start",
+    "start": "cross-env env-cmd -f .env.development craco start",
     "build:dev": "env-cmd -f .env.development craco build",
     "build:prod": "env-cmd -f .env.production craco build",
     "build:stage": "env-cmd -f .env.stage craco build",

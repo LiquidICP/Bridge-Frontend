@@ -2,10 +2,9 @@ import React, { memo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, InfoBlock, InfoCard } from 'components';
 import { transactionSelector } from 'store/transaction/selector';
-import { setReceiving } from 'store/transaction/actionCreator';
+import { contractApprove } from 'store/transaction/actionCreator';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { usePlugWallet } from 'hooks/usePlugWallet';
-import { infoBlocks } from '../contentDemo';
 import styles from './styles.module.css';
 
 type Step2Props = {
@@ -36,13 +35,12 @@ const Step2 = memo(({
     textFrom = plugAddress;
   }
 
-  const fee = infoBlocks.fees;
-  const receiving = Number(stateTransaction.amount) - fee;
+  const { fee, receiving } = stateTransaction;
 
   const onConfirmButtonClick = useCallback(() => {
-    dispatch(setReceiving(receiving));
+    dispatch(contractApprove());
     onConfirmClick();
-  }, [dispatch, receiving, onConfirmClick]);
+  }, [dispatch, onConfirmClick]);
 
   return (
     <section className={styles.step2__container}>

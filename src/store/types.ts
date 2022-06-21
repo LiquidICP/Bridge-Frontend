@@ -20,3 +20,16 @@ export type ActionFn<T, U> = (
 export type Unwrap<T> = T extends (...args: any) => Promise<any>
   ? T extends (...args: any) => Promise<infer U> ? U : T
   : T extends () => Iterator<any, infer U, any> ? U : any;
+
+export type TransactionData = {
+  sender: string,
+  senderType: string,
+  amount: string,
+  recipient: string,
+  recipientType: string,
+  state: string,
+  createdAt: string,
+  updatedAt: string,
+  deletedAt: null,
+  id: number
+};

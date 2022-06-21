@@ -1,5 +1,6 @@
 import { TransactionActionsType } from './actionTypes';
 import { initialStateTransaction } from './state';
+import { StateTransaction } from './types';
 
 export function initTransactionState() {
   return {
@@ -48,3 +49,12 @@ export function setReceiving(receiving: number | string) {
     },
   };
 }
+
+export const contractApprove = () => ({
+  type: TransactionActionsType.APPROVE,
+});
+
+export const transactionSetState = (state:Partial<StateTransaction>) => ({
+  type: TransactionActionsType.SET_STATE,
+  payload: state,
+});

@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ActionFn } from 'types';
+import { setReceiving, transactionSetState } from './actionCreator';
 import { TransactionActionsType } from './actionTypes';
 import { StateTransaction } from './types';
+
+type TransactionStateActionFn<F extends (...args: any) => any> =
+ActionFn<StateTransaction, ReturnType<F>>;
 
 type AmountPayload = {
   payload: {
@@ -14,12 +19,6 @@ type FromPayload = {
   }
 };
 
-type ReceivingPayload = {
-  payload: {
-    receiving: string | number;
-  }
-};
-
 const setAmount = (state: StateTransaction, { payload }: AmountPayload) => ({
   ...state,
   ...payload,
@@ -30,7 +29,18 @@ const setFrom = (state: StateTransaction, { payload }: FromPayload) => ({
   ...payload,
 });
 
-const setReceiving = (state: StateTransaction, { payload }: ReceivingPayload) => ({
+const setReceivingHandler:TransactionStateActionFn<typeof setReceiving> = (
+  state,
+  { payload },
+) => ({
+  ...state,
+  ...payload,
+});
+
+const setState: TransactionStateActionFn<typeof transactionSetState> = (
+  state,
+  { payload },
+) => ({
   ...state,
   ...payload,
 });
@@ -38,5 +48,7 @@ const setReceiving = (state: StateTransaction, { payload }: ReceivingPayload) =>
 export const transactionHandlers = {
   [TransactionActionsType.SET_AMOUNT]: setAmount,
   [TransactionActionsType.SET_FROM]: setFrom,
-  [TransactionActionsType.SET_RECEIVING]: setReceiving,
+  [TransactionActionsType.SET_RECEIVING]: setReceivingHandler,
+  [TransactionActionsType.SET_STATE]: setState,
+
 };
