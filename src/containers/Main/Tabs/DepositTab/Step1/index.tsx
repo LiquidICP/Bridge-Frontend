@@ -9,7 +9,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
 import { transactionSelector } from 'store/transaction/selector';
 import { metamaskSelectors } from 'store/metamask/selectors';
-import { setAmount } from 'store/transaction/actionCreator';
+import { setAmount, setReceiving } from 'store/transaction/actionCreator';
+import { subtraction } from 'utils/match';
 import { plugIsInstalled } from 'utils/plug';
 import { getBalanceMetaMask } from 'utils/metamask';
 import { Button, Input, WalletButton } from 'components';
@@ -19,7 +20,6 @@ import { metamaskConnect } from 'store/metamask/actionCreators';
 import { plugConnect } from 'store/plug/actionsCreator';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import styles from './styles.module.css';
-import { fee } from '../contentDemo';
 
 type Step1Props = {
   onNextClick: () => void;
@@ -31,7 +31,8 @@ const Step1 = memo(({
   const stateTransaction = useSelector(transactionSelector.getState);
   const stateMetaMask = useSelector(metamaskSelectors.getState);
   const dispatch = useDispatch();
-  console.log(stateTransaction.amount);
+  const { fee, amount } = stateTransaction;
+
   let currency = '';
   if (stateTransaction.from === 'polygon') {
     currency = 'WICP';
@@ -40,7 +41,7 @@ const Step1 = memo(({
   }
 
   let inputAmountInit = '';
-  if (stateTransaction.amount !== 0) {
+  if (amount !== 0) {
     inputAmountInit = stateTransaction.amount.toString();
   }
 
@@ -52,15 +53,17 @@ const Step1 = memo(({
   const [
     textMetamaskButton, setTextMetamaskButton,
   ] = useState('Connect to Metamask');
+  const [receivingState, setReceivingState] = useState(0);
 
   const onChangeAmount = useCallback((t: string) => {
     setAmountInput(t);
+    setReceivingState(subtraction(t, fee));
     if (t === '') {
       setIsNextDisabled(true);
     } else {
       setIsNextDisabled(false);
     }
-  }, []);
+  }, [fee]);
 
   const onMetaMaskConnectClick = useCallback(() => {
     if (stateMetaMask.balance === '') {
@@ -78,10 +81,11 @@ const Step1 = memo(({
 
   const onNextButtonClick = useCallback(async () => {
     const amountForState = amountInput;
+    dispatch(setReceiving(receivingState));
     dispatch(setAmount(amountForState));
     onNextClick();
     await getBalanceMetaMask();
-  }, [amountInput, dispatch, onNextClick]);
+  }, [amountInput, dispatch, onNextClick, receivingState]);
 
   const switchElement1 = (
     <WalletButton

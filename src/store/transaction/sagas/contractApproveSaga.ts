@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-empty-pattern */
 import { getContract } from 'api/contract';
 import {
