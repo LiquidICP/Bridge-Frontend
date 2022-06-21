@@ -41,8 +41,10 @@ const Step1 = memo(({
   }
 
   let inputAmountInit = '';
+  let initReceiving = 0;
   if (amount !== 0) {
     inputAmountInit = stateTransaction.amount.toString();
+    initReceiving = subtraction(amount, fee);
   }
 
   const [amountInput, setAmountInput] = useState(inputAmountInit);
@@ -53,7 +55,7 @@ const Step1 = memo(({
   const [
     textMetamaskButton, setTextMetamaskButton,
   ] = useState('Connect to Metamask');
-  const [receivingState, setReceivingState] = useState(0);
+  const [receivingState, setReceivingState] = useState(initReceiving);
 
   const onChangeAmount = useCallback((t: string) => {
     setAmountInput(t);

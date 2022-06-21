@@ -11,6 +11,7 @@ export type Provider = any;
 export const getMetamaskProvider = async () => {
   const provider = await detectEthereumProvider();
   if (provider != null) {
+    console.log('Metamask provider', provider);
     return provider as MetaMaskInpageProvider;
   }
   return undefined;
