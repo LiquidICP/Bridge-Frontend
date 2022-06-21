@@ -29,7 +29,7 @@ const plugPersistConfig = {
 const transactionPersistConfig = {
   key: 'transaction',
   storage,
-  whitelist: ['from', 'amount', 'receiving'] as Array<keyof StateTransaction>,
+  whitelist: ['from', 'amount', 'status', 'receiving'] as Array<keyof StateTransaction>,
 };
 
 const reducers = {
