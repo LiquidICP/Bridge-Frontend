@@ -29,30 +29,24 @@ type Step1Props = {
 const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
-  const { from } = useSelector(transactionSelector.getState);
+  const { from, status } = useSelector(transactionSelector.getState);
   const stateMetaMask = useSelector(metamaskSelectors.getState);
   const dispatch = useDispatch();
-
+  console.log(from, status);
   const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
   const [amountInput, setAmountInput] = useState('');
-  const { reciving, amountFee, isLoading } = useCalculationFee(Number(amountInput) || 0, from);
-
-  const [isNextDisabled, setIsNextDisabled] = useState(!amountInput);
+  const { receiving, amountFee, isLoading } = useCalculationFee(Number(amountInput) || 0, from);
   const { isMetaMaskConnected, metamaskAddress } = useMetamaskWallet();
   const { isPlugConnected, plugAddress } = usePlugWallet();
   const [textPlugButton, setTextPlugButton] = useState('Connect to Plug');
   const [
     textMetamaskButton, setTextMetamaskButton,
   ] = useState('Connect to Metamask');
-  console.log(reciving, amountFee);
   const onChangeAmount = useCallback((t: string) => {
     setAmountInput(t);
-    if (t === '') {
-      setIsNextDisabled(true);
-    } else {
-      setIsNextDisabled(false);
-    }
   }, []);
+
+  const isbuttondasabled = useMemo(() => amountInput === '' || isLoading, [isLoading, amountInput]);
 
   const onMetaMaskConnectClick = useCallback(() => {
     if (stateMetaMask.balance === '') {
@@ -71,12 +65,12 @@ const Step1 = memo(({
   const onNextButtonClick = useCallback(async () => {
     dispatch(transactionSetState({
       fee: amountFee,
-      receiving: reciving,
+      receiving,
       amount: amountInput,
     }));
     onNextClick();
     await getBalanceMetaMask();
-  }, [amountFee, amountInput, dispatch, onNextClick, reciving]);
+  }, [amountFee, amountInput, dispatch, onNextClick, receiving]);
 
   const switchElement1 = (
     <WalletButton
@@ -130,7 +124,7 @@ const Step1 = memo(({
       <Button
         theme="gradient"
         onClick={onNextButtonClick}
-        isDisabled={isNextDisabled}
+        isDisabled={isbuttondasabled}
         className={styles.step1__next_button}
       >
         Next

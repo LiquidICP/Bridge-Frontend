@@ -19,7 +19,10 @@ const Step2 = memo(({
   onConfirmClick,
 }: Step2Props) => {
   const {
-    fee, from, receiving, amount,
+    fee,
+    from,
+    receiving,
+    amount,
   } = useSelector(transactionSelector.getState);
   const { plugAddress } = usePlugWallet();
   const { metamaskAddress } = useMetamaskWallet();
@@ -29,18 +32,6 @@ const Step2 = memo(({
   const textFrom = useMemo(() => (from === 'polygon' ? metamaskAddress || '' : plugAddress), [from, metamaskAddress, plugAddress]);
   const textTo = useMemo(() => (from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]);
 
-  // let currency = '';
-  // let textFrom = '';
-  // let textTo = '';
-  // if (from === 'polygon') {
-  //   currency = 'WICP';
-  //   textFrom = metamaskAddress || '';
-  //   textTo = plugAddress;
-  // } else {
-  //   currency = 'ICP';
-  //   textTo = metamaskAddress || '';
-  //   textFrom = plugAddress;
-  // }
   const onConfirmButtonClick = useCallback(() => {
     dispatch(contractApprove());
     onConfirmClick();

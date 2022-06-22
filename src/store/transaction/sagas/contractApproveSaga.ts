@@ -79,7 +79,7 @@ function* metamaskToPlug(
 
   notification.success({
     message: 'Success',
-    description: 'Success transaction',
+    description: responce.state,
   });
 }
 
@@ -87,11 +87,8 @@ function* plugToMetamask(
   accountId:string,
   metamaskAddress:string,
   amount:string,
-  from: string,
 ) {
   const tokenActor:SERVICE = yield getDfinityContract();
-  const fee:bigint = yield tokenActor.getFeeRate();
-  console.log(fee);
   if (!tokenActor) return;
   yield tokenActor.approve(Principal.fromText('oa67n-laaaa-aaaai-qfm3q-cai'), ethers.utils.parseUnits(amount, 8).toBigInt());
 
@@ -100,7 +97,7 @@ function* plugToMetamask(
     url: '/save-transaction',
     data: {
       sender: accountId,
-      senderType: from,
+      senderType: 'dfinity',
       amount: ethers.utils.parseUnits(amount, 8).toString(),
       recipient: metamaskAddress,
       recipientType: 'polygon',
@@ -111,20 +108,22 @@ function* plugToMetamask(
   yield put(transactionSetState({
     status: responce.state,
   }));
+  notification.success({
+    message: 'Success',
+    description: responce.state,
+  });
 }
 
 export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
   try {
     const { address } = yield select(metamaskSelectors.getState);
     const { accountId } = yield select(plugSelectors.getState);
-    const { amount, from } = yield select(transactionSelector.getState);
+    const { from, amount } = yield select(transactionSelector.getState);
     if (from === 'plug') {
       yield plugToMetamask(
         address,
         accountId,
         amount,
-        from,
-      // plugbridgeAddress,
       );
     } else {
       yield metamaskToPlug(

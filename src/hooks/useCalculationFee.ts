@@ -29,6 +29,6 @@ export const useCalculationFee = (amount:number, from:string) => {
     [from],
   );
   const amountFee = useMemo(() => amount * (percentFee / 100), [amount, percentFee]);
-  const reciving = useMemo(() => amount - amountFee, [amount, amountFee]);
-  return { amountFee, reciving, isLoading };
+  const receiving = useMemo(() => amount - amountFee, [amount, amountFee]);
+  return { amountFee, receiving, isLoading };
 };

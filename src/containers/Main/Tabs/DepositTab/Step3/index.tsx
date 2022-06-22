@@ -1,4 +1,6 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, {
+  memo, useCallback, useMemo, useState,
+} from 'react';
 import { Button, CongratsModal } from 'components';
 import { useSelector } from 'react-redux';
 import { transactionSelector } from 'store/transaction/selector';
@@ -15,22 +17,26 @@ const Step3 = memo(({
 }: Step3Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const stateTransaction = useSelector(transactionSelector.getState);
+  const { from, receiving } = useSelector(transactionSelector.getState);
   const { plugAddress } = usePlugWallet();
   const { metamaskAddress } = useMetamaskWallet();
 
-  let currency = '';
-  let currency2 = '';
-  let address = '';
-  if (stateTransaction.from === 'polygon') {
-    currency = 'WICP';
-    currency2 = 'ICP';
-    address = plugAddress;
-  } else {
-    currency = 'ICP';
-    currency2 = 'WICP';
-    address = metamaskAddress || '';
-  }
+  // let currency = '';
+  // let currency2 = '';
+  // let address = '';
+  // if (from === 'polygon') {
+  //   currency = 'WICP';
+  //   currency2 = 'ICP';
+  //   address = plugAddress;
+  // } else {
+  //   currency = 'ICP';
+  //   currency2 = 'WICP';
+  //   address = metamaskAddress || '';
+  // }
+
+  const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
+  const currency2 = useMemo(() => (from === 'polygon' ? 'ICP' : 'WICP'), [from]);
+  const address = useMemo(() => (from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]);
 
   const onClick = useCallback(() => {
     setIsModalOpen(true);
@@ -42,7 +48,7 @@ const Step3 = memo(({
         You have bridged
       </p>
       <p className={styles.step3__receiving}>
-        {`${stateTransaction.receiving} ${currency}`}
+        {`${receiving} ${currency}`}
       </p>
       <p className={styles.step3__text}>
         coins to Polygon, your
@@ -76,8 +82,8 @@ const Step3 = memo(({
       <CongratsModal
         isModalVisible={isModalOpen}
         setIsModalVisible={setIsModalOpen}
-        amount={`${stateTransaction.receiving} ${currency}`}
-        receiving={`${stateTransaction.receiving} ${currency2}`}
+        amount={`${receiving} ${currency}`}
+        receiving={`${receiving} ${currency2}`}
         address={address}
       />
     </section>
