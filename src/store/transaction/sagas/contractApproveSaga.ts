@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-empty-pattern */
-// import { Principal } from '@dfinity/principal';
+import { Principal } from '@dfinity/principal';
 import { getContract } from 'api/contract';
 import {
   call, put, select, takeLatest,
@@ -13,7 +13,11 @@ import { getBridgeContract } from 'api/bridgeContract';
 import { notification } from 'antd';
 import { callApi } from 'utils/api';
 import { TransactionData } from 'store/types';
-import { getDfinityContract, TokenActor } from 'api/dfinityContract';
+import { getDfinityContract } from 'api/dfinityContract';
+import {
+  SERVICE,
+  // SuccesTxReceipt
+} from 'abi/dfinityToken/types';
 import {
   metamaskbridgeAddress,
   tokenAddress,
@@ -23,8 +27,10 @@ import { contractApprove, transactionSetState } from '../actionCreator';
 import { transactionSelector } from '../selector';
 import { TransactionActionsType } from '../actionTypes';
 
+// const instenceOfSuccessTx = (object:any):object is SuccesTxReceipt => 'Ok' in object;
+
 function* metamaskToPlug(
-  bridgeaddress:string,
+  bridgeAddress:string,
   token:string,
   metamaskAddress:string,
   accountId: string,
@@ -34,14 +40,13 @@ function* metamaskToPlug(
   const WICPAmount = ethers.utils.parseUnits(amount, 8).toString();
   const contract = getContract();
   const tx:ContractTransaction = yield contract.approve(
-    bridgeaddress,
+    bridgeAddress,
     WICPAmount,
   );
   notification.info({
     message: 'INFO',
     description: 'Please wait approve',
   });
-  getDfinityContract();
   yield tx.wait();
 
   const bridgeContract = getBridgeContract();
@@ -84,10 +89,11 @@ function* plugToMetamask(
   amount:string,
   from: string,
 ) {
-  const tokenActor:TokenActor = yield getDfinityContract();
+  const tokenActor:SERVICE = yield getDfinityContract();
+  const fee:bigint = yield tokenActor.getFeeRate();
+  console.log(fee);
   if (!tokenActor) return;
-  // eslint-disable-next-line max-len
-  // tokenActor.approve(Principal.fromText('oa67n-laaaa-aaaai-qfm3q-cai'), ethers.utils.parseUnits(amount, 8).toNumber());
+  yield tokenActor.approve(Principal.fromText('oa67n-laaaa-aaaai-qfm3q-cai'), ethers.utils.parseUnits(amount, 8).toBigInt());
 
   const responce:TransactionData = yield call(callApi, {
     method: 'POST',

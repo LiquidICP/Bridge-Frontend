@@ -1,10 +1,10 @@
 // import { Principal } from '@dfinity/principal';
-import token from '../abi/dfinityToken/tokenDid';
+
+import { SERVICE } from 'abi/dfinityToken/types';
+import token from 'abi/dfinityToken/token';
 
 declare let window: any;
-export type TokenActor = {
-  approve:(address:any, amount:number)=>void
-};
+
 export const getDfinityContract = async () => {
   try {
     const tokenCanister = 'oh7zz-gyaaa-aaaai-qfm3a-cai';
@@ -12,8 +12,7 @@ export const getDfinityContract = async () => {
       canisterId: tokenCanister,
       interfaceFactory: token,
     });
-    console.log(tokenActor);
-    return tokenActor as TokenActor;
+    return tokenActor as SERVICE;
   } catch (error) {
     throw new Error('token');
   }

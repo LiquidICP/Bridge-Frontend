@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-export default ({ IDL }:any) => {
+const idlFactory = ({ IDL }:any) => {
   const TxReceipt = IDL.Variant({
     Ok: IDL.Nat,
     Err: IDL.Variant({
@@ -46,6 +45,7 @@ export default ({ IDL }:any) => {
     getAllowanceSize: IDL.Func([], [IDL.Nat], ['query']),
     getBorMassenger: IDL.Func([], [IDL.Principal], ['query']),
     getDecimals: IDL.Func([], [IDL.Nat8], ['query']),
+    getFeeRate: IDL.Func([], [IDL.Nat], []),
     getHolders: IDL.Func(
       [IDL.Nat, IDL.Nat],
       [IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Nat))],
@@ -56,6 +56,7 @@ export default ({ IDL }:any) => {
     getName: IDL.Func([], [IDL.Text], ['query']),
     getOwner: IDL.Func([], [IDL.Principal], ['query']),
     getPrincipal: IDL.Func([], [IDL.Principal], []),
+    getPrincipalCanister: IDL.Func([], [IDL.Principal], []),
     getSymbol: IDL.Func([], [IDL.Text], ['query']),
     getTokenFee: IDL.Func([], [IDL.Nat], ['query']),
     getTokenInfo: IDL.Func([], [TokenInfo], ['query']),
@@ -86,6 +87,7 @@ export default ({ IDL }:any) => {
     setFee: IDL.Func([IDL.Nat], [], ['oneway']),
     setFeeRate: IDL.Func([IDL.Nat], [], ['oneway']),
     setFeeTo: IDL.Func([IDL.Principal], [], ['oneway']),
+    setFeeWallet: IDL.Func([IDL.Principal], [], ['oneway']),
     setLogo: IDL.Func([IDL.Text], [], ['oneway']),
     setName: IDL.Func([IDL.Text], [], ['oneway']),
     setOwner: IDL.Func([IDL.Principal], [], ['oneway']),
@@ -98,4 +100,6 @@ export default ({ IDL }:any) => {
     unwrappedWICP: IDL.Func([IDL.Nat, IDL.Principal], [TxReceipt], []),
   });
 };
-// export const init = ({ IDL }):any => [];
+
+export default idlFactory;
+// export const init = ({ IDL }) => [];
