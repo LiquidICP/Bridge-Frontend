@@ -34,3 +34,8 @@ export type TransactionData = {
   deletedAt: null,
   id: number
 };
+
+export type WrappedToken = {
+  uAddress:string;
+  amount:number;
+};

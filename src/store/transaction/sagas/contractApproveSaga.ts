@@ -12,16 +12,17 @@ import { plugSelectors } from 'store/plug/selector';
 import { getBridgeContract } from 'api/bridgeContract';
 import { notification } from 'antd';
 import { callApi } from 'utils/api';
-import { TransactionData } from 'store/types';
+import { TransactionData, WrappedToken } from 'store/types';
 import { getDfinityContract } from 'api/dfinityContract';
 import {
   SERVICE,
-  // SuccesTxReceipt
 } from 'abi/dfinityToken/types';
+import { plugTransfer } from 'api/plugTransfer';
 import {
   metamaskbridgeAddress,
   tokenAddress,
-  // plugbridgeAddress,
+  plugbridgeAddress,
+  canisterAddress,
 } from '../../../global/constants';
 import { contractApprove, transactionSetState } from '../actionCreator';
 import { transactionSelector } from '../selector';
@@ -84,13 +85,29 @@ function* metamaskToPlug(
 }
 
 function* plugToMetamask(
-  accountId:string,
   metamaskAddress:string,
+  accountId:string,
   amount:string,
 ) {
+  const transfer:string = yield plugTransfer(canisterAddress, amount);
+
+  if (transfer) {
+    const responce:WrappedToken = yield call(callApi, {
+      method: 'POST',
+      url: '/wrapper-token',
+      data: {
+        uAddress: accountId,
+        amount: Number(ethers.utils.parseUnits(amount, 8).toString()),
+      },
+    });
+    console.log(responce);
+  }
+  console.log(ethers.utils.parseUnits(amount, 8).toBigInt());
   const tokenActor:SERVICE = yield getDfinityContract();
-  if (!tokenActor) return;
-  yield tokenActor.approve(Principal.fromText('oa67n-laaaa-aaaai-qfm3q-cai'), ethers.utils.parseUnits(amount, 8).toBigInt());
+  yield tokenActor.approve(
+    Principal.fromText(plugbridgeAddress),
+    ethers.utils.parseUnits(amount, 8).toBigInt(),
+  );
 
   const responce:TransactionData = yield call(callApi, {
     method: 'POST',
@@ -104,7 +121,7 @@ function* plugToMetamask(
     },
   });
 
-  console.log(responce);
+  console.log('responce:', responce);
   yield put(transactionSetState({
     status: responce.state,
   }));
