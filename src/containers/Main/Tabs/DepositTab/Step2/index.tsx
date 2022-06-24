@@ -1,4 +1,6 @@
-import React, { memo, useCallback } from 'react';
+import React, {
+  memo, useCallback, useMemo,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, InfoBlock, InfoCard } from 'components';
 import { transactionSelector } from 'store/transaction/selector';
@@ -16,26 +18,19 @@ const Step2 = memo(({
   onBackClick,
   onConfirmClick,
 }: Step2Props) => {
-  const stateTransaction = useSelector(transactionSelector.getState);
+  const {
+    fee,
+    from,
+    receiving,
+    amount,
+  } = useSelector(transactionSelector.getState);
   const { plugAddress } = usePlugWallet();
   const { metamaskAddress } = useMetamaskWallet();
 
   const dispatch = useDispatch();
-
-  let currency = '';
-  let textFrom = '';
-  let textTo = '';
-  if (stateTransaction.from === 'polygon') {
-    currency = 'WICP';
-    textFrom = metamaskAddress || '';
-    textTo = plugAddress;
-  } else {
-    currency = 'ICP';
-    textTo = metamaskAddress || '';
-    textFrom = plugAddress;
-  }
-
-  const { fee, receiving } = stateTransaction;
+  const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
+  const textFrom = useMemo(() => (from === 'polygon' ? metamaskAddress || '' : plugAddress), [from, metamaskAddress, plugAddress]);
+  const textTo = useMemo(() => (from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]);
 
   const onConfirmButtonClick = useCallback(() => {
     dispatch(contractApprove());
@@ -58,7 +53,7 @@ const Step2 = memo(({
       <section className={styles.step2__datas__box}>
         <InfoBlock
           label="Sending"
-          text={`${stateTransaction.amount} ${currency}`}
+          text={`${amount} ${currency}`}
         />
         <InfoBlock
           label="Fees"

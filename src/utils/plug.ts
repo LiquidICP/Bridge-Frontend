@@ -33,7 +33,7 @@ export async function getPlugPublicKey() {
 export async function getPlugAccountID() {
   const connect = await window.ic.plug.requestConnect();
   if (!connect) return false;
-  const accountID = window?.ic?.plug.accountId;
+  const accountID = window?.ic?.plug.principalId;
   return accountID as string;
 }
 

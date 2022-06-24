@@ -4,13 +4,13 @@ import React, {
   memo,
   useState,
   useCallback,
+  useMemo,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
 import { transactionSelector } from 'store/transaction/selector';
 import { metamaskSelectors } from 'store/metamask/selectors';
-import { setAmount, setReceiving } from 'store/transaction/actionCreator';
-import { subtraction } from 'utils/match';
+import { transactionSetState } from 'store/transaction/actionCreator';
 import { plugIsInstalled } from 'utils/plug';
 import { getBalanceMetaMask } from 'utils/metamask';
 import { Button, Input, WalletButton } from 'components';
@@ -19,6 +19,7 @@ import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { metamaskConnect } from 'store/metamask/actionCreators';
 import { plugConnect } from 'store/plug/actionsCreator';
 import { usePlugWallet } from 'hooks/usePlugWallet';
+import { useCalculationFee } from 'hooks';
 import styles from './styles.module.css';
 
 type Step1Props = {
@@ -28,44 +29,24 @@ type Step1Props = {
 const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
-  const stateTransaction = useSelector(transactionSelector.getState);
+  const { from, status } = useSelector(transactionSelector.getState);
   const stateMetaMask = useSelector(metamaskSelectors.getState);
   const dispatch = useDispatch();
-  const { fee, amount } = stateTransaction;
-
-  let currency = '';
-  if (stateTransaction.from === 'polygon') {
-    currency = 'WICP';
-  } else {
-    currency = 'ICP';
-  }
-
-  let inputAmountInit = '';
-  let initReceiving = 0;
-  if (amount !== 0) {
-    inputAmountInit = stateTransaction.amount.toString();
-    initReceiving = subtraction(amount, fee);
-  }
-
-  const [amountInput, setAmountInput] = useState(inputAmountInit);
-  const [isNextDisabled, setIsNextDisabled] = useState(!amountInput);
+  console.log(from, status);
+  const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
+  const [amountInput, setAmountInput] = useState('');
+  const { receiving, amountFee, isLoading } = useCalculationFee(Number(amountInput) || 0, from);
   const { isMetaMaskConnected, metamaskAddress } = useMetamaskWallet();
   const { isPlugConnected, plugAddress } = usePlugWallet();
   const [textPlugButton, setTextPlugButton] = useState('Connect to Plug');
   const [
     textMetamaskButton, setTextMetamaskButton,
   ] = useState('Connect to Metamask');
-  const [receivingState, setReceivingState] = useState(initReceiving);
-
   const onChangeAmount = useCallback((t: string) => {
     setAmountInput(t);
-    setReceivingState(subtraction(t, fee));
-    if (t === '') {
-      setIsNextDisabled(true);
-    } else {
-      setIsNextDisabled(false);
-    }
-  }, [fee]);
+  }, []);
+
+  const isbuttondasabled = useMemo(() => amountInput === '' || isLoading, [isLoading, amountInput]);
 
   const onMetaMaskConnectClick = useCallback(() => {
     if (stateMetaMask.balance === '') {
@@ -82,12 +63,14 @@ const Step1 = memo(({
   }, [dispatch]);
 
   const onNextButtonClick = useCallback(async () => {
-    const amountForState = amountInput;
-    dispatch(setReceiving(receivingState));
-    dispatch(setAmount(amountForState));
+    dispatch(transactionSetState({
+      fee: amountFee,
+      receiving,
+      amount: amountInput,
+    }));
     onNextClick();
     await getBalanceMetaMask();
-  }, [amountInput, dispatch, onNextClick, receivingState]);
+  }, [amountFee, amountInput, dispatch, onNextClick, receiving]);
 
   const switchElement1 = (
     <WalletButton
@@ -132,7 +115,7 @@ const Step1 = memo(({
               Fee:
               {' '}
               <span>
-                {fee}
+                {isLoading ? 'Loading' : amountFee}
               </span>
             </>
           )
@@ -141,7 +124,7 @@ const Step1 = memo(({
       <Button
         theme="gradient"
         onClick={onNextButtonClick}
-        isDisabled={isNextDisabled}
+        isDisabled={isbuttondasabled}
         className={styles.step1__next_button}
       >
         Next
