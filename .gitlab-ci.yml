@@ -57,7 +57,7 @@ build:
   dependencies: []
   only:
     - develop
-  when: manual
+  #when: manual
 
 prepare_host:
   extends:
@@ -65,7 +65,7 @@ prepare_host:
     - .prepare_host
   only:
     - develop
-  when: manual
+  #when: manual
 
 deploy:
   extends:
