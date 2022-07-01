@@ -36,7 +36,9 @@ const Step1 = memo(({
   const [amountInput, setAmountInput] = useState('');
   const { receiving, amountFee, isLoading } = useCalculationFee(Number(amountInput) || 0, from);
   const { isMetaMaskConnected, metamaskAddress } = useMetamaskWallet();
-  const { isPlugConnected, plugAddress, balancePlug } = usePlugWallet();
+  const {
+    isPlugConnected, plugAddress, balancePlug, balanceICP, balanceWICP,
+  } = usePlugWallet();
   const [textPlugButton, setTextPlugButton] = useState('Connect to Plug');
   const [
     textMetamaskButton, setTextMetamaskButton,
@@ -70,7 +72,7 @@ const Step1 = memo(({
     onNextClick();
     await getBalanceMetaMask();
   }, [amountFee, amountInput, dispatch, onNextClick, receiving]);
-  console.log(balancePlug);
+  console.log(balancePlug, balanceICP, balanceWICP);
 
   const switchElement1 = (
     <WalletButton

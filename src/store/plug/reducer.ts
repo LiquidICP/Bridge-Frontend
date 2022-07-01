@@ -5,7 +5,9 @@ import { PlugState } from './types';
 export const plugInitialState: Readonly<PlugState> = {
   connected: false,
   accountId: '',
-  balancePlug: 0,
+  balancePlug: [],
+  balanceICP: 0,
+  balanceWICP: 0,
   publicKey: [],
   info: null,
 };

@@ -37,7 +37,15 @@ export async function getPlugAccountID() {
   return accountID as string;
 }
 
+export type Balance = {
+  amount:number,
+  canisterId: string,
+  decimals: number,
+  image: string,
+  name: string,
+  symbol: string,
+};
 export async function getPlugBalance() {
   const balance = await await window.ic.plug.requestBalance();
-  return balance as number;
+  return balance as Balance[];
 }

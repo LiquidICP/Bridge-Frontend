@@ -32,10 +32,22 @@ export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
     const publicKey:Unwrap<typeof getPlugPublicKey> = yield call(getPlugPublicKey);
     const balance:Unwrap<typeof getPlugBalance> = yield call(getPlugBalance);
     const isConnectPlug :Unwrap<typeof plugIsConnect> = yield call(plugIsConnect);
+    let balanceICP = 0;
+    let balanceWICP = 0;
+    balance.forEach((b) => {
+      if (b.canisterId === 'ryjl3-tyaaa-aaaaa-aaaba-cai') {
+        balanceICP = b.amount;
+      }
+      if (b.canisterId === 'oh7zz-gyaaa-aaaai-qfm3a-cai') {
+        balanceWICP = b.amount;
+      }
+    });
     yield put(plugSetState({
       connected: isConnectPlug,
       publicKey,
       accountId: accountId === false ? undefined : accountId,
+      balanceICP,
+      balanceWICP,
       balancePlug: balance,
     }));
   } catch (err) {
