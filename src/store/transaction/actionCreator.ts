@@ -54,6 +54,13 @@ export const contractApprove = () => ({
   type: TransactionActionsType.APPROVE,
 });
 
+export const transferWICPToICP = (amount: string) => ({
+  type: TransactionActionsType.TRANSFERWICPToICP,
+  payload: {
+    amount,
+  },
+});
+
 export const transactionSetState = (state:Partial<StateTransaction>) => ({
   type: TransactionActionsType.SET_STATE,
   payload: state,

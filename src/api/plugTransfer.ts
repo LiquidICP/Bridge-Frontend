@@ -10,9 +10,6 @@ export const plugTransfer = async (canisterAddress:string, amount:string) => {
   };
 
   const transfer = await window.ic.plug.requestTransfer(requestTransferArg);
-  // console.log(transfer);
-  // const transferStatus = transfer?.transactions?.transactions[0]?.status;
-  // console.log(transferStatus);
   return transfer;
   // if (transferStatus === 'COMPLETED') {
   //   notification.success({

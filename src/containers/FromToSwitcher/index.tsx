@@ -1,40 +1,44 @@
 import React, {
-  memo, ReactNode, useState, useCallback,
+  memo, ReactNode, useCallback,
 } from 'react';
 import { Button } from 'components/Button';
 import { ChangeIcon } from 'assets/img';
-import { useDispatch } from 'react-redux';
-import { setFrom } from 'store/transaction/actionCreator';
+import { useDispatch, useSelector } from 'react-redux';
+import { transactionSetState } from 'store/transaction/actionCreator';
+import { transactionSelector } from 'store/transaction/selector';
 import styles from './styles.module.css';
 
 type SwitcherProps = {
-  element1: ReactNode;
-  element2: ReactNode;
+  plug: ReactNode;
+  metamask: ReactNode;
   switchButton?: ReactNode;
   label1: string;
   label2: string;
 };
 
 const FromToSwitcher = memo(({
-  element1,
-  element2,
+  plug,
+  metamask,
   label1,
   label2,
   switchButton,
 }: SwitcherProps) => {
-  const [from1to2, setFrom1to2] = useState(true);
   const dispatch = useDispatch();
-
+  const { from } = useSelector(transactionSelector.getState);
   const onSwitch = useCallback(() => {
-    setFrom1to2(!from1to2);
-    dispatch(setFrom(from1to2 ? 'polygon' : 'plug'));
-  }, [from1to2, dispatch]);
+    if (from === 'plug') {
+      dispatch(transactionSetState({ from: 'polygon' }));
+    }
+    if (from === 'polygon') {
+      dispatch(transactionSetState({ from: 'plug' }));
+    }
+  }, [from, dispatch]);
 
   return (
     <section className={styles.switcher__container}>
       <div>
         <p className={styles.switcher__label}>{label1}</p>
-        {from1to2 ? element1 : element2}
+        {from === 'plug' ? plug : metamask}
       </div>
       {switchButton || (
         <Button
@@ -50,7 +54,7 @@ const FromToSwitcher = memo(({
       )}
       <div>
         <p className={styles.switcher__label}>{label2}</p>
-        {from1to2 ? element2 : element1}
+        {from === 'plug' ? metamask : plug}
       </div>
     </section>
   );

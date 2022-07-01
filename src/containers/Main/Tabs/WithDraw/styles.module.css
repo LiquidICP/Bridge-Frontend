@@ -1,0 +1,48 @@
+.withdraw__container {
+  width: 100%;
+  max-width: 404px;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  margin-top: 24px;
+  justify-self: center;
+  margin: 0 auto;
+}
+
+.withdraw__input {
+  margin-top: 16px;
+}
+
+.withdraw_button {
+  width: max-content;
+  margin: 32px auto 50px;
+}
+
+
+
+.withdraw__fee span {
+  color: var(--color-primary);
+}
+
+@media (max-width: 421px) {
+  .withdraw__container {
+    padding: 0 20px;
+  }
+
+  .withdraw_button {
+    width: 100%;
+  }
+}
+
+
+.withdraw__title{
+  font-size: 48px;
+  font-weight: 900;
+  font-family: 'Satoshi', sans-serif;
+  color: white;
+  text-align: center;
+  line-height: 110%;
+  margin-top: 84px;
+  margin-bottom: 32px;
+  padding: 0;
+}

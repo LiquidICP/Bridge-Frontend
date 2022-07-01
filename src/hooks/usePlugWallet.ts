@@ -5,6 +5,7 @@ export const usePlugWallet = () => {
   const {
     accountId,
     connected,
+    balancePlug,
   } = useSelector(plugSelectors.getState);
 
   const isPlugConnected = connected;
@@ -12,5 +13,6 @@ export const usePlugWallet = () => {
   return {
     isPlugConnected,
     plugAddress,
+    balancePlug,
   };
 };

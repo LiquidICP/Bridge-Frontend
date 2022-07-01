@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 
 type ButtonProps = {
   className?: string;
-  onClick: () => void;
+  onClick?: () => void;
   theme: ThemeButton;
   isDisabled?: boolean;
   children: ReactNode;

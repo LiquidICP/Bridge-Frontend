@@ -6,4 +6,5 @@ export const initialStateTransaction: StateTransaction = {
   fee: 0.05,
   receiving: 0,
   status: '',
+  transferAmount: '',
 };
