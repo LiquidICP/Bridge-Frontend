@@ -20,6 +20,7 @@ import { metamaskConnect } from 'store/metamask/actionCreators';
 import { plugConnect } from 'store/plug/actionsCreator';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import { useCalculationFee } from 'hooks';
+import { notification } from 'antd';
 import styles from './styles.module.css';
 
 type Step1Props = {
@@ -35,9 +36,9 @@ const Step1 = memo(({
   const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
   const [amountInput, setAmountInput] = useState('');
   const { receiving, amountFee, isLoading } = useCalculationFee(Number(amountInput) || 0, from);
-  const { isMetaMaskConnected, metamaskAddress } = useMetamaskWallet();
+  const { isMetaMaskConnected, metamaskAddress, balance } = useMetamaskWallet();
   const {
-    isPlugConnected, plugAddress, balancePlug, balanceICP, balanceWICP,
+    isPlugConnected, plugAddress, balanceICP,
   } = usePlugWallet();
   const [textPlugButton, setTextPlugButton] = useState('Connect to Plug');
   const [
@@ -64,15 +65,29 @@ const Step1 = memo(({
   }, [dispatch]);
 
   const onNextButtonClick = useCallback(async () => {
-    dispatch(transactionSetState({
-      fee: amountFee,
-      receiving,
-      amount: amountInput,
-    }));
-    onNextClick();
-    await getBalanceMetaMask();
-  }, [amountFee, amountInput, dispatch, onNextClick, receiving]);
-  console.log(balancePlug, balanceICP, balanceWICP);
+    if (balanceICP > 0 && parseFloat(amountInput) < balanceICP && from === 'plug') {
+      dispatch(transactionSetState({
+        fee: amountFee,
+        receiving,
+        amount: amountInput,
+      }));
+      onNextClick();
+      await getBalanceMetaMask();
+    } else if (balance > 0 && parseFloat(amountInput) < balance && from === 'polygon') {
+      dispatch(transactionSetState({
+        fee: amountFee,
+        receiving,
+        amount: amountInput,
+      }));
+      onNextClick();
+      await getBalanceMetaMask();
+    } else {
+      notification.error({
+        message: 'Error',
+        description: 'Not enough balance',
+      });
+    }
+  }, [amountFee, amountInput, balance, balanceICP, dispatch, from, onNextClick, receiving]);
 
   const switchElement1 = (
     <WalletButton

@@ -9,11 +9,14 @@ import React, {
 import { Button, Input } from 'components';
 import { useDispatch } from 'react-redux';
 import { transferWICPToICP } from 'store/transaction/actionCreator';
+import { usePlugWallet } from 'hooks/usePlugWallet';
+import { notification } from 'antd';
 import styles from './styles.module.css';
 
 const WithDraw = memo(() => {
   const [amountInput, setAmountInput] = useState('');
   const isbuttondasabled = useMemo(() => amountInput === '', [amountInput]);
+  const { balanceWICP } = usePlugWallet();
   const dispatch = useDispatch();
 
   const onChangeAmount = useCallback((t: string) => {
@@ -21,8 +24,15 @@ const WithDraw = memo(() => {
   }, []);
 
   const onWithdrawClick = useCallback(() => {
-    dispatch(transferWICPToICP(amountInput));
-  }, [amountInput, dispatch]);
+    if (balanceWICP > 0 && parseFloat(amountInput) < balanceWICP) {
+      dispatch(transferWICPToICP(amountInput));
+    } else {
+      notification.error({
+        message: 'Error',
+        description: 'Not enough balance',
+      });
+    }
+  }, [amountInput, balanceWICP, dispatch]);
   return (
     <>
       <h2 className={styles.withdraw__title}>Withdraw</h2>
