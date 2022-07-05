@@ -4,4 +4,5 @@ export type StateTransaction = {
   fee: number,
   receiving: number | string,
   status: string,
+  transferAmount:string,
 };

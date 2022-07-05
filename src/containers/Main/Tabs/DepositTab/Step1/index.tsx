@@ -20,6 +20,7 @@ import { metamaskConnect } from 'store/metamask/actionCreators';
 import { plugConnect } from 'store/plug/actionsCreator';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import { useCalculationFee } from 'hooks';
+import { notification } from 'antd';
 import styles from './styles.module.css';
 
 type Step1Props = {
@@ -29,15 +30,16 @@ type Step1Props = {
 const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
-  const { from, status } = useSelector(transactionSelector.getState);
+  const { from } = useSelector(transactionSelector.getState);
   const stateMetaMask = useSelector(metamaskSelectors.getState);
   const dispatch = useDispatch();
-  console.log(from, status);
   const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
   const [amountInput, setAmountInput] = useState('');
   const { receiving, amountFee, isLoading } = useCalculationFee(Number(amountInput) || 0, from);
-  const { isMetaMaskConnected, metamaskAddress } = useMetamaskWallet();
-  const { isPlugConnected, plugAddress } = usePlugWallet();
+  const { isMetaMaskConnected, metamaskAddress, balance } = useMetamaskWallet();
+  const {
+    isPlugConnected, plugAddress, balanceICP,
+  } = usePlugWallet();
   const [textPlugButton, setTextPlugButton] = useState('Connect to Plug');
   const [
     textMetamaskButton, setTextMetamaskButton,
@@ -45,7 +47,7 @@ const Step1 = memo(({
   const onChangeAmount = useCallback((t: string) => {
     setAmountInput(t);
   }, []);
-
+  console.log(from);
   const isbuttondasabled = useMemo(() => amountInput === '' || isLoading, [isLoading, amountInput]);
 
   const onMetaMaskConnectClick = useCallback(() => {
@@ -63,14 +65,29 @@ const Step1 = memo(({
   }, [dispatch]);
 
   const onNextButtonClick = useCallback(async () => {
-    dispatch(transactionSetState({
-      fee: amountFee,
-      receiving,
-      amount: amountInput,
-    }));
-    onNextClick();
-    await getBalanceMetaMask();
-  }, [amountFee, amountInput, dispatch, onNextClick, receiving]);
+    if (balanceICP > 0 && parseFloat(amountInput) < balanceICP && from === 'plug') {
+      dispatch(transactionSetState({
+        fee: amountFee,
+        receiving,
+        amount: amountInput,
+      }));
+      onNextClick();
+      await getBalanceMetaMask();
+    } else if (balance > 0 && parseFloat(amountInput) < balance && from === 'polygon') {
+      dispatch(transactionSetState({
+        fee: amountFee,
+        receiving,
+        amount: amountInput,
+      }));
+      onNextClick();
+      await getBalanceMetaMask();
+    } else {
+      notification.error({
+        message: 'Error',
+        description: 'Not enough balance',
+      });
+    }
+  }, [amountFee, amountInput, balance, balanceICP, dispatch, from, onNextClick, receiving]);
 
   const switchElement1 = (
     <WalletButton
@@ -95,8 +112,8 @@ const Step1 = memo(({
   return (
     <section className={styles.step1__container}>
       <FromToSwitcher
-        element1={switchElement1}
-        element2={switchElement2}
+        plug={switchElement1}
+        metamask={switchElement2}
         label1="From"
         label2="To"
       />

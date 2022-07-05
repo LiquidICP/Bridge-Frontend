@@ -28,8 +28,6 @@ import { contractApprove, transactionSetState } from '../actionCreator';
 import { transactionSelector } from '../selector';
 import { TransactionActionsType } from '../actionTypes';
 
-// const instenceOfSuccessTx = (object:any):object is SuccesTxReceipt => 'Ok' in object;
-
 function* metamaskToPlug(
   bridgeAddress:string,
   token:string,
@@ -102,13 +100,15 @@ function* plugToMetamask(
     });
     console.log(responce);
   }
-  console.log(ethers.utils.parseUnits(amount, 8).toBigInt());
   const tokenActor:SERVICE = yield getDfinityContract();
   yield tokenActor.approve(
     Principal.fromText(plugbridgeAddress),
     ethers.utils.parseUnits(amount, 8).toBigInt(),
   );
-
+  notification.info({
+    message: 'INFO',
+    description: 'Please wait Transaction',
+  });
   const responce:TransactionData = yield call(callApi, {
     method: 'POST',
     url: '/save-transaction',

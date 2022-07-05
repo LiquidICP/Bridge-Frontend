@@ -8,4 +8,5 @@ export enum TransactionActionsType {
   SET_RECEIVING = 'SET_RECEIVING',
   APPROVE = 'APPROVE',
   SET_STATE = 'SET_STATE',
+  TRANSFERWICPToICP = 'TRANSFERWICPToICP',
 }
