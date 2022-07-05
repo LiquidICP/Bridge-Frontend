@@ -24,7 +24,7 @@ const metamaskPersistConfig = {
 const plugPersistConfig = {
   key: 'plug',
   storage,
-  whitelist: ['accountId', 'connected'] as Array<keyof PlugState>,
+  whitelist: ['accountId', 'connected', 'balanceICP', 'balanceWICP'] as Array<keyof PlugState>,
 };
 const transactionPersistConfig = {
   key: 'transaction',

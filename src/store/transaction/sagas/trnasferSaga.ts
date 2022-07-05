@@ -8,7 +8,7 @@ import { call, select, takeLatest } from 'redux-saga/effects';
 import { plugSelectors } from 'store/plug/selector';
 import { sagaExceptionHandler } from 'utils';
 import { callApi } from 'utils/api';
-import { plugbridgeAddress } from '../../../global/constants';
+import { plugbridgeAddressApproveWICP } from '../../../global/constants';
 import { transferWICPToICP } from '../actionCreator';
 import { TransactionActionsType } from '../actionTypes';
 
@@ -17,7 +17,7 @@ export function* transferApproveSaga({ payload: { amount } }:ReturnType<typeof t
     const { accountId } = yield select(plugSelectors.getState);
     const tokenActor:SERVICE = yield getDfinityContract();
     yield tokenActor.approve(
-      Principal.fromText(plugbridgeAddress),
+      Principal.fromText(plugbridgeAddressApproveWICP),
       ethers.utils.parseUnits(amount, 8).toBigInt(),
     );
     notification.info({
