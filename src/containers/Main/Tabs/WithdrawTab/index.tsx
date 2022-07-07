@@ -11,12 +11,13 @@ import { useDispatch } from 'react-redux';
 import { transferWICPToICP } from 'store/transaction/actionCreator';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import { notification } from 'antd';
+import { plugConnect } from 'store/plug/actionsCreator';
 import styles from './styles.module.css';
 
-const WithDraw = memo(() => {
+const WithdrawTab = memo(() => {
   const [amountInput, setAmountInput] = useState('');
   const isbuttondasabled = useMemo(() => amountInput === '', [amountInput]);
-  const { balanceWICP } = usePlugWallet();
+  const { balanceWICP, isPlugConnected } = usePlugWallet();
   const dispatch = useDispatch();
 
   const onChangeAmount = useCallback((t: string) => {
@@ -33,6 +34,13 @@ const WithDraw = memo(() => {
       });
     }
   }, [amountInput, balanceWICP, dispatch]);
+
+  const onPlugConnectClick = useCallback(() => {
+    // if (plugIsInstalled()) {
+    //   setTextPlugButton('Connecting…');
+    // }
+    dispatch(plugConnect());
+  }, [dispatch]);
   return (
     <>
       <h2 className={styles.withdraw__title}>Withdraw</h2>
@@ -44,17 +52,28 @@ const WithDraw = memo(() => {
           onChange={onChangeAmount}
           classNameContainer={styles.withdraw__input}
         />
-        <Button
-          theme="gradient"
-          onClick={onWithdrawClick}
-          className={styles.withdraw_button}
-          isDisabled={isbuttondasabled}
-        >
-          Withdraw
-        </Button>
+        <div className={styles.withdraw__buttons}>
+
+          <Button
+            theme="gradient"
+            onClick={onWithdrawClick}
+            className={styles.withdraw_button}
+            isDisabled={isbuttondasabled}
+          >
+            Withdraw
+          </Button>
+          <Button
+            theme="gradient"
+            onClick={onPlugConnectClick}
+            className={styles.withdraw_button}
+            isDisabled={isPlugConnected}
+          >
+            Connect to Plug
+          </Button>
+        </div>
       </section>
     </>
   );
 });
 
-export { WithDraw };
+export { WithdrawTab };

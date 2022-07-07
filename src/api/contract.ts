@@ -1,4 +1,5 @@
 import { tokenAbi } from 'abi';
+import { notification } from 'antd';
 import { ethers } from 'ethers';
 import { tokenAddress } from '../global/constants';
 
@@ -9,6 +10,10 @@ export const getContract = () => {
     const CONTRACT = new ethers.Contract(tokenAddress, tokenAbi, provider.getSigner());
     return CONTRACT;
   } catch (error) {
+    notification.error({
+      message: 'Error',
+      description: 'Please install Metamask extension',
+    });
     throw new Error('token');
   }
 };
