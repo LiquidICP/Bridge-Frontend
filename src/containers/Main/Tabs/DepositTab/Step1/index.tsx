@@ -52,8 +52,6 @@ const Step1 = memo(({
     setAmountInput(validatingNumberInput(t));
   }, []);
 
-  console.log(from);
-
   const isbuttondasabled = useMemo(() => amountInput === '' || isLoading, [isLoading, amountInput]);
 
   const onMetaMaskConnectClick = useCallback(() => {
