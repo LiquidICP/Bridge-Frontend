@@ -11,7 +11,7 @@ import { MetamaskIcon, PlugIcon } from 'assets/img';
 import { transactionSelector } from 'store/transaction/selector';
 import { metamaskSelectors } from 'store/metamask/selectors';
 import { transactionSetState } from 'store/transaction/actionCreator';
-import { getBalanceMetaMask } from 'utils/metamask';
+
 import { Button, Input, WalletButton } from 'components';
 import { FromToSwitcher } from 'containers';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
@@ -20,6 +20,8 @@ import { plugConnect, plugDisConnect } from 'store/plug/actionsCreator';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import { useCalculationFee } from 'hooks';
 import { notification } from 'antd';
+import { validatingNumberInput } from 'utils/validatingNumberInput';
+import { getBalanceMetaMask } from 'utils/metamask';
 import styles from './styles.module.css';
 
 type Step1Props = {
@@ -43,9 +45,8 @@ const Step1 = memo(({
   } = usePlugWallet();
 
   const onChangeAmount = useCallback((t: string) => {
-    setAmountInput(t);
+    setAmountInput(validatingNumberInput(t));
   }, []);
-  console.log(status);
   const isbuttondasabled = useMemo(() => amountInput === '' || isLoading, [isLoading, amountInput]);
 
   const textPlugButton = useMemo(() => {
@@ -109,6 +110,8 @@ const Step1 = memo(({
         message: 'Error',
         description: 'Not enough balance',
       });
+      // temp
+      onNextClick();
     }
   }, [amountFee, amountInput, balance, balanceICP, dispatch, from, onNextClick, receiving]);
 

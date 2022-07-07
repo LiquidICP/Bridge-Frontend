@@ -13,6 +13,7 @@
   background-color: var(--color-middle);
   border-radius: 50%;
   color: var(--color-white-font);
+  padding-top: 2px;
 }
 
 .steps__line {

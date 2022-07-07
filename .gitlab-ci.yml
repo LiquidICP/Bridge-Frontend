@@ -1,0 +1,78 @@
+---
+stages:
+  - build
+  - prepare
+  - deploy
+
+variables:
+  FF_USE_FASTZIP: "true"
+  ARTIFACT_COMPRESSION_LEVEL: fastest # can also be set to fastest, fast, slow and slowest.
+  CACHE_COMPRESSION_LEVEL: fast
+  TRANSFER_METER_FREQUENCY: 1s
+  GIT_DEPTH: 1
+
+  image_node: node:17.4.0-alpine3.15
+  image_ansible: cytopia/ansible:latest-tools
+  registry_host: registry.git.sfxdx.ru
+  target: $CI_COMMIT_REF_NAME
+  docker_compose_version: v2.2.3
+
+.build:
+  stage: build
+  script: |
+    set -eux
+    echo "Build backend"
+    docker build -f ci_cd/Dockerfile . -t $CI_REGISTRY_IMAGE:$target --build-arg target="$target" --build-arg node="$image_node"
+    docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $registry_host
+    docker push $CI_REGISTRY_IMAGE:$target
+
+.deploy_prepare:
+  variables:
+    ANSIBLE_HOST_KEY_CHECKING: "False"
+  before_script: 
+    - eval `ssh-agent -s`
+    - echo -n "$SSH_PRIVATE_KEY" | ssh-add -
+
+.prepare_host:
+  stage: prepare
+  image: $image_ansible
+  script: >
+    ansible-playbook -i ci_cd/ansible/inventory/hosts.yml ci_cd/ansible/prepare_host.yml -l $target
+    -e "docker_compose_version='$docker_compose_version'"
+
+.deploy:
+  stage: deploy
+  image: $image_ansible
+  script: >
+    ansible-playbook -i ci_cd/ansible/inventory/hosts.yml ci_cd/ansible/deploy.yml -l $target
+    -e "target='$target'"
+    -e "img_name_for_build='$CI_REGISTRY_IMAGE'"
+    -e "ci_job_token='$CI_JOB_TOKEN'"
+    -e "project_name='$CI_PROJECT_NAME'"
+    -e "registry_host='$registry_host'"
+
+build:
+  extends:
+    - .build
+  dependencies: []
+  only:
+    - develop
+  #when: manual
+
+prepare_host:
+  extends:
+    - .deploy_prepare
+    - .prepare_host
+  only:
+    - develop
+  #when: manual
+
+deploy:
+  extends:
+    - .deploy_prepare
+    - .deploy
+  dependencies:
+    - build
+  only:
+    - develop
+  #when: manual

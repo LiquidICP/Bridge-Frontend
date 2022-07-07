@@ -5,7 +5,7 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux';
 import { Steps } from 'components';
 import { StepsSelector } from 'store/steps/selector';
-import { stepsIncrement, stepsDecrement } from 'store/steps/actionCreator';
+import { stepsIncrement, stepsDecrement, stepToStart } from 'store/steps/actionCreator';
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import styles from './styles.module.css';
@@ -23,6 +23,10 @@ const DepositTab: FC = () => {
     dispatch(stepsDecrement());
   }, [dispatch]);
 
+  const onGotItClick = useCallback(() => {
+    dispatch(stepToStart());
+  }, [dispatch]);
+
   const stepElements: Record<string, ReactNode> = {
     step1: <Step1 onNextClick={onNextClick} />,
     step2: <Step2
@@ -30,7 +34,7 @@ const DepositTab: FC = () => {
       onConfirmClick={onNextClick}
     />,
     step3: <Step3
-      onBackClick={onBackClick}
+      onButtonClick={onGotItClick}
     />,
   };
 

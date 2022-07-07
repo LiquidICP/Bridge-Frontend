@@ -12,6 +12,7 @@ import { transferWICPToICP } from 'store/transaction/actionCreator';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import { notification } from 'antd';
 import { plugConnect } from 'store/plug/actionsCreator';
+import { validatingNumberInput } from 'utils/validatingNumberInput';
 import styles from './styles.module.css';
 
 const WithdrawTab = memo(() => {
@@ -21,7 +22,7 @@ const WithdrawTab = memo(() => {
   const dispatch = useDispatch();
 
   const onChangeAmount = useCallback((t: string) => {
-    setAmountInput(t);
+    setAmountInput(validatingNumberInput(t));
   }, []);
 
   const onWithdrawClick = useCallback(() => {
@@ -36,9 +37,6 @@ const WithdrawTab = memo(() => {
   }, [amountInput, balanceWICP, dispatch]);
 
   const onPlugConnectClick = useCallback(() => {
-    // if (plugIsInstalled()) {
-    //   setTextPlugButton('Connecting…');
-    // }
     dispatch(plugConnect());
   }, [dispatch]);
   return (

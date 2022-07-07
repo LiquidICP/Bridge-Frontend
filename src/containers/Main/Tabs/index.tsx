@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { Tabs as TabsAntd } from 'antd';
 import { DepositTab } from './DepositTab';
 import { WithdrawTab } from './WithdrawTab';
-// import styles from './styles.module.css';
 
 const { TabPane } = TabsAntd;
 

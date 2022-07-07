@@ -13,3 +13,7 @@ export const stepsIncrement = () => ({
 export const stepsDecrement = () => ({
   type: StepsActionType.DECREMENT_STEP,
 });
+
+export const stepToStart = () => ({
+  type: StepsActionType.STEP_TO_START,
+});
