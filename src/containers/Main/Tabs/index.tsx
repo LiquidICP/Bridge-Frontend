@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { Tabs as TabsAntd } from 'antd';
 import { DepositTab } from './DepositTab';
-import { WithDraw } from './WithDraw';
-// import styles from './styles.module.css';
+import { WithdrawTab } from './WithdrawTab';
 
 const { TabPane } = TabsAntd;
 
@@ -21,7 +20,7 @@ const Tabs: FC = () => (
       tab="Withdraw"
       key="2"
     >
-      <WithDraw />
+      <WithdrawTab />
     </TabPane>
   </TabsAntd>
 );

@@ -11,8 +11,11 @@ import { MetamaskIcon, PlugIcon } from 'assets/img';
 import { transactionSelector } from 'store/transaction/selector';
 import { metamaskSelectors } from 'store/metamask/selectors';
 import { transactionSetState } from 'store/transaction/actionCreator';
-import { plugIsInstalled } from 'utils/plug';
-import { getBalanceMetaMask } from 'utils/metamask';
+import {
+  plugIsInstalled,
+  getBalanceMetaMask,
+  validatingNumberInput,
+} from 'utils';
 import { Button, Input, WalletButton } from 'components';
 import { FromToSwitcher } from 'containers';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
@@ -44,10 +47,13 @@ const Step1 = memo(({
   const [
     textMetamaskButton, setTextMetamaskButton,
   ] = useState('Connect to Metamask');
+
   const onChangeAmount = useCallback((t: string) => {
-    setAmountInput(t);
+    setAmountInput(validatingNumberInput(t));
   }, []);
+
   console.log(from);
+
   const isbuttondasabled = useMemo(() => amountInput === '' || isLoading, [isLoading, amountInput]);
 
   const onMetaMaskConnectClick = useCallback(() => {

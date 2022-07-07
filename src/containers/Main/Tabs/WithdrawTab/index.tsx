@@ -10,17 +10,18 @@ import { Button, Input } from 'components';
 import { useDispatch } from 'react-redux';
 import { transferWICPToICP } from 'store/transaction/actionCreator';
 import { usePlugWallet } from 'hooks/usePlugWallet';
+import { validatingNumberInput } from 'utils';
 import { notification } from 'antd';
 import styles from './styles.module.css';
 
-const WithDraw = memo(() => {
+const WithdrawTab = memo(() => {
   const [amountInput, setAmountInput] = useState('');
   const isbuttondasabled = useMemo(() => amountInput === '', [amountInput]);
   const { balanceWICP } = usePlugWallet();
   const dispatch = useDispatch();
 
   const onChangeAmount = useCallback((t: string) => {
-    setAmountInput(t);
+    setAmountInput(validatingNumberInput(t));
   }, []);
 
   const onWithdrawClick = useCallback(() => {
@@ -57,4 +58,4 @@ const WithDraw = memo(() => {
   );
 });
 
-export { WithDraw };
+export { WithdrawTab };
