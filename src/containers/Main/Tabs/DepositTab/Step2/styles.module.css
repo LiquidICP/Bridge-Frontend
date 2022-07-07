@@ -36,6 +36,15 @@
   margin-top: 48px;
 }
 
+.step2__datas__box_rows {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, max-content);
+  row-gap: 32px;
+  justify-content: center;
+  margin-top: 48px;
+}
+
 @media (max-width: 551px) {
   .step2__container {
     max-width: 100vw;

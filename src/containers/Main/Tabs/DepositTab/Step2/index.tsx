@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, {
   memo, useCallback, useMemo,
 } from 'react';
@@ -37,6 +38,19 @@ const Step2 = memo(({
     onConfirmClick();
   }, [dispatch, onConfirmClick]);
 
+  let classDatas = styles.step2__datas__box;
+  let classDatasLast = styles.step2__last_block;
+  if (
+    amount.toString().length > 5
+    || fee.toString().length > 6
+    || receiving.toString().length > 6
+  ) {
+    classDatas = styles.step2__datas__box_rows;
+  }
+  if (fee.toString().length > 4) {
+    classDatasLast = '';
+  }
+
   return (
     <section className={styles.step2__container}>
       <h3 className={styles.step2__title}>Details</h3>
@@ -50,7 +64,7 @@ const Step2 = memo(({
           text={textTo}
         />
       </section>
-      <section className={styles.step2__datas__box}>
+      <section className={classDatas}>
         <InfoBlock
           label="Sending"
           text={`${amount} ${currency}`}
@@ -62,7 +76,7 @@ const Step2 = memo(({
         <InfoBlock
           label="Receiving"
           text={`${receiving} ${currency}`}
-          className={styles.step2__last_block}
+          className={classDatasLast}
         />
       </section>
       <section className={styles.step2__buttons__box}>
