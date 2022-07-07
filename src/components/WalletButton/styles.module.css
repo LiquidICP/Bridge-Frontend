@@ -5,7 +5,7 @@
 
 .wallet_button__button {
   display: grid;
-  grid-template-columns: 24px max-content;
+  grid-template-columns: max-content max-content;
   column-gap: 16px;
   align-items: center;
   align-content: center;
