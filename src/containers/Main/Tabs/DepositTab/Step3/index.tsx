@@ -8,13 +8,7 @@ import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import styles from './styles.module.css';
 
-type Step3Props = {
-  onBackClick: () => void;
-};
-
-const Step3 = memo(({
-  onBackClick,
-}: Step3Props) => {
+const Step3 = memo(() => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { from, receiving } = useSelector(transactionSelector.getState);
@@ -66,12 +60,6 @@ const Step3 = memo(({
         </a>
       </p>
       <div className={styles.step3__buttons__box}>
-        <Button
-          theme="outline_gradient"
-          onClick={onBackClick}
-        >
-          Back
-        </Button>
         <Button
           theme="gradient"
           onClick={onClick}
