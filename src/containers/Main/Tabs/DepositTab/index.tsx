@@ -29,9 +29,7 @@ const DepositTab: FC = () => {
       onBackClick={onBackClick}
       onConfirmClick={onNextClick}
     />,
-    step3: <Step3
-      onBackClick={onBackClick}
-    />,
+    step3: <Step3 />,
   };
 
   return (
