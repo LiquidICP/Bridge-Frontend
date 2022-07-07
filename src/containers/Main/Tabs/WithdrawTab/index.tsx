@@ -13,7 +13,7 @@ import { usePlugWallet } from 'hooks/usePlugWallet';
 import { notification } from 'antd';
 import styles from './styles.module.css';
 
-const WithDraw = memo(() => {
+const WithdrawTab = memo(() => {
   const [amountInput, setAmountInput] = useState('');
   const isbuttondasabled = useMemo(() => amountInput === '', [amountInput]);
   const { balanceWICP } = usePlugWallet();
@@ -57,4 +57,4 @@ const WithDraw = memo(() => {
   );
 });
 
-export { WithDraw };
+export { WithdrawTab };
