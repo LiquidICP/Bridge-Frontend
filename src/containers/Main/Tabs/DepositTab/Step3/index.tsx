@@ -47,7 +47,8 @@ const Step3 = memo(({
         coins to Polygon, your
         {' '}
         {currency2}
-        -20 tokens will be sent within 12 hours else
+        {' '}
+        tokens will be sent within 12 hours else
         contact our support team in
         {' '}
         <a
