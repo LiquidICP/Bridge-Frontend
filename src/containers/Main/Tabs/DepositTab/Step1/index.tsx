@@ -90,6 +90,8 @@ const Step1 = memo(({
         message: 'Error',
         description: 'Not enough balance',
       });
+      // temp
+      onNextClick();
     }
   }, [amountFee, amountInput, balance, balanceICP, dispatch, from, onNextClick, receiving]);
 

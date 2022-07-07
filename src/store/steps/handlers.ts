@@ -29,8 +29,14 @@ const decrement = (state: StepsStateType) => {
   };
 };
 
+const stepToStart = (state: StepsStateType) => ({
+  ...state,
+  step: 1,
+});
+
 export const stepsHandlers = {
   [StepsActionType.SET_STATE]: setState,
   [StepsActionType.INCREMENT_STEP]: increment,
   [StepsActionType.DECREMENT_STEP]: decrement,
+  [StepsActionType.STEP_TO_START]: stepToStart,
 };

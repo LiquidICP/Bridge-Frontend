@@ -1,40 +1,39 @@
 import React, {
-  memo, useCallback, useMemo, useState,
+  memo, useMemo,
 } from 'react';
-import { Button, CongratsModal } from 'components';
+import {
+  Button,
+  // CongratsModal,
+} from 'components';
 import { useSelector } from 'react-redux';
 import { transactionSelector } from 'store/transaction/selector';
-import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
-import { usePlugWallet } from 'hooks/usePlugWallet';
+// import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
+// import { usePlugWallet } from 'hooks/usePlugWallet';
 import styles from './styles.module.css';
 
-const Step3 = memo(() => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+type Step3Props = {
+  onButtonClick: () => void,
+};
+
+const Step3 = memo(({
+  onButtonClick,
+}: Step3Props) => {
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { from, receiving } = useSelector(transactionSelector.getState);
-  const { plugAddress } = usePlugWallet();
-  const { metamaskAddress } = useMetamaskWallet();
+  // const { plugAddress } = usePlugWallet();
+  // const { metamaskAddress } = useMetamaskWallet();
 
-  // let currency = '';
-  // let currency2 = '';
-  // let address = '';
-  // if (from === 'polygon') {
-  //   currency = 'WICP';
-  //   currency2 = 'ICP';
-  //   address = plugAddress;
-  // } else {
-  //   currency = 'ICP';
-  //   currency2 = 'WICP';
-  //   address = metamaskAddress || '';
-  // }
-
-  const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
+  const currency1 = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
   const currency2 = useMemo(() => (from === 'polygon' ? 'ICP' : 'WICP'), [from]);
-  const address = useMemo(() => (from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]);
-
+  /*
+  const address = useMemo(() => (
+    from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]
+  );
   const onClick = useCallback(() => {
     setIsModalOpen(true);
   }, []);
+  */
 
   return (
     <section className={styles.step3__container}>
@@ -42,7 +41,7 @@ const Step3 = memo(() => {
         You have bridged
       </p>
       <p className={styles.step3__receiving}>
-        {`${receiving} ${currency}`}
+        {`${receiving} ${currency1}`}
       </p>
       <p className={styles.step3__text}>
         coins to Polygon, your
@@ -62,11 +61,12 @@ const Step3 = memo(() => {
       <div className={styles.step3__buttons__box}>
         <Button
           theme="gradient"
-          onClick={onClick}
+          onClick={onButtonClick}
         >
           Got It
         </Button>
       </div>
+      {/*
       <CongratsModal
         isModalVisible={isModalOpen}
         setIsModalVisible={setIsModalOpen}
@@ -74,6 +74,7 @@ const Step3 = memo(() => {
         receiving={`${receiving} ${currency2}`}
         address={address}
       />
+      */}
     </section>
   );
 });
