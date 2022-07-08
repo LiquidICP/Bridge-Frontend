@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React, {
-  memo, useCallback, useMemo, useState,
+  memo, useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -28,6 +28,7 @@ const Step2 = memo(({
     receiving,
     feePercent,
     amount,
+    status,
   } = useSelector(transactionSelector.getState);
   const { plugAddress } = usePlugWallet();
   const { metamaskAddress } = useMetamaskWallet();
@@ -42,9 +43,15 @@ const Step2 = memo(({
   const textFrom = useMemo(() => (from === 'polygon' ? metamaskAddress || '' : plugAddress), [from, metamaskAddress, plugAddress]);
   const textTo = useMemo(() => (from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]);
 
+  useEffect(() => {
+    if (status === 'in_progress') {
+      setIsModalOpen(true);
+    }
+  }, [status]);
+
   const onConfirmButtonClick = useCallback(() => {
     dispatch(contractApprove());
-    setIsModalOpen(true);
+    // setIsModalOpen(true);
   }, [dispatch]);
 
   const classDatas = styles.step2__datas__box;
