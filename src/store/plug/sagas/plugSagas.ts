@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 /* eslint-disable no-empty-pattern */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { notification } from 'antd';
@@ -15,18 +16,31 @@ import {
   getPlugBalance,
   plugIsInstalled,
 } from 'utils/plug';
-import { plugConnect, plugSetState } from '../actionsCreator';
+import { plugConnect, plugDisConnect, plugSetState } from '../actionsCreator';
 import { PlugActionTypes } from '../actionTypes';
+import { PlugStatus } from '../types';
 
 export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
   try {
-    if (!plugIsInstalled()) {
+    if (plugIsInstalled()) {
+      notification.info({
+        message: 'Success',
+        description: 'Please wait for wallet connection',
+      });
+      yield put(plugSetState({
+        status: PlugStatus.LOADING,
+      }));
+    } else {
+      yield put(plugSetState({
+        status: PlugStatus.LOST,
+      }));
       notification.error({
         message: 'Error',
-        description: 'Please install Plug extantion',
+        description: 'Please install Plug extension',
       });
       return;
     }
+
     const accountId: Unwrap<typeof getPlugAccountID> = yield call(getPlugAccountID);
 
     const publicKey:Unwrap<typeof getPlugPublicKey> = yield call(getPlugPublicKey);
@@ -42,6 +56,7 @@ export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
         balanceWICP = b.amount;
       }
     });
+
     yield put(plugSetState({
       connected: isConnectPlug,
       publicKey,
@@ -49,6 +64,32 @@ export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
       balanceICP,
       balanceWICP,
       balancePlug: balance,
+      status: PlugStatus.CONNECTED,
+    }));
+  } catch (err) {
+    yield put(plugSetState({
+      connected: false,
+      publicKey: '',
+      accountId: '',
+      balanceICP: 0,
+      balanceWICP: 0,
+      balancePlug: [],
+      status: PlugStatus.DISCONNECTED,
+    }));
+    sagaExceptionHandler(err);
+  }
+}
+
+export function* disConnectPlugSaga({}:ReturnType<typeof plugDisConnect>) {
+  try {
+    yield put(plugSetState({
+      connected: false,
+      publicKey: '',
+      accountId: '',
+      balanceICP: 0,
+      balanceWICP: 0,
+      balancePlug: [],
+      status: PlugStatus.DISCONNECTED,
     }));
   } catch (err) {
     sagaExceptionHandler(err);
@@ -57,4 +98,5 @@ export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
 
 export function* plugSagas() {
   yield takeLatest(PlugActionTypes.CONNECT_PLUG, connectPlugSaga);
+  yield takeLatest(PlugActionTypes.DISCONNECT_PLUG, disConnectPlugSaga);
 }

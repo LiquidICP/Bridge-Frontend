@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import { EventChannel, eventChannel } from 'redux-saga';
 import {
   call,
@@ -90,7 +91,7 @@ function* handleMetamskProviderEvents({
         toast.success(ToastMessage.accountChanged);
       } else {
         yield put(metamaskSetState({
-          status: MetamaskStatus.LOST,
+          status: MetamaskStatus.DISCONNECTED,
         }));
       }
     }
@@ -135,6 +136,7 @@ function* watchMetamaskProviderChannel() {
 
 export function* connectMetamaskSaga() {
   try {
+    // debugger;
     yield put(metamaskSetState({
       status: MetamaskStatus.LOADING,
     }));

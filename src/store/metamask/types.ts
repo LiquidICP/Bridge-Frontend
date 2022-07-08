@@ -5,9 +5,13 @@ export enum MetamaskStatus {
   AVAILABLE = 'AVAILABLE',
   NOT_AVAILABLE = 'NOT_AVAILABLE',
   CONNECTED = 'CONNECTED',
+  DISCONNECTED = 'DISCONNECTED',
   LOST = 'LOST',
   NOT_SUPPORT = 'NOT_SUPPORT',
   LOADING = 'LOADING',
+  TRRR1 = 'TRRR1',
+  TRRR2 = 'TRRR2',
+  TRRR3 = 'TRRR3',
 }
 
 export enum MetamaskRequestMethod {

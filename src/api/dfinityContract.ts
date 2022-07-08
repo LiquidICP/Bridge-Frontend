@@ -2,6 +2,7 @@
 
 import { SERVICE } from 'abi/dfinityToken/types';
 import token from 'abi/dfinityToken/token';
+// import { notification } from 'antd';
 
 declare let window: any;
 
@@ -14,7 +15,7 @@ export const getDfinityContract = async () => {
     });
     return tokenActor as SERVICE;
   } catch (error) {
-    throw new Error('token');
+    throw new Error('plug');
   }
 };
 

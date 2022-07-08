@@ -8,6 +8,7 @@ export const usePlugWallet = () => {
     balancePlug,
     balanceICP,
     balanceWICP,
+    status,
   } = useSelector(plugSelectors.getState);
 
   const isPlugConnected = connected;
@@ -18,5 +19,6 @@ export const usePlugWallet = () => {
     balancePlug,
     balanceICP,
     balanceWICP,
+    status,
   };
 };
