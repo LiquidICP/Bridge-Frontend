@@ -17,7 +17,7 @@
   position: absolute;
   top: 79px;
   z-index: 3;
-  left: 334px;
+  right: 20px;
 }
 
 @media (max-width: 421px) {
@@ -27,7 +27,7 @@
   
   .switcher__button {
     width: 50px; 
-    left: calc(50% - 25px);
+    right: calc(50% - 25px);
     top: 92px;
   }
 }

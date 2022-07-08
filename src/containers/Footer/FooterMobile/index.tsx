@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { links } from 'global/links';
 import styles from './styles.module.css';
 
 const FooterMobile: FC = () => (
@@ -8,7 +9,7 @@ const FooterMobile: FC = () => (
       <p>
         Contact Us −
         <br />
-        info@mail.com
+        {links.mail}
       </p>
       <p>
         Office −
@@ -27,16 +28,16 @@ const FooterMobile: FC = () => (
       <ul>
         <li>
           <a
-            href="https://facebook.com"
+            href={links.telegram}
             target="_blank"
             rel="noreferrer"
           >
-            Facebook
+            Telegram
           </a>
         </li>
         <li>
           <a
-            href="https://twitter.com"
+            href={links.twitter}
             target="_blank"
             rel="noreferrer"
           >
@@ -45,11 +46,11 @@ const FooterMobile: FC = () => (
         </li>
         <li>
           <a
-            href="https://linkedin.com"
+            href={links.discord}
             target="_blank"
             rel="noreferrer"
           >
-            Linkedin
+            Discord
           </a>
         </li>
       </ul>

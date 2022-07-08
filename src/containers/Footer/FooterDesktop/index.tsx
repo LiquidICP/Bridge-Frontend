@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { BridgeLogo } from 'assets/img';
+import { links } from 'global/links';
 import styles from './styles.module.css';
 
 const FooterDesktop: FC = () => (
@@ -11,9 +12,27 @@ const FooterDesktop: FC = () => (
         <Link to="/">Privacy policy</Link>
       </div>
       <div className={styles.links_soc_media__box}>
-        <Link to="/">Telegram</Link>
-        <Link to="/">Twitter</Link>
-        <Link to="/">Discord</Link>
+        <a
+          href={links.telegram}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Telegram
+        </a>
+        <a
+          href={links.twitter}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Twitter
+        </a>
+        <a
+          href={links.discord}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Discord
+        </a>
       </div>
     </section>
     <section className={styles.footer__logo__box}>
@@ -23,7 +42,7 @@ const FooterDesktop: FC = () => (
       />
     </section>
     <section className={styles.footer__copy__box}>
-      <p>&copy; Copyright 2020-2021. All Rights Reserved</p>
+      <p>&copy; Copyright 2020-2022. All Rights Reserved</p>
     </section>
   </footer>
 );

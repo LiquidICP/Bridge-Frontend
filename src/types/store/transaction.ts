@@ -3,6 +3,7 @@ export type StateTransaction = {
   amount: number | string,
   from: 'polygon' | 'plug',
   fee: number,
+  feePercent: number,
   receiving: number | string,
 };
 

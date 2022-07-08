@@ -24,8 +24,16 @@ const Step3 = memo(({
   // const { plugAddress } = usePlugWallet();
   // const { metamaskAddress } = useMetamaskWallet();
 
-  const currency1 = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
-  const currency2 = useMemo(() => (from === 'polygon' ? 'ICP' : 'WICP'), [from]);
+  const currency1 = useMemo(() => (
+    from === 'polygon' ? 'WICP' : 'ICP'
+  ), [from]);
+  const currency2 = useMemo(() => (
+    from === 'polygon' ? 'ICP' : 'WICP'
+  ), [from]);
+
+  const toText = useMemo(() => (
+    from === 'polygon' ? 'Internet Computer' : 'Polygon'
+  ), [from]);
   /*
   const address = useMemo(() => (
     from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]
@@ -44,7 +52,10 @@ const Step3 = memo(({
         {`${receiving} ${currency1}`}
       </p>
       <p className={styles.step3__text}>
-        coins to Polygon, your
+        coins to
+        {' '}
+        {toText}
+        , your
         {' '}
         {currency2}
         {' '}
