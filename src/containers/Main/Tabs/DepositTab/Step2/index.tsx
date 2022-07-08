@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, {
   memo, useCallback, useMemo,
 } from 'react';
@@ -7,6 +8,7 @@ import { transactionSelector } from 'store/transaction/selector';
 import { contractApprove } from 'store/transaction/actionCreator';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { usePlugWallet } from 'hooks/usePlugWallet';
+import cx from 'classnames';
 import styles from './styles.module.css';
 
 type Step2Props = {
@@ -37,6 +39,19 @@ const Step2 = memo(({
     onConfirmClick();
   }, [dispatch, onConfirmClick]);
 
+  let classDatas = styles.step2__datas__box;
+  let classDatasLast = styles.step2__last_block;
+  if (
+    amount.toString().length > 5
+    || fee.toString().length > 6
+    || receiving.toString().length > 6
+  ) {
+    classDatas = styles.step2__datas__box_rows;
+  }
+  if (fee.toString().length > 4) {
+    classDatasLast = '';
+  }
+
   return (
     <section className={styles.step2__container}>
       <h3 className={styles.step2__title}>Details</h3>
@@ -50,19 +65,21 @@ const Step2 = memo(({
           text={textTo}
         />
       </section>
-      <section className={styles.step2__datas__box}>
+      <section className={classDatas}>
         <InfoBlock
           label="Sending"
           text={`${amount} ${currency}`}
+          className={styles.step2__datas__amount}
         />
         <InfoBlock
           label="Fees"
-          text={`${fee} ${currency}`}
+          text={`${fee}%`}
+          className={styles.step2__datas__fee}
         />
         <InfoBlock
           label="Receiving"
           text={`${receiving} ${currency}`}
-          className={styles.step2__last_block}
+          className={cx(styles.step2__datas__receiving, classDatasLast)}
         />
       </section>
       <section className={styles.step2__buttons__box}>

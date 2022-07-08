@@ -23,7 +23,7 @@ const FooterDesktop: FC = () => (
       />
     </section>
     <section className={styles.footer__copy__box}>
-      <p>&copy; Copyright 2020-2021. All Rights Reserved</p>
+      <p>&copy; Copyright 2020-2022. All Rights Reserved</p>
     </section>
   </footer>
 );
