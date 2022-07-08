@@ -57,8 +57,6 @@ const Step1 = memo(({
     [isLoading, amountInput],
   );
 
-  console.log(isbuttondasabled);
-
   const textPlugButton = useMemo(() => {
     if (status === 'DISCONNECTED') {
       return 'Connect to Plug';

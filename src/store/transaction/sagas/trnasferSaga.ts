@@ -22,7 +22,8 @@ export function* transferApproveSaga({ payload: { amount } }:ReturnType<typeof t
     );
     notification.info({
       message: 'INFO',
-      description: 'Please wait Transaction',
+      description: 'Please wait transfer WICP to ICP',
+      duration: 0,
     });
     yield call(callApi, {
       method: 'POST',

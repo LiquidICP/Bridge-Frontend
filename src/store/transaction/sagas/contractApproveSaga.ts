@@ -115,6 +115,7 @@ function* plugToMetamask(
   notification.info({
     message: 'INFO',
     description: 'Please wait Transaction',
+    duration: 0,
   });
   const responce:TransactionData = yield call(callApi, {
     method: 'POST',
