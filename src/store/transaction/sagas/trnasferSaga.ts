@@ -36,7 +36,7 @@ export function* transferApproveSaga({ payload: { amount } }:ReturnType<typeof t
     notification.info({
       message: 'INFO',
       description: 'Unwrapping success',
-      duration: 0,
+      duration: 15,
     });
   } catch (err) {
     sagaExceptionHandler(err);
