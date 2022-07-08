@@ -1,11 +1,11 @@
-.deposit__container {
+.bridge__container {
   display: grid;
   justify-content: center;
   width: 100%;
   grid-template-columns: 1fr;
 }
 
-.deposit__container h2 {
+.bridge__container h2 {
   font-size: 48px;
   font-weight: 900;
   font-family: 'Satoshi', sans-serif;

@@ -37,7 +37,7 @@ const Step1 = memo(({
   const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
   const [amountInput, setAmountInput] = useState('');
   const {
-    receiving, amountFee, isLoading, feeFromcontract, percentFee,
+    receiving, amountFee, isLoading, percentFee,
   } = useCalculationFee(Number(amountInput) || 0, from);
   const { isMetaMaskConnected, metamaskAddress, balance } = useMetamaskWallet();
   const {
@@ -112,14 +112,6 @@ const Step1 = memo(({
         message: 'Error',
         description: 'Not enough balance',
       });
-      // temp
-      dispatch(transactionSetState({
-        fee: amountFee,
-        receiving,
-        feePercent: percentFee,
-        amount: amountInput,
-      }));
-      onNextClick();
     }
   }, [
     amountFee, amountInput, balance, balanceICP, dispatch, from,
@@ -169,7 +161,7 @@ const Step1 = memo(({
               Fee:
               {' '}
               <span>
-                {isLoading ? 'Loading' : feeFromcontract}
+                {isLoading ? 'Loading' : `${percentFee}%`}
               </span>
             </>
           )

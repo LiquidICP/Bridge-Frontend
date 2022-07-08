@@ -7,6 +7,7 @@ import {
 } from 'components';
 import { useSelector } from 'react-redux';
 import { transactionSelector } from 'store/transaction/selector';
+import { links } from 'global/links';
 // import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 // import { usePlugWallet } from 'hooks/usePlugWallet';
 import styles from './styles.module.css';
@@ -63,7 +64,7 @@ const Step3 = memo(({
         contact our support team in
         {' '}
         <a
-          href="https://discord.com"
+          href={links.discord}
           target="_blank"
           rel="noreferrer"
         >
