@@ -1,5 +1,7 @@
+/* eslint-disable no-console */
 function fixNumber(n: number) {
   if (n === 0) return 0;
+  if (Number.isInteger(n)) return n;
 
   const nString = n.toString();
   const [whole, fraction] = nString.split('.');
@@ -19,9 +21,7 @@ function fixNumber(n: number) {
     w = `${w1}.${w2}`;
   }
 
-  const result = `${w}${fraction}`;
-
-  return Number(result);
+  return Number(`${w}${fraction}`);
 }
 
 export { fixNumber };
