@@ -45,6 +45,18 @@
   margin-top: 48px;
 }
 
+.step2__datas__amount {
+  grid-area: amount;
+}
+
+.step2__datas__fee {
+  grid-area: fee;
+}
+
+.step2__datas__receiving {
+  grid-area: receiving;
+}
+
 @media (max-width: 551px) {
   .step2__container {
     max-width: 100vw;
@@ -57,10 +69,13 @@
   }
 
   .step2__datas__box {
-    grid-auto-flow: row dense;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: max-content 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: 'amount fee' 'receiving receiving';
     row-gap: 32px;
+    column-gap: 16px;
     justify-content: center;
+    max-width: calc(100vw - 40px);
   }
 
   .step2__last_block {

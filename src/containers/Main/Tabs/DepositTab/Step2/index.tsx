@@ -8,6 +8,7 @@ import { transactionSelector } from 'store/transaction/selector';
 import { contractApprove } from 'store/transaction/actionCreator';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
 import { usePlugWallet } from 'hooks/usePlugWallet';
+import cx from 'classnames';
 import styles from './styles.module.css';
 
 type Step2Props = {
@@ -68,15 +69,17 @@ const Step2 = memo(({
         <InfoBlock
           label="Sending"
           text={`${amount} ${currency}`}
+          className={styles.step2__datas__amount}
         />
         <InfoBlock
           label="Fees"
-          text={`${fee} ${currency}`}
+          text={`${fee}%`}
+          className={styles.step2__datas__fee}
         />
         <InfoBlock
           label="Receiving"
           text={`${receiving} ${currency}`}
-          className={classDatasLast}
+          className={cx(styles.step2__datas__receiving, classDatasLast)}
         />
       </section>
       <section className={styles.step2__buttons__box}>

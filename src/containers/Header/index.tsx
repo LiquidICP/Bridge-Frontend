@@ -19,7 +19,7 @@ const Header: FC = () => {
         <Link to="/">
           <img
             src={BridgeLogo}
-            alt="Bridge"
+            alt="Liquid ICP"
           />
         </Link>
       </div>
