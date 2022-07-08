@@ -37,7 +37,7 @@ const Step1 = memo(({
   const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
   const [amountInput, setAmountInput] = useState('');
   const {
-    receiving, amountFee, isLoading, feeFromcontract,
+    receiving, amountFee, isLoading, feeFromcontract, percentFee,
   } = useCalculationFee(Number(amountInput) || 0, from);
   const { isMetaMaskConnected, metamaskAddress, balance } = useMetamaskWallet();
   const {
@@ -93,6 +93,7 @@ const Step1 = memo(({
       dispatch(transactionSetState({
         fee: amountFee,
         receiving,
+        feePercent: percentFee,
         amount: amountInput,
       }));
       onNextClick();
@@ -101,6 +102,7 @@ const Step1 = memo(({
       dispatch(transactionSetState({
         fee: amountFee,
         receiving,
+        feePercent: percentFee,
         amount: amountInput,
       }));
       onNextClick();
@@ -113,7 +115,10 @@ const Step1 = memo(({
       // temp
       onNextClick();
     }
-  }, [amountFee, amountInput, balance, balanceICP, dispatch, from, onNextClick, receiving]);
+  }, [
+    amountFee, amountInput, balance, balanceICP, dispatch, from,
+    onNextClick, percentFee, receiving,
+  ]);
 
   const switchElement1 = (
     <WalletButton

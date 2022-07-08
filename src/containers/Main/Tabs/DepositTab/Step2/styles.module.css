@@ -32,6 +32,8 @@
 .step2__datas__box {
   display: grid;
   grid-template-columns: repeat(3, max-content);
+  grid-template-areas: 'amount fee receiving';
+  column-gap: 16px;
   justify-content: space-between;
   margin-top: 48px;
 }

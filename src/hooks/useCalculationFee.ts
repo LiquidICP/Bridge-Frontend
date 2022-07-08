@@ -49,11 +49,11 @@ export const useCalculationFee = (amount:number, from:string) => {
       }
     },
 
-    [from, isPlugConnected],
+    [from, isMetaMaskConnected, isPlugConnected],
   );
   const amountFee = useMemo(() => amount * (percentFee / 100), [amount, percentFee]);
   const receiving = useMemo(() => amount - amountFee, [amount, amountFee]);
   return {
-    amountFee, receiving, isLoading, feeFromcontract: feeFromContract,
+    amountFee, receiving, isLoading, feeFromcontract: feeFromContract, percentFee,
   };
 };

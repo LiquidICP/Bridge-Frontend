@@ -24,6 +24,7 @@ const Step2 = memo(({
     fee,
     from,
     receiving,
+    feePercent,
     amount,
   } = useSelector(transactionSelector.getState);
   const { plugAddress } = usePlugWallet();
@@ -39,8 +40,9 @@ const Step2 = memo(({
     onConfirmClick();
   }, [dispatch, onConfirmClick]);
 
-  let classDatas = styles.step2__datas__box;
+  const classDatas = styles.step2__datas__box;
   let classDatasLast = styles.step2__last_block;
+  /*
   if (
     amount.toString().length > 5
     || fee.toString().length > 6
@@ -48,6 +50,7 @@ const Step2 = memo(({
   ) {
     classDatas = styles.step2__datas__box_rows;
   }
+  */
   if (fee.toString().length > 4) {
     classDatasLast = '';
   }
@@ -73,7 +76,7 @@ const Step2 = memo(({
         />
         <InfoBlock
           label="Fees"
-          text={`${fee}%`}
+          text={`${feePercent}%`}
           className={styles.step2__datas__fee}
         />
         <InfoBlock
