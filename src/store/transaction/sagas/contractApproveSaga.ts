@@ -76,10 +76,17 @@ function* metamaskToPlug(
     status: responce.state,
   }));
 
-  notification.success({
-    message: 'Success',
-    description: responce.state,
-  });
+  if (responce.state === 'in_progress') {
+    notification.success({
+      message: 'Success',
+      description: `Transaction from polygon to dfinity${responce.state}`,
+    });
+  } else {
+    notification.success({
+      message: 'Success',
+      description: `Transaction from dfinity to dfinity was ${responce.state}`,
+    });
+  }
 }
 
 function* plugToMetamask(
@@ -123,10 +130,19 @@ function* plugToMetamask(
   yield put(transactionSetState({
     status: responce.state,
   }));
-  notification.success({
-    message: 'Success',
-    description: responce.state,
-  });
+
+  if (responce.state === 'in_progress') {
+    notification.success({
+      message: 'Success',
+      description: `Transaction from dfinity to polygon${responce.state}`,
+    });
+  } else {
+    notification.success({
+      message: 'Success',
+      description: `Transaction from dfinity to polygon was ${responce.state}`,
+    });
+  }
+
   yield put(metamaskGetTokensBalance());
 }
 
