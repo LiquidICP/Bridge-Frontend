@@ -1,15 +1,13 @@
 import React, {
-  memo, useMemo,
+  memo, useMemo, useCallback,
 } from 'react';
 import {
   Button,
-  // CongratsModal,
 } from 'components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { transactionSelector } from 'store/transaction/selector';
 import { links } from 'global/links';
-// import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
-// import { usePlugWallet } from 'hooks/usePlugWallet';
+import { transactionSetState } from 'store/transaction/actionCreator';
 import styles from './styles.module.css';
 
 type Step3Props = {
@@ -19,11 +17,8 @@ type Step3Props = {
 const Step3 = memo(({
   onButtonClick,
 }: Step3Props) => {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-
   const { from, receiving } = useSelector(transactionSelector.getState);
-  // const { plugAddress } = usePlugWallet();
-  // const { metamaskAddress } = useMetamaskWallet();
+  const dispatch = useDispatch();
 
   const currency1 = useMemo(() => (
     from === 'polygon' ? 'WICP' : 'ICP'
@@ -35,14 +30,14 @@ const Step3 = memo(({
   const toText = useMemo(() => (
     from === 'polygon' ? 'Internet Computer' : 'Polygon'
   ), [from]);
-  /*
-  const address = useMemo(() => (
-    from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]
-  );
+
   const onClick = useCallback(() => {
-    setIsModalOpen(true);
-  }, []);
-  */
+    dispatch(transactionSetState({
+      status: '',
+      receiving: 0,
+    }));
+    onButtonClick();
+  }, [dispatch, onButtonClick]);
 
   return (
     <section className={styles.step3__container}>
@@ -74,20 +69,11 @@ const Step3 = memo(({
       <div className={styles.step3__buttons__box}>
         <Button
           theme="gradient"
-          onClick={onButtonClick}
+          onClick={onClick}
         >
           Got It
         </Button>
       </div>
-      {/*
-      <CongratsModal
-        isModalVisible={isModalOpen}
-        setIsModalVisible={setIsModalOpen}
-        amount={`${receiving} ${currency}`}
-        receiving={`${receiving} ${currency2}`}
-        address={address}
-      />
-      */}
     </section>
   );
 });
