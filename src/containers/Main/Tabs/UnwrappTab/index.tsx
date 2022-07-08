@@ -17,7 +17,7 @@ import styles from './styles.module.css';
 
 const UnwrappTab = memo(() => {
   const [amountInput, setAmountInput] = useState('');
-  const isbuttondasabled = useMemo(() => amountInput === '', [amountInput]);
+  const isbuttondasabled = useMemo(() => amountInput === '' || Number(amountInput) === 0, [amountInput]);
   const { balanceWICP, isPlugConnected } = usePlugWallet();
   const dispatch = useDispatch();
 
@@ -56,7 +56,7 @@ const UnwrappTab = memo(() => {
             theme="gradient"
             onClick={onWithdrawClick}
             className={styles.unwrapp_button}
-            isDisabled={isbuttondasabled}
+            isDisabled={isbuttondasabled || !isPlugConnected}
           >
             Withdraw
           </Button>
