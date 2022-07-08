@@ -18,6 +18,7 @@ import {
   SERVICE,
 } from 'abi/dfinityToken/types';
 import { plugTransfer } from 'api/plugTransfer';
+import { metamaskGetTokensBalance } from 'store/metamask/actionCreators';
 import {
   metamaskbridgeAddress,
   tokenAddress,
@@ -129,6 +130,7 @@ function* plugToMetamask(
     message: 'Success',
     description: responce.state,
   });
+  yield put(metamaskGetTokensBalance());
 }
 
 export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {

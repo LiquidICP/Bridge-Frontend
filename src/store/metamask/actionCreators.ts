@@ -21,3 +21,7 @@ export const metamaskConnect = () => ({
 export const metamaskDisconnect = () => ({
   type: MetamaskActionType.DISCONNECT,
 });
+
+export const metamaskGetTokensBalance = () => ({
+  type: MetamaskActionType.GET_TOKENS_BALANCE,
+});

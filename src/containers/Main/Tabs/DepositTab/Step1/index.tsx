@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 /* eslint-disable func-names */
 /* eslint-disable no-console */
 import React, {
@@ -31,6 +32,7 @@ type Step1Props = {
 const Step1 = memo(({
   onNextClick,
 }: Step1Props) => {
+  debugger;
   const { from } = useSelector(transactionSelector.getState);
   const stateMetaMask = useSelector(metamaskSelectors.getState);
   const dispatch = useDispatch();

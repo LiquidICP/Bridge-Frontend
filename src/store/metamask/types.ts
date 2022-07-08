@@ -9,9 +9,6 @@ export enum MetamaskStatus {
   LOST = 'LOST',
   NOT_SUPPORT = 'NOT_SUPPORT',
   LOADING = 'LOADING',
-  TRRR1 = 'TRRR1',
-  TRRR2 = 'TRRR2',
-  TRRR3 = 'TRRR3',
 }
 
 export enum MetamaskRequestMethod {
@@ -36,6 +33,5 @@ export type MetamaskState = {
   status: MetamaskStatus,
   balance: string | number,
   network: NetworkName | null,
-
   tokensBalance?: string,
 };
