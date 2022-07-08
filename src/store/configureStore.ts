@@ -19,12 +19,12 @@ const sagaMiddleware = createSagaMiddleware();
 const metamaskPersistConfig = {
   key: 'metamask',
   storage,
-  whitelist: ['address'] as Array<keyof MetamaskState>,
+  whitelist: [] as Array<keyof MetamaskState>,
 };
 const plugPersistConfig = {
   key: 'plug',
   storage,
-  whitelist: ['accountId'] as Array<keyof PlugState>,
+  whitelist: [] as Array<keyof PlugState>,
 };
 const transactionPersistConfig = {
   key: 'transaction',
