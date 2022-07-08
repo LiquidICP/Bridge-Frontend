@@ -7,6 +7,7 @@ export const useMetamaskWallet = () => {
     status,
     address,
     balance,
+    tokensBalance,
   } = useSelector(metamaskSelectors.getState);
 
   const isMetaMaskConnected = status === MetamaskStatus.CONNECTED && address !== undefined;
@@ -16,5 +17,6 @@ export const useMetamaskWallet = () => {
     status,
     metamaskAddress,
     balance,
+    tokensBalance,
   };
 };
