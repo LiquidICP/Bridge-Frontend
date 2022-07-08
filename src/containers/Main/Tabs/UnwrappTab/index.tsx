@@ -15,7 +15,7 @@ import { plugConnect } from 'store/plug/actionsCreator';
 import { validatingNumberInput } from 'utils/validatingNumberInput';
 import styles from './styles.module.css';
 
-const WithdrawTab = memo(() => {
+const UnwrappTab = memo(() => {
   const [amountInput, setAmountInput] = useState('');
   const isbuttondasabled = useMemo(() => amountInput === '', [amountInput]);
   const { balanceWICP, isPlugConnected } = usePlugWallet();
@@ -41,21 +41,21 @@ const WithdrawTab = memo(() => {
   }, [dispatch]);
   return (
     <>
-      <h2 className={styles.withdraw__title}>Withdraw</h2>
-      <section className={styles.withdraw__container}>
+      <h2 className={styles.unwrapp__title}>Unwrapp</h2>
+      <section className={styles.unwrapp__container}>
         <Input
           label="WICP to ICP"
           placeholder="Enter amount"
           value={amountInput}
           onChange={onChangeAmount}
-          classNameContainer={styles.withdraw__input}
+          classNameContainer={styles.unwrapp__input}
         />
-        <div className={styles.withdraw__buttons}>
+        <div className={styles.unwrapp__buttons}>
 
           <Button
             theme="gradient"
             onClick={onWithdrawClick}
-            className={styles.withdraw_button}
+            className={styles.unwrapp_button}
             isDisabled={isbuttondasabled}
           >
             Withdraw
@@ -63,7 +63,7 @@ const WithdrawTab = memo(() => {
           <Button
             theme="gradient"
             onClick={onPlugConnectClick}
-            className={styles.withdraw_button}
+            className={styles.unwrapp_button}
             isDisabled={isPlugConnected}
           >
             Connect to Plug
@@ -74,4 +74,4 @@ const WithdrawTab = memo(() => {
   );
 });
 
-export { WithdrawTab };
+export { UnwrappTab };

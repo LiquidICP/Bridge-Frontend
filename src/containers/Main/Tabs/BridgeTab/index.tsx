@@ -11,7 +11,7 @@ import { Step2 } from './Step2';
 import styles from './styles.module.css';
 import { Step3 } from './Step3';
 
-const DepositTab: FC = () => {
+const BridgeTab: FC = () => {
   const step = useSelector(StepsSelector.getState);
   const dispatch = useDispatch();
 
@@ -39,12 +39,12 @@ const DepositTab: FC = () => {
   };
 
   return (
-    <section className={styles.deposit__container}>
-      <h2>Deposit</h2>
+    <section className={styles.bridge__container}>
+      <h2>Bridge</h2>
       <Steps step={step.step} />
       {stepElements[`step${step.step}`]}
     </section>
   );
 };
 
-export { DepositTab };
+export { BridgeTab };
