@@ -8,7 +8,7 @@ export const metamaskInitialState: Readonly<MetamaskState> = {
   status: MetamaskStatus.INIT,
   balance: '',
   network: null,
-  tokensBalance: undefined,
+  tokensBalance: 0,
 };
 
 export default createReducer(metamaskInitialState, metamaskHandlers);

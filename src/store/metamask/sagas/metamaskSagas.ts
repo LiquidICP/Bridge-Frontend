@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import { EventChannel, eventChannel } from 'redux-saga';
 import {
   call,
@@ -25,7 +24,7 @@ import {
 } from 'utils/metamask';
 import { notification } from 'antd';
 import { toast } from 'react-toastify';
-import { metamaskSetState } from '../actionCreators';
+import { metamaskGetTokensBalance, metamaskSetState } from '../actionCreators';
 import { metamaskSelectors } from '../selectors';
 import { MetamaskActionType } from '../actionTypes';
 import {
@@ -136,7 +135,6 @@ function* watchMetamaskProviderChannel() {
 
 export function* connectMetamaskSaga() {
   try {
-    // debugger;
     yield put(metamaskSetState({
       status: MetamaskStatus.LOADING,
     }));
@@ -187,6 +185,7 @@ export function* connectMetamaskSaga() {
         });
       }
     }
+    yield put(metamaskGetTokensBalance());
   } catch (err) {
     yield put(metamaskSetState({
       status: MetamaskStatus.NOT_AVAILABLE,

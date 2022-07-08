@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 /* eslint-disable func-names */
 /* eslint-disable no-console */
 import React, {
@@ -39,7 +40,9 @@ const Step1 = memo(({
   const {
     receiving, amountFee, isLoading, percentFee,
   } = useCalculationFee(Number(amountInput) || 0, from);
-  const { isMetaMaskConnected, metamaskAddress, balance } = useMetamaskWallet();
+  const {
+    isMetaMaskConnected, metamaskAddress, tokensBalance,
+  } = useMetamaskWallet();
   const {
     isPlugConnected, plugAddress, balanceICP, status,
   } = usePlugWallet();
@@ -47,7 +50,12 @@ const Step1 = memo(({
   const onChangeAmount = useCallback((t: string) => {
     setAmountInput(validatingNumberInput(t));
   }, []);
-  const isbuttondasabled = useMemo(() => amountInput === '' || isLoading, [isLoading, amountInput]);
+  const isbuttondasabled = useMemo(
+    () =>
+      amountInput === '' || isLoading || Number(amountInput) === 0,
+
+    [isLoading, amountInput],
+  );
 
   const textPlugButton = useMemo(() => {
     if (status === 'DISCONNECTED') {
@@ -98,7 +106,7 @@ const Step1 = memo(({
       }));
       onNextClick();
       await getBalanceMetaMask();
-    } else if (balance > 0 && parseFloat(amountInput) < balance && from === 'polygon') {
+    } else if (tokensBalance > 0 && parseFloat(amountInput) < tokensBalance && from === 'polygon') {
       dispatch(transactionSetState({
         fee: amountFee,
         receiving,
@@ -113,10 +121,9 @@ const Step1 = memo(({
         description: 'Not enough balance',
       });
     }
-  }, [
-    amountFee, amountInput, balance, balanceICP, dispatch, from,
-    onNextClick, percentFee, receiving,
-  ]);
+  }, [amountFee, amountInput, balanceICP,
+    dispatch, from, onNextClick, percentFee,
+    receiving, tokensBalance]);
 
   const switchElement1 = (
     <WalletButton

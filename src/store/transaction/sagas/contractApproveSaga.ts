@@ -18,6 +18,7 @@ import {
   SERVICE,
 } from 'abi/dfinityToken/types';
 import { plugTransfer } from 'api/plugTransfer';
+import { metamaskGetTokensBalance } from 'store/metamask/actionCreators';
 import {
   metamaskbridgeAddress,
   tokenAddress,
@@ -71,15 +72,21 @@ function* metamaskToPlug(
       polygonTransactionId: bridgeData.blockHash,
     },
   });
-  console.log(responce);
   yield put(transactionSetState({
     status: responce.state,
   }));
 
-  notification.success({
-    message: 'Success',
-    description: responce.state,
-  });
+  if (responce.state === 'in_progress') {
+    notification.success({
+      message: 'Success',
+      description: `Transaction from polygon to dfinity${responce.state}`,
+    });
+  } else {
+    notification.success({
+      message: 'Success',
+      description: `Transaction from dfinity to dfinity was ${responce.state}`,
+    });
+  }
 }
 
 function* plugToMetamask(
@@ -108,6 +115,7 @@ function* plugToMetamask(
   notification.info({
     message: 'INFO',
     description: 'Please wait Transaction',
+    duration: 0,
   });
   const responce:TransactionData = yield call(callApi, {
     method: 'POST',
@@ -120,27 +128,35 @@ function* plugToMetamask(
       recipientType: 'polygon',
     },
   });
-
-  console.log('responce:', responce);
   yield put(transactionSetState({
     status: responce.state,
   }));
-  notification.success({
-    message: 'Success',
-    description: responce.state,
-  });
+
+  if (responce.state === 'in_progress') {
+    notification.success({
+      message: 'Success',
+      description: `Transaction from dfinity to polygon${responce.state}`,
+    });
+  } else {
+    notification.success({
+      message: 'Success',
+      description: `Transaction from dfinity to polygon was ${responce.state}`,
+    });
+  }
+
+  yield put(metamaskGetTokensBalance());
 }
 
 export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
   try {
     const { address } = yield select(metamaskSelectors.getState);
     const { accountId } = yield select(plugSelectors.getState);
-    const { from, amount } = yield select(transactionSelector.getState);
+    const { from, receiving, amount } = yield select(transactionSelector.getState);
     if (from === 'plug') {
       yield plugToMetamask(
         address,
         accountId,
-        amount,
+        receiving,
       );
     } else {
       yield metamaskToPlug(
