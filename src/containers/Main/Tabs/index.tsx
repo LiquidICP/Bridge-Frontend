@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Tabs as TabsAntd } from 'antd';
-import { DepositTab } from './DepositTab';
-import { WithdrawTab } from './WithdrawTab';
+import { BridgeTab } from './BridgeTab';
+import { UnwrappTab } from './UnwrappTab';
 
 const { TabPane } = TabsAntd;
 
@@ -11,16 +11,16 @@ const Tabs: FC = () => (
     animated={{ inkBar: true, tabPane: false }}
   >
     <TabPane
-      tab="Deposit"
+      tab="Bridge"
       key="1"
     >
-      <DepositTab />
+      <BridgeTab />
     </TabPane>
     <TabPane
-      tab="Withdraw"
+      tab="Unwrapp"
       key="2"
     >
-      <WithdrawTab />
+      <UnwrappTab />
     </TabPane>
   </TabsAntd>
 );

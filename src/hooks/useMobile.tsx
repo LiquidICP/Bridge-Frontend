@@ -5,7 +5,7 @@ const useMobile = (): boolean => {
   const { clientWidth } = document.documentElement;
 
   useEffect(() => {
-    setIsMobile(clientWidth < 421);
+    setIsMobile(clientWidth < 450);
   }, [clientWidth]);
 
   return isMobile;
