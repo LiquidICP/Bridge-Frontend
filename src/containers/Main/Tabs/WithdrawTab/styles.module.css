@@ -18,7 +18,10 @@
   margin: 32px auto 50px;
 }
 
-
+.withdraw__buttons{
+  display: flex;
+  justify-content: space-between;
+}
 
 .withdraw__fee span {
   color: var(--color-primary);

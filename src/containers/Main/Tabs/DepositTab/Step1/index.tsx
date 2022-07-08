@@ -11,19 +11,17 @@ import { MetamaskIcon, PlugIcon } from 'assets/img';
 import { transactionSelector } from 'store/transaction/selector';
 import { metamaskSelectors } from 'store/metamask/selectors';
 import { transactionSetState } from 'store/transaction/actionCreator';
-import {
-  plugIsInstalled,
-  getBalanceMetaMask,
-  validatingNumberInput,
-} from 'utils';
+
 import { Button, Input, WalletButton } from 'components';
 import { FromToSwitcher } from 'containers';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
-import { metamaskConnect } from 'store/metamask/actionCreators';
-import { plugConnect } from 'store/plug/actionsCreator';
+import { metamaskConnect, metamaskDisconnect } from 'store/metamask/actionCreators';
+import { plugConnect, plugDisConnect } from 'store/plug/actionsCreator';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import { useCalculationFee } from 'hooks';
 import { notification } from 'antd';
+import { validatingNumberInput } from 'utils/validatingNumberInput';
+import { getBalanceMetaMask } from 'utils/metamask';
 import styles from './styles.module.css';
 
 type Step1Props = {
@@ -38,33 +36,55 @@ const Step1 = memo(({
   const dispatch = useDispatch();
   const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
   const [amountInput, setAmountInput] = useState('');
-  const { receiving, amountFee, isLoading } = useCalculationFee(Number(amountInput) || 0, from);
+  const {
+    receiving, amountFee, isLoading, feeFromcontract, percentFee,
+  } = useCalculationFee(Number(amountInput) || 0, from);
   const { isMetaMaskConnected, metamaskAddress, balance } = useMetamaskWallet();
   const {
-    isPlugConnected, plugAddress, balanceICP,
+    isPlugConnected, plugAddress, balanceICP, status,
   } = usePlugWallet();
-  const [textPlugButton, setTextPlugButton] = useState('Connect to Plug');
-  const [
-    textMetamaskButton, setTextMetamaskButton,
-  ] = useState('Connect to Metamask');
 
   const onChangeAmount = useCallback((t: string) => {
     setAmountInput(validatingNumberInput(t));
   }, []);
-
   const isbuttondasabled = useMemo(() => amountInput === '' || isLoading, [isLoading, amountInput]);
 
-  const onMetaMaskConnectClick = useCallback(() => {
-    if (stateMetaMask.balance === '') {
-      setTextMetamaskButton('Connecting…');
+  const textPlugButton = useMemo(() => {
+    if (status === 'DISCONNECTED') {
+      return 'Connect to Plug';
     }
+    if (status === 'LOADING') {
+      return 'Connecting…';
+    }
+    if (status === 'LOST') {
+      return 'Please install plug extension';
+    }
+    return 'Connect to Plug';
+  }, [status]);
+
+  const textMetamaskButton = useMemo(() => {
+    if (stateMetaMask.status === 'LOADING') {
+      return 'Connecting…';
+    }
+    if (stateMetaMask.status === 'LOST') {
+      return 'Please install metamask extension';
+    }
+    return 'Connect to Metamask';
+  }, [stateMetaMask.status]);
+
+  const onMetaMaskConnectClick = useCallback(() => {
     dispatch(metamaskConnect());
-  }, [dispatch, setTextMetamaskButton, stateMetaMask]);
+  }, [dispatch]);
+
+  const onMetamaskDisConnect = useCallback(() => {
+    dispatch(metamaskDisconnect());
+  }, [dispatch]);
+
+  const onPlugDisConnect = useCallback(() => {
+    dispatch(plugDisConnect());
+  }, [dispatch]);
 
   const onPlugConnectClick = useCallback(() => {
-    if (plugIsInstalled()) {
-      setTextPlugButton('Connecting…');
-    }
     dispatch(plugConnect());
   }, [dispatch]);
 
@@ -73,6 +93,7 @@ const Step1 = memo(({
       dispatch(transactionSetState({
         fee: amountFee,
         receiving,
+        feePercent: percentFee,
         amount: amountInput,
       }));
       onNextClick();
@@ -81,6 +102,7 @@ const Step1 = memo(({
       dispatch(transactionSetState({
         fee: amountFee,
         receiving,
+        feePercent: percentFee,
         amount: amountInput,
       }));
       onNextClick();
@@ -93,13 +115,16 @@ const Step1 = memo(({
       // temp
       onNextClick();
     }
-  }, [amountFee, amountInput, balance, balanceICP, dispatch, from, onNextClick, receiving]);
+  }, [
+    amountFee, amountInput, balance, balanceICP, dispatch, from,
+    onNextClick, percentFee, receiving,
+  ]);
 
   const switchElement1 = (
     <WalletButton
       icon={PlugIcon}
       text={textPlugButton}
-      onClick={onPlugConnectClick}
+      onClick={isPlugConnected ? onPlugDisConnect : onPlugConnectClick}
       textIsClicked={plugAddress}
       isConnected={isPlugConnected}
     />
@@ -109,7 +134,7 @@ const Step1 = memo(({
     <WalletButton
       icon={MetamaskIcon}
       text={textMetamaskButton}
-      onClick={onMetaMaskConnectClick}
+      onClick={isMetaMaskConnected ? onMetamaskDisConnect : onMetaMaskConnectClick}
       textIsClicked={metamaskAddress || ''}
       isConnected={isMetaMaskConnected}
     />
@@ -138,7 +163,7 @@ const Step1 = memo(({
               Fee:
               {' '}
               <span>
-                {isLoading ? 'Loading' : amountFee}
+                {isLoading ? 'Loading' : feeFromcontract}
               </span>
             </>
           )

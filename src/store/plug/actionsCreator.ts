@@ -9,3 +9,6 @@ export const plugSetState = (payload: Partial<PlugState>) => ({
 export const plugConnect = () => ({
   type: PlugActionTypes.CONNECT_PLUG,
 });
+export const plugDisConnect = () => ({
+  type: PlugActionTypes.DISCONNECT_PLUG,
+});

@@ -1,6 +1,6 @@
 import { createReducer } from 'utils';
 import { plugHandlers } from './handlers';
-import { PlugState } from './types';
+import { PlugState, PlugStatus } from './types';
 
 export const plugInitialState: Readonly<PlugState> = {
   connected: false,
@@ -10,6 +10,7 @@ export const plugInitialState: Readonly<PlugState> = {
   balanceWICP: 0,
   publicKey: [],
   info: null,
+  status: PlugStatus.INIT,
 };
 
 export default createReducer(plugInitialState, plugHandlers);
