@@ -19,17 +19,17 @@ const sagaMiddleware = createSagaMiddleware();
 const metamaskPersistConfig = {
   key: 'metamask',
   storage,
-  whitelist: ['address', 'status', 'balance', 'tokensBalance'] as Array<keyof MetamaskState>,
+  whitelist: ['address'] as Array<keyof MetamaskState>,
 };
 const plugPersistConfig = {
   key: 'plug',
   storage,
-  whitelist: ['accountId', 'connected', 'balanceICP', 'balanceWICP'] as Array<keyof PlugState>,
+  whitelist: ['accountId'] as Array<keyof PlugState>,
 };
 const transactionPersistConfig = {
   key: 'transaction',
   storage,
-  whitelist: ['from', 'transferAmount'] as Array<keyof StateTransaction>,
+  whitelist: ['from'] as Array<keyof StateTransaction>,
 };
 
 const reducers = {

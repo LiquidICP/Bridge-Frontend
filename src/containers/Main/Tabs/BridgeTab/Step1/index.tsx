@@ -6,8 +6,9 @@ import React, {
   useState,
   useCallback,
   useMemo,
+  useEffect,
 } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
 import { transactionSelector } from 'store/transaction/selector';
 import { metamaskSelectors } from 'store/metamask/selectors';
@@ -16,7 +17,7 @@ import { transactionSetState } from 'store/transaction/actionCreator';
 import { Button, Input, WalletButton } from 'components';
 import { FromToSwitcher } from 'containers';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
-import { metamaskConnect, metamaskDisconnect } from 'store/metamask/actionCreators';
+import { metamaskConnect, metamaskDisconnect, metamaskGetTokensBalance } from 'store/metamask/actionCreators';
 import { plugConnect, plugDisConnect } from 'store/plug/actionsCreator';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import { useCalculationFee } from 'hooks';
@@ -34,6 +35,7 @@ const Step1 = memo(({
 }: Step1Props) => {
   const { from } = useSelector(transactionSelector.getState);
   const stateMetaMask = useSelector(metamaskSelectors.getState);
+
   const dispatch = useDispatch();
   const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
   const [amountInput, setAmountInput] = useState('');
@@ -96,7 +98,12 @@ const Step1 = memo(({
     dispatch(plugConnect());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(metamaskGetTokensBalance());
+  }, [dispatch]);
+
   const onNextButtonClick = useCallback(async () => {
+    console.log(receiving);
     if (balanceICP > 0 && parseFloat(amountInput) < balanceICP && from === 'plug') {
       dispatch(transactionSetState({
         fee: amountFee,
