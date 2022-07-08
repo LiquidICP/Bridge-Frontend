@@ -41,7 +41,7 @@ const Step1 = memo(({
     receiving, amountFee, isLoading, percentFee,
   } = useCalculationFee(Number(amountInput) || 0, from);
   const {
-    isMetaMaskConnected, metamaskAddress, balance, tokensBalance,
+    isMetaMaskConnected, metamaskAddress, tokensBalance,
   } = useMetamaskWallet();
   const {
     isPlugConnected, plugAddress, balanceICP, status,
@@ -123,10 +123,9 @@ const Step1 = memo(({
         description: 'Not enough balance',
       });
     }
-  }, [
-    amountFee, amountInput, balance, balanceICP, dispatch, from,
-    onNextClick, percentFee, receiving,
-  ]);
+  }, [amountFee, amountInput, balanceICP,
+    dispatch, from, onNextClick, percentFee,
+    receiving, tokensBalance]);
 
   const switchElement1 = (
     <WalletButton
