@@ -72,7 +72,6 @@ function* metamaskToPlug(
       polygonTransactionId: bridgeData.blockHash,
     },
   });
-  console.log(responce);
   yield put(transactionSetState({
     status: responce.state,
   }));
@@ -121,8 +120,6 @@ function* plugToMetamask(
       recipientType: 'polygon',
     },
   });
-
-  console.log('responce:', responce);
   yield put(transactionSetState({
     status: responce.state,
   }));
@@ -137,12 +134,12 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
   try {
     const { address } = yield select(metamaskSelectors.getState);
     const { accountId } = yield select(plugSelectors.getState);
-    const { from, amount } = yield select(transactionSelector.getState);
+    const { from, receiving, amount } = yield select(transactionSelector.getState);
     if (from === 'plug') {
       yield plugToMetamask(
         address,
         accountId,
-        amount,
+        receiving,
       );
     } else {
       yield metamaskToPlug(
