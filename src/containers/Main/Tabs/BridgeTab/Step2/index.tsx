@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
 import React, {
-  memo, useCallback, useMemo,
+  memo, useCallback, useMemo, useState,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, InfoBlock, InfoCard } from 'components';
+import {
+  Button, InfoBlock, InfoCard, CongratsModal,
+} from 'components';
 import { transactionSelector } from 'store/transaction/selector';
 import { contractApprove } from 'store/transaction/actionCreator';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
@@ -29,28 +31,25 @@ const Step2 = memo(({
   } = useSelector(transactionSelector.getState);
   const { plugAddress } = usePlugWallet();
   const { metamaskAddress } = useMetamaskWallet();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
+  const currency2 = useMemo(() => (
+    from === 'polygon' ? 'ICP' : 'WICP'
+  ), [from]);
+  const address = useMemo(() => (from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]);
   const textFrom = useMemo(() => (from === 'polygon' ? metamaskAddress || '' : plugAddress), [from, metamaskAddress, plugAddress]);
   const textTo = useMemo(() => (from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]);
 
   const onConfirmButtonClick = useCallback(() => {
     dispatch(contractApprove());
-    onConfirmClick();
-  }, [dispatch, onConfirmClick]);
+    setIsModalOpen(true);
+  }, [dispatch]);
 
   const classDatas = styles.step2__datas__box;
   let classDatasLast = styles.step2__last_block;
-  /*
-  if (
-    amount.toString().length > 5
-    || fee.toString().length > 6
-    || receiving.toString().length > 6
-  ) {
-    classDatas = styles.step2__datas__box_rows;
-  }
-  */
+
   if (fee.toString().length > 4) {
     classDatasLast = '';
   }
@@ -101,6 +100,14 @@ const Step2 = memo(({
           Confirm
         </Button>
       </section>
+      <CongratsModal
+        isModalVisible={isModalOpen}
+        setIsModalVisible={setIsModalOpen}
+        amount={`${receiving} ${currency}`}
+        receiving={`${receiving} ${currency2}`}
+        address={address}
+        onClick={onConfirmClick}
+      />
     </section>
   );
 });

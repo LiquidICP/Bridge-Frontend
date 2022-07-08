@@ -13,6 +13,7 @@ interface CongratsModalProps {
   address: string
   amount: string
   receiving: string,
+  onClick: () => void;
 }
 
 export const CongratsModal: FC<CongratsModalProps> = ({
@@ -22,6 +23,7 @@ export const CongratsModal: FC<CongratsModalProps> = ({
   address,
   amount,
   receiving,
+  onClick,
 }) => {
   useEffect(() => {
     if (isModalVisible) rootBlur(true);
@@ -34,6 +36,7 @@ export const CongratsModal: FC<CongratsModalProps> = ({
 
   const handleCancel = () => {
     rootBlur(false);
+    onClick();
     setIsModalVisible(false);
   };
 

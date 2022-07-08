@@ -112,14 +112,6 @@ const Step1 = memo(({
         message: 'Error',
         description: 'Not enough balance',
       });
-      // temp
-      dispatch(transactionSetState({
-        fee: amountFee,
-        receiving,
-        feePercent: percentFee,
-        amount: amountInput,
-      }));
-      onNextClick();
     }
   }, [
     amountFee, amountInput, balance, balanceICP, dispatch, from,
