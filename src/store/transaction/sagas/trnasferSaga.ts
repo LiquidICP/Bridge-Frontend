@@ -23,7 +23,7 @@ export function* transferApproveSaga({ payload: { amount } }:ReturnType<typeof t
     notification.info({
       message: 'INFO',
       description: 'Please wait transfer WICP to ICP',
-      duration: 0,
+      duration: 25,
     });
     yield call(callApi, {
       method: 'POST',
@@ -32,6 +32,11 @@ export function* transferApproveSaga({ payload: { amount } }:ReturnType<typeof t
         uAddress: accountId,
         amount: Number(ethers.utils.parseUnits(amount, 8).toString()),
       },
+    });
+    notification.info({
+      message: 'INFO',
+      description: 'Unwrapping success',
+      duration: 15,
     });
   } catch (err) {
     sagaExceptionHandler(err);

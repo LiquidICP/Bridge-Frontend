@@ -79,7 +79,7 @@ function* metamaskToPlug(
   if (responce.state === 'in_progress') {
     notification.success({
       message: 'Success',
-      description: `Transaction from polygon to dfinity${responce.state}`,
+      description: `Transaction from polygon to dfinity ${responce.state}`,
     });
   } else {
     notification.error({
