@@ -92,17 +92,18 @@ function* metamaskToPlug(
 function* plugToMetamask(
   metamaskAddress:string,
   accountId:string,
-  amount:string,
+  amount:number,
 ) {
-  const transfer:string = yield plugTransfer(canisterAddress, amount);
-
+  const transfer:string = yield plugTransfer(canisterAddress, amount.toString());
+  // eslint-disable-next-line no-debugger
+  debugger;
   if (transfer) {
     const responce:WrappedToken = yield call(callApi, {
       method: 'POST',
       url: '/wrapper-token',
       data: {
         uAddress: accountId,
-        amount: Number(ethers.utils.parseUnits(amount, 8).toString()),
+        amount: Number(ethers.utils.parseUnits(amount.toString(), 8).toString()),
       },
     });
     console.log(responce);
@@ -110,7 +111,7 @@ function* plugToMetamask(
   const tokenActor:SERVICE = yield getDfinityContract();
   yield tokenActor.approve(
     Principal.fromText(plugbridgeAddress),
-    ethers.utils.parseUnits(amount, 8).toBigInt(),
+    ethers.utils.parseUnits(amount.toString(), 8).toBigInt(),
   );
   notification.info({
     message: 'INFO',
@@ -123,7 +124,7 @@ function* plugToMetamask(
     data: {
       sender: accountId,
       senderType: 'dfinity',
-      amount: ethers.utils.parseUnits(amount, 8).toString(),
+      amount: ethers.utils.parseUnits(amount.toString(), 8).toString(),
       recipient: metamaskAddress,
       recipientType: 'polygon',
     },

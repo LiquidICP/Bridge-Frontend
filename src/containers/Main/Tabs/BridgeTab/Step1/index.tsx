@@ -36,9 +36,6 @@ const Step1 = memo(({
   const { from } = useSelector(transactionSelector.getState);
   const stateMetaMask = useSelector(metamaskSelectors.getState);
 
-  console.log(from);
-  console.log(stateMetaMask);
-
   const dispatch = useDispatch();
   const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
   const [amountInput, setAmountInput] = useState('');
@@ -61,8 +58,6 @@ const Step1 = memo(({
 
     [isLoading, amountInput],
   );
-
-  console.log(amountInput);
 
   const textPlugButton = useMemo(() => {
     if (status === 'DISCONNECTED') {
