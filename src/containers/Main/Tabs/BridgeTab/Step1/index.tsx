@@ -7,7 +7,7 @@ import React, {
   useCallback,
   useMemo,
 } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
 import { transactionSelector } from 'store/transaction/selector';
 import { metamaskSelectors } from 'store/metamask/selectors';
@@ -34,6 +34,10 @@ const Step1 = memo(({
 }: Step1Props) => {
   const { from } = useSelector(transactionSelector.getState);
   const stateMetaMask = useSelector(metamaskSelectors.getState);
+
+  console.log(from);
+  console.log(stateMetaMask);
+
   const dispatch = useDispatch();
   const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
   const [amountInput, setAmountInput] = useState('');
@@ -56,6 +60,8 @@ const Step1 = memo(({
 
     [isLoading, amountInput],
   );
+
+  console.log(amountInput);
 
   const textPlugButton = useMemo(() => {
     if (status === 'DISCONNECTED') {
@@ -97,6 +103,7 @@ const Step1 = memo(({
   }, [dispatch]);
 
   const onNextButtonClick = useCallback(async () => {
+    console.log(receiving);
     if (balanceICP > 0 && parseFloat(amountInput) < balanceICP && from === 'plug') {
       dispatch(transactionSetState({
         fee: amountFee,

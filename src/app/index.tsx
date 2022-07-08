@@ -3,13 +3,14 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { Routes } from 'containers';
-import { metamaskOnAppMount } from 'store/metamask/actionCreators';
+import { metamaskGetTokensBalance, metamaskOnAppMount } from 'store/metamask/actionCreators';
 import { ModalProvider } from 'context';
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(metamaskOnAppMount());
+    dispatch(metamaskGetTokensBalance());
   }, [dispatch]);
 
   return (
