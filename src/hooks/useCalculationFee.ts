@@ -1,9 +1,11 @@
+/* eslint-disable no-console */
 /* eslint-disable no-debugger */
 import { getDfinityContract } from 'api/dfinityContract';
 import { useEffect, useMemo, useState } from 'react';
 import { getBridgeContract } from 'api/bridgeContract';
 import { ethers } from 'ethers';
 import { notification } from 'antd';
+import { fixNumber } from 'utils';
 import { usePlugWallet } from './usePlugWallet';
 import { useMetamaskWallet } from './useMetamaskWallet';
 
@@ -51,8 +53,13 @@ export const useCalculationFee = (amount:number, from:string) => {
 
     [from, isMetaMaskConnected, isPlugConnected],
   );
-  const amountFee = useMemo(() => amount * (percentFee / 100), [amount, percentFee]);
-  const receiving = useMemo(() => amount - amountFee, [amount, amountFee]);
+  const amountFee = useMemo(() => (
+    (1000 * amount * (percentFee / 100)) / 1000
+  ), [amount, percentFee]);
+  const receiving = useMemo(() => (
+    fixNumber(1000 * amount - 1000 * amountFee)
+  ), [amount, amountFee]);
+
   return {
     amountFee, receiving, isLoading, feeFromcontract: feeFromContract, percentFee,
   };

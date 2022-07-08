@@ -7,3 +7,4 @@ export { rootBlur } from './rootBlur';
 export * from './validatingNumberInput';
 export * from './metamask';
 export * from './plug';
+export * from './fixNumber';
