@@ -95,8 +95,6 @@ function* plugToMetamask(
   amount:number,
 ) {
   const transfer:string = yield plugTransfer(canisterAddress, amount.toString());
-  // eslint-disable-next-line no-debugger
-  debugger;
   if (transfer) {
     const responce:WrappedToken = yield call(callApi, {
       method: 'POST',
