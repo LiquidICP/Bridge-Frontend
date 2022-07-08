@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 function fixNumber(n: number) {
   if (n === 0) return 0;
-  if (Number.isInteger(n)) return n;
+  if (Number.isInteger(n)) return n / 1000;
 
   const nString = n.toString();
   const [whole, fraction] = nString.split('.');
