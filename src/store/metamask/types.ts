@@ -33,5 +33,5 @@ export type MetamaskState = {
   status: MetamaskStatus,
   balance: string | number,
   network: NetworkName | null,
-  tokensBalance?: string,
+  tokensBalance: number,
 };

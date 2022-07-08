@@ -41,7 +41,7 @@ const Step1 = memo(({
     receiving, amountFee, isLoading, feeFromcontract, percentFee,
   } = useCalculationFee(Number(amountInput) || 0, from);
   const {
-    isMetaMaskConnected, metamaskAddress, balance,
+    isMetaMaskConnected, metamaskAddress, balance, tokensBalance,
   } = useMetamaskWallet();
   const {
     isPlugConnected, plugAddress, balanceICP, status,
@@ -108,7 +108,7 @@ const Step1 = memo(({
       }));
       onNextClick();
       await getBalanceMetaMask();
-    } else if (balance > 0 && parseFloat(amountInput) < balance && from === 'polygon') {
+    } else if (tokensBalance > 0 && parseFloat(amountInput) < tokensBalance && from === 'polygon') {
       dispatch(transactionSetState({
         fee: amountFee,
         receiving,

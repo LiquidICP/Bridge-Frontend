@@ -35,7 +35,7 @@ export function* getTokensBalanceSaga() {
 
       const tokensBalance = ethers.utils.formatUnits(balanceWei, 8);
 
-      yield put(metamaskSetState({ tokensBalance }));
+      yield put(metamaskSetState({ tokensBalance: Number(tokensBalance) }));
     }
   } catch (err) {
     sagaExceptionHandler(err);
