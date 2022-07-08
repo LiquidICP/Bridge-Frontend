@@ -2,7 +2,7 @@
   border: 2px solid var(--color-middle);
   border-radius: 30px;
   width: 738px;
-  padding-top: 50px;
+  padding: 50px 0;
   max-height: max-content;
   box-sizing: border-box;
   display: grid;
