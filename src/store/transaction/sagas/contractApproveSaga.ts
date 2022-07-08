@@ -82,9 +82,9 @@ function* metamaskToPlug(
       description: `Transaction from polygon to dfinity${responce.state}`,
     });
   } else {
-    notification.success({
-      message: 'Success',
-      description: `Transaction from dfinity to dfinity was ${responce.state}`,
+    notification.error({
+      message: 'Error',
+      description: `Transaction from polygon to dfinity was ${responce.state}`,
     });
   }
 }
@@ -135,11 +135,11 @@ function* plugToMetamask(
   if (responce.state === 'in_progress') {
     notification.success({
       message: 'Success',
-      description: `Transaction from dfinity to polygon${responce.state}`,
+      description: `Transaction from dfinity to polygon ${responce.state}`,
     });
   } else {
-    notification.success({
-      message: 'Success',
+    notification.error({
+      message: 'Error',
       description: `Transaction from dfinity to polygon was ${responce.state}`,
     });
   }

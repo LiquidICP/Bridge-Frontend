@@ -6,6 +6,7 @@ import React, {
   useState,
   useCallback,
   useMemo,
+  useEffect,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MetamaskIcon, PlugIcon } from 'assets/img';
@@ -16,7 +17,7 @@ import { transactionSetState } from 'store/transaction/actionCreator';
 import { Button, Input, WalletButton } from 'components';
 import { FromToSwitcher } from 'containers';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
-import { metamaskConnect, metamaskDisconnect } from 'store/metamask/actionCreators';
+import { metamaskConnect, metamaskDisconnect, metamaskGetTokensBalance } from 'store/metamask/actionCreators';
 import { plugConnect, plugDisConnect } from 'store/plug/actionsCreator';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import { useCalculationFee } from 'hooks';
@@ -100,6 +101,10 @@ const Step1 = memo(({
 
   const onPlugConnectClick = useCallback(() => {
     dispatch(plugConnect());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(metamaskGetTokensBalance());
   }, [dispatch]);
 
   const onNextButtonClick = useCallback(async () => {
