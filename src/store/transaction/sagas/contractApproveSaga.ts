@@ -96,6 +96,12 @@ function* plugToMetamask(
   amount:number,
 ) {
   const transfer:string = yield plugTransfer(canisterAddress, amount.toString());
+
+  notification.info({
+    message: 'INFO',
+    description: 'Please wait Transaction',
+    duration: 0,
+  });
   if (transfer) {
     const responce:WrappedToken = yield call(callApi, {
       method: 'POST',

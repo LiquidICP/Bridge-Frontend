@@ -38,7 +38,8 @@ export function* getTokensBalanceSaga() {
       yield put(metamaskSetState({ tokensBalance: Number(tokensBalance) }));
     }
   } catch (err) {
-    sagaExceptionHandler(err);
+    // sagaExceptionHandler(err); ************
+    sagaExceptionHandler('Unable to get balance');
   } finally {
     yield put(metamaskSetState({ isTokensBalanceLoading: false }));
   }
