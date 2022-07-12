@@ -13,25 +13,11 @@ const FooterDesktop: FC = () => (
       </div>
       <div className={styles.links_soc_media__box}>
         <a
-          href={links.telegram}
+          href={links.linktree}
           target="_blank"
           rel="noreferrer"
         >
-          Telegram
-        </a>
-        <a
-          href={links.twitter}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Twitter
-        </a>
-        <a
-          href={links.discord}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Discord
+          Linktree
         </a>
       </div>
     </section>

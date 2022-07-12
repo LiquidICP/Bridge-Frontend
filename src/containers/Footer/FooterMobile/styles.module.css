@@ -20,14 +20,19 @@
 
 .footer_mobile__contacts__box {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: repeat(2, max-content);
   margin-bottom: 21px;
+  justify-content: space-between;
 }
 
 .footer_mobile__links__box ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
+}
+
+.footer_mobile__right_link {
+  text-align: right;
 }
 
 @media (max-width: 551px) {

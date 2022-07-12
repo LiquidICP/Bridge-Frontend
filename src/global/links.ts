@@ -3,4 +3,5 @@ export const links: Record<string, string> = {
   telegram: 'https://t.me/Liquid_ICP',
   twitter: 'https://twitter.com/IC_LABS_',
   discord: 'https://discord.gg/n5FT4AEy2J',
+  linktree: 'https://linktr.ee/LiquidICPDAO',
 };
