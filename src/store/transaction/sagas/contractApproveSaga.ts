@@ -10,10 +10,10 @@ import { ethers, ContractTransaction, ContractReceipt } from 'ethers';
 import { metamaskSelectors } from 'store/metamask/selectors';
 import { plugSelectors } from 'store/plug/selector';
 import { getBridgeContract } from 'api/bridgeContract';
+import { getDfinityContract } from 'api/dfinityContract';
 import { notification } from 'antd';
 import { callApi } from 'utils/api';
 import { TransactionData, WrappedToken } from 'store/types';
-import { getDfinityContract } from 'api/dfinityContract';
 import {
   SERVICE,
 } from 'abi/dfinityToken/types';
@@ -54,6 +54,7 @@ function* metamaskToPlug(
     token,
     WICPAmount,
   );
+  console.log('token wicp_amount', token, WICPAmount); // ***********************
   notification.info({
     message: 'INFO',
     description: 'Please wait Transaction',
