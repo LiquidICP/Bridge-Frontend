@@ -151,12 +151,16 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
   try {
     const { address } = yield select(metamaskSelectors.getState);
     const { accountId } = yield select(plugSelectors.getState);
-    const { from, receiving, amount } = yield select(transactionSelector.getState);
+    const {
+      from,
+      // receiving,
+      amount,
+    } = yield select(transactionSelector.getState);
     if (from === 'plug') {
       yield plugToMetamask(
         address,
         accountId,
-        receiving,
+        amount, // receiving,
       );
     } else {
       yield metamaskToPlug(
