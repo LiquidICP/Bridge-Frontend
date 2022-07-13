@@ -13,7 +13,7 @@ import { getBridgeContract } from 'api/bridgeContract';
 import { getDfinityContract } from 'api/dfinityContract';
 import { notification } from 'antd';
 import { callApi } from 'utils/api';
-import { TransactionData, WrappedToken } from 'store/types';
+import { TransactionData /* WrappedToken */ } from 'store/types';
 import {
   SERVICE,
 } from 'abi/dfinityToken/types';
@@ -54,14 +54,12 @@ function* metamaskToPlug(
     token,
     WICPAmount,
   );
-  console.log('token wicp_amount', token, WICPAmount); // ***********************
   notification.info({
     message: 'INFO',
     description: 'Please wait Transaction',
   });
   const bridgeData:ContractReceipt = yield bridgeTx.wait();
 
-  console.log('bridgeData:', bridgeData); // ***********************
   const responce:TransactionData = yield call(callApi, {
     method: 'POST',
     url: '/save-transaction',
@@ -71,7 +69,6 @@ function* metamaskToPlug(
       amount: WICPAmount,
       recipient: accountId,
       recipientType: 'dfinity',
-      // polygonTransactionId: bridgeData.blockHash,
       polygonTransactionId: bridgeData.transactionHash,
     },
   });
@@ -82,12 +79,12 @@ function* metamaskToPlug(
   if (responce.state === 'in_progress') {
     notification.success({
       message: 'Success',
-      description: `Transaction from polygon to dfinity ${responce.state}`,
+      description: 'Transaction from polygon to dfinity completes successfully',
     });
   } else {
     notification.error({
       message: 'Error',
-      description: `Transaction from polygon to dfinity was ${responce.state}`,
+      description: 'Transaction from polygon to dfinity failed',
     });
   }
 }
@@ -102,10 +99,11 @@ function* plugToMetamask(
   notification.info({
     message: 'INFO',
     description: 'Please wait Transaction',
-    duration: 0,
+    duration: 10,
   });
   if (transfer) {
-    const responce:WrappedToken = yield call(callApi, {
+    // const responce:WrappedToken = yield call(callApi, {
+    yield call(callApi, {
       method: 'POST',
       url: '/wrapper-token',
       data: {
@@ -113,7 +111,7 @@ function* plugToMetamask(
         amount: Number(ethers.utils.parseUnits(amount.toString(), 8).toString()),
       },
     });
-    console.log(responce);
+    // console.log(responce); // *****************
   }
   const tokenActor:SERVICE = yield getDfinityContract();
   yield tokenActor.approve(
@@ -123,7 +121,7 @@ function* plugToMetamask(
   notification.info({
     message: 'INFO',
     description: 'Please wait Transaction',
-    duration: 0,
+    duration: 10,
   });
   const responce:TransactionData = yield call(callApi, {
     method: 'POST',
@@ -143,12 +141,12 @@ function* plugToMetamask(
   if (responce.state === 'in_progress') {
     notification.success({
       message: 'Success',
-      description: `Transaction from dfinity to polygon ${responce.state}`,
+      description: 'Transaction from dfinity to polygon completed successfully',
     });
   } else {
     notification.error({
       message: 'Error',
-      description: `Transaction from dfinity to polygon was ${responce.state}`,
+      description: 'Transaction from dfinity to polygon failed',
     });
   }
 
@@ -181,7 +179,11 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
       );
     }
   } catch (err) {
+    yield put(transactionSetState({
+      status: 'reject',
+    }));
     sagaExceptionHandler(err);
+    // sagaExceptionHandler('Reject'); ****************88
   }
 }
 

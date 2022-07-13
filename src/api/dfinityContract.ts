@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // import { Principal } from '@dfinity/principal';
 
 import { SERVICE } from 'abi/dfinityToken/types';
@@ -15,7 +17,7 @@ export const getDfinityContract = async () => {
     });
     return tokenActor as SERVICE;
   } catch (error) {
-    throw new Error('plug');
+    // error
   }
 };
 

@@ -188,7 +188,6 @@ export function* connectMetamaskSaga() {
     yield put(metamaskSetState({
       status: MetamaskStatus.NOT_AVAILABLE,
     }));
-    // sagaExceptionHandler(err); ******************
     sagaExceptionHandler('Failed to connect to metamask');
   }
 }
