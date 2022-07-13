@@ -13,7 +13,7 @@ import { getBridgeContract } from 'api/bridgeContract';
 import { getDfinityContract } from 'api/dfinityContract';
 import { notification } from 'antd';
 import { callApi } from 'utils/api';
-import { TransactionData /* WrappedToken */ } from 'store/types';
+import { TransactionData } from 'store/types';
 import {
   SERVICE,
 } from 'abi/dfinityToken/types';
@@ -104,7 +104,6 @@ function* plugToMetamask(
     duration: 10,
   });
   if (transfer) {
-    // const responce:WrappedToken = yield call(callApi, {
     yield call(callApi, {
       method: 'POST',
       url: '/wrapper-token',
@@ -113,7 +112,6 @@ function* plugToMetamask(
         amount: Number(ethers.utils.parseUnits(amount.toString(), 8).toString()),
       },
     });
-    // console.log(responce); // *****************
   }
   const tokenActor:SERVICE = yield getDfinityContract();
   yield tokenActor.approve(
@@ -161,14 +159,13 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
     const { accountId } = yield select(plugSelectors.getState);
     const {
       from,
-      // receiving,
       amount,
     } = yield select(transactionSelector.getState);
     if (from === 'plug') {
       yield plugToMetamask(
         address,
         accountId,
-        amount, // receiving,
+        amount,
       );
     } else {
       yield metamaskToPlug(
@@ -185,7 +182,6 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
       status: 'reject',
     }));
     sagaExceptionHandler(err);
-    // sagaExceptionHandler('Reject'); ****************88
   }
 }
 

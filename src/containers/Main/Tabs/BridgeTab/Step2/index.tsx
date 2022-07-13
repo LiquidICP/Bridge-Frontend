@@ -69,7 +69,6 @@ const Step2 = memo(({
   const onConfirmButtonClick = useCallback(() => {
     setButtonIsDisabled(true);
     dispatch(contractApprove());
-    // setIsModalOpen(true);
   }, [dispatch]);
 
   const classDatas = styles.step2__datas__box;

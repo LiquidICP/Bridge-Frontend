@@ -15,7 +15,7 @@ export const useCalculationFee = (amount:number, from:string) => {
   const [feeFromContract, SetFeeFromContract] = useState(0);
   const { isPlugConnected } = usePlugWallet();
   const { isMetaMaskConnected } = useMetamaskWallet();
-  // debugger; ∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞
+
   useEffect(
     () => {
       setIsLoading(true);
