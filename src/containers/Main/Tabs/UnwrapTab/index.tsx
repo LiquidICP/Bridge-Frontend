@@ -15,7 +15,7 @@ import { plugConnect } from 'store/plug/actionsCreator';
 import { validatingNumberInput } from 'utils/validatingNumberInput';
 import styles from './styles.module.css';
 
-const UnwrappTab = memo(() => {
+const UnwrapTab = memo(() => {
   const [amountInput, setAmountInput] = useState('');
   const isbuttondasabled = useMemo(() => amountInput === '' || Number(amountInput) === 0, [amountInput]);
   const { balanceWICP, isPlugConnected } = usePlugWallet();
@@ -42,7 +42,7 @@ const UnwrappTab = memo(() => {
   }, [dispatch]);
   return (
     <>
-      <h2 className={styles.unwrapp__title}>Unwrapp</h2>
+      <h2 className={styles.unwrapp__title}>Unwrap</h2>
       <section className={styles.unwrapp__container}>
         <Input
           label="WICP to ICP"
@@ -75,4 +75,4 @@ const UnwrappTab = memo(() => {
   );
 });
 
-export { UnwrappTab };
+export { UnwrapTab };

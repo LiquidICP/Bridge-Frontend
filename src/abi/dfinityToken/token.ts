@@ -1,4 +1,5 @@
-const idlFactory = ({ IDL }:any) => {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const idlFactory = ({ IDL }: any) => {
   const TxReceipt = IDL.Variant({
     Ok: IDL.Nat,
     Err: IDL.Variant({

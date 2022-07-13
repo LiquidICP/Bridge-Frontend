@@ -33,25 +33,42 @@ const Step2 = memo(({
   const { plugAddress } = usePlugWallet();
   const { metamaskAddress } = useMetamaskWallet();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [buttonsIdDisabled, setButtonIsDisabled] = useState(false);
 
   const dispatch = useDispatch();
-  const currency = useMemo(() => (from === 'polygon' ? 'WICP' : 'ICP'), [from]);
-  const currency2 = useMemo(() => (
-    from === 'polygon' ? 'ICP' : 'WICP'
-  ), [from]);
-  const address = useMemo(() => (from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]);
-  const textFrom = useMemo(() => (from === 'polygon' ? metamaskAddress || '' : plugAddress), [from, metamaskAddress, plugAddress]);
-  const textTo = useMemo(() => (from === 'polygon' ? plugAddress : metamaskAddress || ''), [from, metamaskAddress, plugAddress]);
+  const currency = useMemo(
+    () => (from === 'polygon' ? 'WICP' : 'ICP'),
+    [from],
+  );
+  const currency2 = useMemo(
+    () => (from === 'polygon' ? 'ICP' : 'WICP'),
+    [from],
+  );
+  const address = useMemo(
+    () => (from === 'polygon' ? plugAddress : metamaskAddress || ''),
+    [from, metamaskAddress, plugAddress],
+  );
+  const textFrom = useMemo(
+    () => (from === 'polygon' ? metamaskAddress || '' : plugAddress),
+    [from, metamaskAddress, plugAddress],
+  );
+  const textTo = useMemo(
+    () => (from === 'polygon' ? plugAddress : metamaskAddress || ''),
+    [from, metamaskAddress, plugAddress],
+  );
 
   useEffect(() => {
     if (status === 'in_progress') {
       setIsModalOpen(true);
     }
+    if (status === 'reject') {
+      setButtonIsDisabled(false);
+    }
   }, [status]);
 
   const onConfirmButtonClick = useCallback(() => {
+    setButtonIsDisabled(true);
     dispatch(contractApprove());
-    // setIsModalOpen(true);
   }, [dispatch]);
 
   const classDatas = styles.step2__datas__box;
@@ -96,6 +113,7 @@ const Step2 = memo(({
           theme="outline_gradient"
           onClick={onBackClick}
           className={styles.step2__button}
+          isDisabled={buttonsIdDisabled}
         >
           Back
         </Button>
@@ -103,6 +121,7 @@ const Step2 = memo(({
           theme="gradient"
           onClick={onConfirmButtonClick}
           className={styles.step2__button}
+          isDisabled={buttonsIdDisabled}
         >
           Confirm
         </Button>
@@ -110,10 +129,11 @@ const Step2 = memo(({
       <CongratsModal
         isModalVisible={isModalOpen}
         setIsModalVisible={setIsModalOpen}
-        amount={`${receiving} ${currency}`}
+        amount={`${amount} ${currency}`}
         receiving={`${receiving} ${currency2}`}
         address={address}
         onClick={onConfirmClick}
+        from={from}
       />
     </section>
   );

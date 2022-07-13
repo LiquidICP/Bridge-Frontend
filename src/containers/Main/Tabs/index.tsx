@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Tabs as TabsAntd } from 'antd';
 import { BridgeTab } from './BridgeTab';
-import { UnwrappTab } from './UnwrappTab';
+import { UnwrapTab } from './UnwrapTab';
 
 const { TabPane } = TabsAntd;
 
@@ -17,10 +17,10 @@ const Tabs: FC = () => (
       <BridgeTab />
     </TabPane>
     <TabPane
-      tab="Unwrapp"
+      tab="Unwrap"
       key="2"
     >
-      <UnwrappTab />
+      <UnwrapTab />
     </TabPane>
   </TabsAntd>
 );

@@ -15,6 +15,7 @@ export const useCalculationFee = (amount:number, from:string) => {
   const [feeFromContract, SetFeeFromContract] = useState(0);
   const { isPlugConnected } = usePlugWallet();
   const { isMetaMaskConnected } = useMetamaskWallet();
+
   useEffect(
     () => {
       setIsLoading(true);
@@ -42,7 +43,7 @@ export const useCalculationFee = (amount:number, from:string) => {
           description: 'Please approve or wait calculation Fee',
         });
         getDfinityContract()
-          .then((contract) => contract.getFeeRate())
+          .then((contract) => contract?.getFeeRate())
           .then((contractFee) => {
             setPercentFee(Number(contractFee) / 10);
             setIsLoading(false);

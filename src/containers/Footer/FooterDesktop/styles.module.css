@@ -33,9 +33,11 @@
 }
 
 .links_soc_media__box {
+  /*
   display: grid;
   grid-template-columns: repeat(3, max-content);
   column-gap: 16px;
+  */
 }
 
 .links_top__box a,

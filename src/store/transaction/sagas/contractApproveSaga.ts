@@ -10,10 +10,10 @@ import { ethers, ContractTransaction, ContractReceipt } from 'ethers';
 import { metamaskSelectors } from 'store/metamask/selectors';
 import { plugSelectors } from 'store/plug/selector';
 import { getBridgeContract } from 'api/bridgeContract';
+import { getDfinityContract } from 'api/dfinityContract';
 import { notification } from 'antd';
 import { callApi } from 'utils/api';
-import { TransactionData, WrappedToken } from 'store/types';
-import { getDfinityContract } from 'api/dfinityContract';
+import { TransactionData } from 'store/types';
 import {
   SERVICE,
 } from 'abi/dfinityToken/types';
@@ -46,6 +46,7 @@ function* metamaskToPlug(
   notification.info({
     message: 'INFO',
     description: 'Please wait approve',
+    duration: 10,
   });
   yield tx.wait();
 
@@ -57,6 +58,7 @@ function* metamaskToPlug(
   notification.info({
     message: 'INFO',
     description: 'Please wait Transaction',
+    duration: 10,
   });
   const bridgeData:ContractReceipt = yield bridgeTx.wait();
 
@@ -69,7 +71,7 @@ function* metamaskToPlug(
       amount: WICPAmount,
       recipient: accountId,
       recipientType: 'dfinity',
-      polygonTransactionId: bridgeData.blockHash,
+      polygonTransactionId: bridgeData.transactionHash,
     },
   });
   yield put(transactionSetState({
@@ -79,12 +81,12 @@ function* metamaskToPlug(
   if (responce.state === 'in_progress') {
     notification.success({
       message: 'Success',
-      description: `Transaction from polygon to dfinity ${responce.state}`,
+      description: 'Transaction from polygon to dfinity completes successfully',
     });
   } else {
     notification.error({
       message: 'Error',
-      description: `Transaction from polygon to dfinity was ${responce.state}`,
+      description: 'Transaction from polygon to dfinity failed',
     });
   }
 }
@@ -95,8 +97,14 @@ function* plugToMetamask(
   amount:number,
 ) {
   const transfer:string = yield plugTransfer(canisterAddress, amount.toString());
+
+  notification.info({
+    message: 'INFO',
+    description: 'Please wait Transaction',
+    duration: 10,
+  });
   if (transfer) {
-    const responce:WrappedToken = yield call(callApi, {
+    yield call(callApi, {
       method: 'POST',
       url: '/wrapper-token',
       data: {
@@ -104,7 +112,6 @@ function* plugToMetamask(
         amount: Number(ethers.utils.parseUnits(amount.toString(), 8).toString()),
       },
     });
-    console.log(responce);
   }
   const tokenActor:SERVICE = yield getDfinityContract();
   yield tokenActor.approve(
@@ -114,7 +121,7 @@ function* plugToMetamask(
   notification.info({
     message: 'INFO',
     description: 'Please wait Transaction',
-    duration: 0,
+    duration: 10,
   });
   const responce:TransactionData = yield call(callApi, {
     method: 'POST',
@@ -134,12 +141,12 @@ function* plugToMetamask(
   if (responce.state === 'in_progress') {
     notification.success({
       message: 'Success',
-      description: `Transaction from dfinity to polygon ${responce.state}`,
+      description: 'Transaction from dfinity to polygon completed successfully',
     });
   } else {
     notification.error({
       message: 'Error',
-      description: `Transaction from dfinity to polygon was ${responce.state}`,
+      description: 'Transaction from dfinity to polygon failed',
     });
   }
 
@@ -150,12 +157,15 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
   try {
     const { address } = yield select(metamaskSelectors.getState);
     const { accountId } = yield select(plugSelectors.getState);
-    const { from, receiving, amount } = yield select(transactionSelector.getState);
+    const {
+      from,
+      amount,
+    } = yield select(transactionSelector.getState);
     if (from === 'plug') {
       yield plugToMetamask(
         address,
         accountId,
-        receiving,
+        amount,
       );
     } else {
       yield metamaskToPlug(
@@ -168,6 +178,9 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
       );
     }
   } catch (err) {
+    yield put(transactionSetState({
+      status: 'reject',
+    }));
     sagaExceptionHandler(err);
   }
 }
