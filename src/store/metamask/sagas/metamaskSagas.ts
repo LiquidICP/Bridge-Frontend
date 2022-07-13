@@ -71,7 +71,6 @@ function* handleMetamskProviderEvents({
           message: 'Error',
           description: ToastMessage.notSupported,
         });
-        toast.error(ToastMessage.notSupported);
       }
     }
 
@@ -87,7 +86,6 @@ function* handleMetamskProviderEvents({
           message: 'Success',
           description: ToastMessage.accountChanged,
         });
-        toast.success(ToastMessage.accountChanged);
       } else {
         yield put(metamaskSetState({
           status: MetamaskStatus.DISCONNECTED,

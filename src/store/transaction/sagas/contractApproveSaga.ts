@@ -61,6 +61,7 @@ function* metamaskToPlug(
   });
   const bridgeData:ContractReceipt = yield bridgeTx.wait();
 
+  console.log('bridgeData:', bridgeData); // ***********************
   const responce:TransactionData = yield call(callApi, {
     method: 'POST',
     url: '/save-transaction',
@@ -70,7 +71,8 @@ function* metamaskToPlug(
       amount: WICPAmount,
       recipient: accountId,
       recipientType: 'dfinity',
-      polygonTransactionId: bridgeData.blockHash,
+      // polygonTransactionId: bridgeData.blockHash,
+      polygonTransactionId: bridgeData.transactionHash,
     },
   });
   yield put(transactionSetState({
