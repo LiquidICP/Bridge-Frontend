@@ -9,6 +9,7 @@ import {
 import { transactionSelector } from 'store/transaction/selector';
 import { contractApprove } from 'store/transaction/actionCreator';
 import { useMetamaskWallet } from 'hooks/useMetamaskWallet';
+import { cutBigNumber } from 'utils/cutBigNumber';
 import { usePlugWallet } from 'hooks/usePlugWallet';
 import cx from 'classnames';
 import styles from './styles.module.css';
@@ -104,7 +105,7 @@ const Step2 = memo(({
         />
         <InfoBlock
           label="Receiving"
-          text={`${receiving} ${currency}`}
+          text={`${cutBigNumber(receiving)} ${currency}`}
           className={cx(styles.step2__datas__receiving, classDatasLast)}
         />
       </section>

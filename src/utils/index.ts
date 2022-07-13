@@ -8,3 +8,4 @@ export * from './validatingNumberInput';
 export * from './metamask';
 export * from './plug';
 export * from './fixNumber';
+export * from './cutBigNumber';
