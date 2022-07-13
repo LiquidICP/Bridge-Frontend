@@ -1,4 +1,4 @@
-// import { notification } from 'antd';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ethers } from 'ethers';
 
 declare let window: any;

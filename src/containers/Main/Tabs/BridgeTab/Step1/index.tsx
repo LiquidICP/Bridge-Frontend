@@ -23,6 +23,7 @@ import { usePlugWallet } from 'hooks/usePlugWallet';
 import { useCalculationFee } from 'hooks';
 import { notification } from 'antd';
 import { validatingNumberInput } from 'utils/validatingNumberInput';
+import { plugIsConnect } from 'utils';
 import { getBalanceMetaMask } from 'utils/metamask';
 import styles from './styles.module.css';
 
@@ -103,7 +104,14 @@ const Step1 = memo(({
   }, [dispatch]);
 
   const onNextButtonClick = useCallback(async () => {
-    console.log(receiving);
+    const plugIsConnected = await plugIsConnect();
+    if (!plugIsConnected) {
+      notification.error({
+        message: 'Error',
+        description: 'Wallet Plug not connected',
+      });
+      return;
+    }
     if (balanceICP > 0 && parseFloat(amountInput) < balanceICP && from === 'plug') {
       dispatch(transactionSetState({
         fee: amountFee,
