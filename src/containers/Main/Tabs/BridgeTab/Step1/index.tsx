@@ -103,6 +103,11 @@ const Step1 = memo(({
     dispatch(metamaskGetTokensBalance());
   }, [dispatch]);
 
+  let fee = `${percentFee}%`;
+  if (Number.isNaN(percentFee)) {
+    fee = 'Not loaded';
+  }
+
   const onNextButtonClick = useCallback(async () => {
     const plugIsConnected = await plugIsConnect();
     if (!plugIsConnected) {
@@ -183,7 +188,7 @@ const Step1 = memo(({
               Fee:
               {' '}
               <span>
-                {isLoading ? 'Loading' : `${percentFee}%`}
+                {isLoading ? 'Loading' : fee}
               </span>
             </>
           )

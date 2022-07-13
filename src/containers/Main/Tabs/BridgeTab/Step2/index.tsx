@@ -130,10 +130,11 @@ const Step2 = memo(({
       <CongratsModal
         isModalVisible={isModalOpen}
         setIsModalVisible={setIsModalOpen}
-        amount={`${receiving} ${currency}`}
+        amount={`${amount} ${currency}`}
         receiving={`${receiving} ${currency2}`}
         address={address}
         onClick={onConfirmClick}
+        from={from}
       />
     </section>
   );

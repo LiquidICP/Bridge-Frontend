@@ -46,6 +46,7 @@ function* metamaskToPlug(
   notification.info({
     message: 'INFO',
     description: 'Please wait approve',
+    duration: 10,
   });
   yield tx.wait();
 
@@ -57,6 +58,7 @@ function* metamaskToPlug(
   notification.info({
     message: 'INFO',
     description: 'Please wait Transaction',
+    duration: 10,
   });
   const bridgeData:ContractReceipt = yield bridgeTx.wait();
 

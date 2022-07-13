@@ -13,6 +13,7 @@ interface CongratsModalProps {
   address: string
   amount: string
   receiving: string,
+  from: string,
   onClick: () => void;
 }
 
@@ -22,6 +23,7 @@ export const CongratsModal: FC<CongratsModalProps> = ({
   setIsModalVisible,
   address,
   amount,
+  from,
   receiving,
   onClick,
 }) => {
@@ -39,6 +41,10 @@ export const CongratsModal: FC<CongratsModalProps> = ({
     onClick();
     setIsModalVisible(false);
   };
+
+  const addressExplorer = from === 'polygon'
+    ? 'https://icscan.io/account/'
+    : 'https://polygonscan.com/address/';
 
   return (
     <Modal
@@ -63,7 +69,13 @@ export const CongratsModal: FC<CongratsModalProps> = ({
             {amount}
           </span>
           <br />
-          <a href="/">{getShortAddress(address, 15)}</a>
+          <a
+            href={addressExplorer + address}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {getShortAddress(address, 15)}
+          </a>
           {` address received ${receiving}`}
         </p>
         <Button
