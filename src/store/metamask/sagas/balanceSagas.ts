@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import { getContract } from 'api/contract';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { getBalance, getContract } from 'api/contract';
 import { ethers } from 'ethers';
 import {
   put,
@@ -18,8 +19,7 @@ import { MetamaskState } from '../types';
 export const getTokensBalance = async (
   addressWallet: string,
 ) => {
-  const contract = getContract();
-  const balance: ethers.BigNumber = await contract.balanceOf(addressWallet);
+  const balance = await getBalance(addressWallet);
   return balance.toString();
 };
 

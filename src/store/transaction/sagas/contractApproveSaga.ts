@@ -96,6 +96,12 @@ function* plugToMetamask(
   accountId:string,
   amount:number,
 ) {
+  // ************************
+  console.log('datas of transation:');
+  console.log('amount:', amount);
+  console.log('accountID:', accountId);
+  console.log('mm_address:', metamaskAddress);
+  // *****************************
   const transfer:string = yield plugTransfer(canisterAddress, amount.toString());
 
   notification.info({
