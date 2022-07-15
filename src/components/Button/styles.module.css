@@ -72,6 +72,14 @@
   background-color: var(--color-dark-blue);
 }
 
+button:disabled {
+  color: var(--color-disabled);
+}
+
+button:disabled div.outline_gradient__internal {
+  color: var(--color-disabled);
+}
+
 @media (max-width: 421px) {
   .button__container,
   .primary,
