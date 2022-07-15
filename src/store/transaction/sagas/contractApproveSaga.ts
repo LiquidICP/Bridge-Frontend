@@ -94,14 +94,9 @@ function* metamaskToPlug(
 function* plugToMetamask(
   metamaskAddress:string,
   accountId:string,
+  receiving: number,
   amount:number,
 ) {
-  // ************************
-  console.log('datas of transation:');
-  console.log('amount:', amount);
-  console.log('accountID:', accountId);
-  console.log('mm_address:', metamaskAddress);
-  // *****************************
   const transfer:string = yield plugTransfer(canisterAddress, amount.toString());
 
   notification.info({
@@ -135,7 +130,7 @@ function* plugToMetamask(
     data: {
       sender: accountId,
       senderType: 'dfinity',
-      amount: ethers.utils.parseUnits(amount.toString(), 8).toString(),
+      amount: ethers.utils.parseUnits(receiving.toString(), 8).toString(),
       recipient: metamaskAddress,
       recipientType: 'polygon',
     },
@@ -169,11 +164,10 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
       receiving,
     } = yield select(transactionSelector.getState);
     if (from === 'plug') {
-      console.log('from, amount, receiving', from, amount, receiving);
       yield plugToMetamask(
         address,
         accountId,
-        // receiving,
+        receiving,
         amount,
       );
     } else {
