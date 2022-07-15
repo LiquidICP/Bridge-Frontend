@@ -96,6 +96,12 @@ function* plugToMetamask(
   accountId:string,
   amount:number,
 ) {
+  // ************************
+  console.log('datas of transation:');
+  console.log('amount:', amount);
+  console.log('accountID:', accountId);
+  console.log('mm_address:', metamaskAddress);
+  // *****************************
   const transfer:string = yield plugTransfer(canisterAddress, amount.toString());
 
   notification.info({
@@ -160,11 +166,14 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
     const {
       from,
       amount,
+      receiving,
     } = yield select(transactionSelector.getState);
     if (from === 'plug') {
+      console.log('from, amount, receiving', from, amount, receiving);
       yield plugToMetamask(
         address,
         accountId,
+        // receiving,
         amount,
       );
     } else {

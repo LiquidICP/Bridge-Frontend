@@ -1,4 +1,6 @@
-import { getContract } from 'api/contract';
+/* eslint-disable no-console */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { getBalance, getContract } from 'api/contract';
 import { ethers } from 'ethers';
 import {
   put,
@@ -7,9 +9,7 @@ import {
 } from 'redux-saga/effects';
 // import web3 from 'web3';
 
-import {
-  sagaExceptionHandler,
-} from 'utils';
+// import { sagaExceptionHandler } from 'utils';
 // import { ethers } from 'ethers';
 import { metamaskSetState } from '../actionCreators';
 import { MetamaskActionType } from '../actionTypes';
@@ -19,26 +19,21 @@ import { MetamaskState } from '../types';
 export const getTokensBalance = async (
   addressWallet: string,
 ) => {
-  const contract = await getContract();
-  const balance:ethers.BigNumber = await contract.balanceOf(addressWallet);
+  const balance = await getBalance(addressWallet);
   return balance.toString();
 };
 
 export function* getTokensBalanceSaga() {
   try {
     yield put(metamaskSetState({ isTokensBalanceLoading: true }));
-
     const address: MetamaskState['address'] = yield select(metamaskSelectors.getProp('address'));
-
     if (address) {
       const balanceWei: string = yield getTokensBalance(address);
-
-      const tokensBalance = ethers.utils.formatUnits(balanceWei, 8);
-
+      const tokensBalance: string = yield ethers.utils.formatUnits(balanceWei, 8);
       yield put(metamaskSetState({ tokensBalance: Number(tokensBalance) }));
     }
   } catch (err) {
-    sagaExceptionHandler('Unable to get balance');
+    console.log(err);
   } finally {
     yield put(metamaskSetState({ isTokensBalanceLoading: false }));
   }

@@ -26,6 +26,7 @@ export const useCalculationFee = (amount:number, from:string) => {
         notification.info({
           message: 'Info',
           description: 'Please approve or wait calculation Fee',
+          duration: 3,
         });
         const contact = getBridgeContract();
         contact.feeRate()
@@ -41,6 +42,7 @@ export const useCalculationFee = (amount:number, from:string) => {
         notification.info({
           message: 'Info',
           description: 'Please approve or wait calculation Fee',
+          duration: 3,
         });
         getDfinityContract()
           .then((contract) => contract?.getFeeRate())

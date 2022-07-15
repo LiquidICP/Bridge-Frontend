@@ -26,6 +26,8 @@ const UnwrapTab = memo(() => {
   }, []);
 
   const onWithdrawClick = useCallback(() => {
+    console.log('balance WICP', balanceWICP); // *************************
+
     if (balanceWICP > 0 && parseFloat(amountInput) < balanceWICP) {
       dispatch(transferWICPToICP(amountInput));
       setAmountInput('');

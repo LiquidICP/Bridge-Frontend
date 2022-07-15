@@ -2,6 +2,7 @@
 /* eslint-disable no-empty-pattern */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { notification } from 'antd';
+import { canistersID } from 'appConstants';
 import {
   call,
   put,
@@ -22,7 +23,8 @@ import { PlugStatus } from '../types';
 
 export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
   try {
-    if (plugIsInstalled()) {
+    const isInstalled: boolean = yield call(plugIsInstalled);
+    if (isInstalled) {
       notification.info({
         message: 'Success',
         description: 'Please wait for wallet connection',
@@ -49,10 +51,10 @@ export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
     let balanceICP = 0;
     let balanceWICP = 0;
     balance.forEach((b) => {
-      if (b.canisterId === 'ryjl3-tyaaa-aaaaa-aaaba-cai') {
+      if (b.canisterId === canistersID.icp) {
         balanceICP = b.amount;
       }
-      if (b.canisterId === 'oh7zz-gyaaa-aaaai-qfm3a-cai') {
+      if (b.canisterId === canistersID.wicp) {
         balanceWICP = b.amount;
       }
     });
@@ -76,7 +78,8 @@ export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
       balancePlug: [],
       status: PlugStatus.DISCONNECTED,
     }));
-    sagaExceptionHandler(err);
+    // sagaExceptionHandler(err); ********** old ********
+    sagaExceptionHandler('*** State Plug is failed ***');
   }
 }
 
