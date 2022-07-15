@@ -62,7 +62,7 @@ const Step2 = memo(({
     if (status === 'in_progress') {
       setIsModalOpen(true);
     }
-    if (status === 'reject') {
+    if (status === 'reject' || status === 'canceled') {
       setButtonIsDisabled(false);
     }
   }, [status]);
