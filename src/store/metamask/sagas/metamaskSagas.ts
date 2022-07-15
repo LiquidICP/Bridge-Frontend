@@ -23,7 +23,6 @@ import {
   getBalanceMetaMask, getMetamaskChainId, getMetamaskProvider, getNetworkById,
 } from 'utils/metamask';
 import { notification } from 'antd';
-import { toast } from 'react-toastify';
 import { metamaskGetTokensBalance, metamaskSetState } from '../actionCreators';
 import { metamaskSelectors } from '../selectors';
 import { MetamaskActionType } from '../actionTypes';
@@ -143,7 +142,6 @@ export function* connectMetamaskSaga() {
         message: 'Error',
         description: ToastMessage.notInstalled,
       });
-      toast.error(ToastMessage.notInstalled);
     }
     if (metamaskProvider) {
       const addresses: string[] = yield metamaskProvider.request({
@@ -176,7 +174,6 @@ export function* connectMetamaskSaga() {
         yield put(metamaskSetState({
           status: MetamaskStatus.NOT_SUPPORT,
         }));
-        toast.error(ToastMessage.notSupported);
         notification.error({
           message: 'Error',
           description: ToastMessage.notSupported,
