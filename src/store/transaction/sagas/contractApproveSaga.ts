@@ -39,6 +39,14 @@ function* metamaskToPlug(
 ) {
   const WICPAmount = ethers.utils.parseUnits(amount, 8).toString();
   const contract = getContract();
+  if (!contract) {
+    notification.info({
+      message: 'ERROR',
+      description: 'Please install Metamask',
+      duration: 10,
+    });
+    return;
+  }
   const tx:ContractTransaction = yield contract.approve(
     bridgeAddress,
     WICPAmount,
