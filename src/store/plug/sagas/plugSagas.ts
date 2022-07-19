@@ -79,7 +79,8 @@ export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
       status: PlugStatus.DISCONNECTED,
     }));
     // sagaExceptionHandler(err); ********** old ********
-    sagaExceptionHandler('*** State Plug is failed ***');
+    sagaExceptionHandler('State Plug is failed');
+    console.log(err);
   }
 }
 

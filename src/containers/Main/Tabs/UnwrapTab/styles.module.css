@@ -19,8 +19,10 @@
 }
 
 .unwrapp__buttons{
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  column-gap: 16px;
+  justify-content: center;
 }
 
 .unwrapp__fee span {

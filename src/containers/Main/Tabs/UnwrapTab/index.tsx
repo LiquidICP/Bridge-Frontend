@@ -26,7 +26,9 @@ const UnwrapTab = memo(() => {
   }, []);
 
   const onWithdrawClick = useCallback(() => {
-    if (balanceWICP > 0 && Number(amountInput) < balanceWICP) {
+    console.log(Number(amountInput), balanceWICP);
+    console.log(Number(amountInput) <= balanceWICP);
+    if (balanceWICP > 0 && Number(amountInput) <= balanceWICP) {
       dispatch(transferWICPToICP(amountInput));
       setAmountInput('');
     } else {
@@ -52,7 +54,6 @@ const UnwrapTab = memo(() => {
           classNameContainer={styles.unwrapp__input}
         />
         <div className={styles.unwrapp__buttons}>
-
           <Button
             theme="gradient"
             onClick={onWithdrawClick}
