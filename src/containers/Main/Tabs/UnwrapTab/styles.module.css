@@ -29,6 +29,16 @@
   color: var(--color-primary);
 }
 
+.unwrapp__balance {
+  color: var(--color-white-font);
+  margin-top: 16px;
+  text-align: center;
+}
+
+.unwrapp__balance span {
+  color: var(--color-primary);
+}
+
 @media (max-width: 421px) {
   .unwrapp__container {
     padding: 0 20px;
