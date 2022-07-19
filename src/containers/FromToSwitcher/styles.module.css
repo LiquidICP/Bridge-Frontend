@@ -5,12 +5,13 @@
   row-gap: 16px;
 }
 
-.switcher__label {
+p.switcher__label {
   color: var(--color-gray);
   font-family: var(--font-family-default);
   font-size: var(--font-size-labels);
   padding: 0;
   margin: 0;
+  padding-bottom: 4px;
 }
 
 .switcher__button {

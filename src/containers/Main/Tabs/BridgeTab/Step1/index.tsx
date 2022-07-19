@@ -126,7 +126,11 @@ const Step1 = memo(({
       }));
       onNextClick();
       await getBalanceMetaMask();
-    } else if (tokensBalance > 0 && parseFloat(amountInput) < tokensBalance && from === 'polygon') {
+    } else if (
+      tokensBalance > 0 &&
+      parseFloat(amountInput) < tokensBalance &&
+      from === 'polygon'
+    ) {
       dispatch(transactionSetState({
         fee: amountFee,
         receiving,

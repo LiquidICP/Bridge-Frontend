@@ -19,11 +19,23 @@
 }
 
 .unwrapp__buttons{
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  column-gap: 16px;
+  justify-content: center;
 }
 
 .unwrapp__fee span {
+  color: var(--color-primary);
+}
+
+.unwrapp__balance {
+  color: var(--color-white-font);
+  margin-top: 16px;
+  text-align: center;
+}
+
+.unwrapp__balance span {
   color: var(--color-primary);
 }
 
