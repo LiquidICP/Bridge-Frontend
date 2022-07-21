@@ -6,9 +6,7 @@ import {
   spawn,
   takeLatest,
 } from 'redux-saga/effects';
-
 import { MetaMaskInpageProvider } from '@metamask/providers';
-
 import detectEthereumProvider from '@metamask/detect-provider';
 import {
   Unwrap,

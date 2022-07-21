@@ -32,6 +32,8 @@
 
 .main__container .ant-tabs-tab {
   padding: 0;
+  font-size: 32px;
+  font-weight: 900;
 }
 
 .main__container p {

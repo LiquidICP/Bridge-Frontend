@@ -7,6 +7,7 @@
   margin-top: 24px;
   justify-self: center;
   margin: 0 auto;
+  padding-top: 48px;
 }
 
 .unwrapp__input {
@@ -48,7 +49,6 @@
     width: 100%;
   }
 }
-
 
 .unwrapp__title{
   font-size: 48px;

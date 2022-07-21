@@ -43,44 +43,41 @@ const UnwrapTab = memo(() => {
     dispatch(plugConnect());
   }, [dispatch]);
   return (
-    <>
-      <h2 className={styles.unwrapp__title}>Unwrap</h2>
-      <section className={styles.unwrapp__container}>
-        <Input
-          label="WICP to ICP"
-          placeholder="Enter amount"
-          value={amountInput}
-          onChange={onChangeAmount}
-          classNameContainer={styles.unwrapp__input}
-        />
-        <div className={styles.unwrapp__balance}>
-          Your balance:
-          {' '}
-          <span>
-            {balanceWICP}
-            &nbsp;WICP
-          </span>
-        </div>
-        <div className={styles.unwrapp__buttons}>
-          <Button
-            theme="gradient"
-            onClick={onWithdrawClick}
-            className={styles.unwrapp_button}
-            isDisabled={isbuttondasabled || !isPlugConnected}
-          >
-            Withdraw
-          </Button>
-          <Button
-            theme="gradient"
-            onClick={onPlugConnectClick}
-            className={styles.unwrapp_button}
-            isDisabled={isPlugConnected}
-          >
-            Connect to Plug
-          </Button>
-        </div>
-      </section>
-    </>
+    <section className={styles.unwrapp__container}>
+      <Input
+        label="WICP to ICP"
+        placeholder="Enter amount"
+        value={amountInput}
+        onChange={onChangeAmount}
+        classNameContainer={styles.unwrapp__input}
+      />
+      <div className={styles.unwrapp__balance}>
+        Your balance:
+        {' '}
+        <span>
+          {balanceWICP}
+          &nbsp;WICP
+        </span>
+      </div>
+      <div className={styles.unwrapp__buttons}>
+        <Button
+          theme="gradient"
+          onClick={onWithdrawClick}
+          className={styles.unwrapp_button}
+          isDisabled={isbuttondasabled || !isPlugConnected}
+        >
+          Unwrap
+        </Button>
+        <Button
+          theme="gradient"
+          onClick={onPlugConnectClick}
+          className={styles.unwrapp_button}
+          isDisabled={isPlugConnected}
+        >
+          Connect to Plug
+        </Button>
+      </div>
+    </section>
   );
 });
 

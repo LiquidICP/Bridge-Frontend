@@ -40,7 +40,6 @@ const BridgeTab: FC = () => {
 
   return (
     <section className={styles.bridge__container}>
-      <h2>Bridge</h2>
       <Steps step={step.step} />
       {stepElements[`step${step.step}`]}
     </section>

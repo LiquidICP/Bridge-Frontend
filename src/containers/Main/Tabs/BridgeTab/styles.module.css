@@ -3,6 +3,7 @@
   justify-content: center;
   width: 100%;
   grid-template-columns: 1fr;
+  padding-top: 48px;
 }
 
 .bridge__container h2 {
