@@ -55,9 +55,12 @@ const Step1 = memo(({
   }, []);
   const isbuttondasabled = useMemo(
     () =>
-      amountInput === '' || isLoading || Number(amountInput) === 0,
-
-    [isLoading, amountInput],
+      amountInput === '' ||
+      isLoading ||
+      Number(amountInput) === 0 ||
+      !isMetaMaskConnected ||
+      !isPlugConnected,
+    [isLoading, amountInput, isMetaMaskConnected, isPlugConnected],
   );
 
   const textPlugButton = useMemo(() => {

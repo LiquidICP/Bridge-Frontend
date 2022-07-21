@@ -13,6 +13,10 @@ export const Routes = () => (
         path="/"
         element={<HomePage />}
       />
+      <Route
+        path="*"
+        element={<HomePage />}
+      />
     </Route>
   </RoutesDom>
 );

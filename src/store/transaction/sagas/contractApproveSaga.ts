@@ -69,7 +69,6 @@ function* metamaskToPlug(
     duration: 10,
   });
   const bridgeData:ContractReceipt = yield bridgeTx.wait();
-
   const responce:TransactionData = yield call(callApi, {
     method: 'POST',
     url: '/save-transaction',
