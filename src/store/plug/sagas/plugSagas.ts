@@ -58,13 +58,12 @@ export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
         balanceWICP = b.amount;
       }
     });
-
     yield put(plugSetState({
       connected: isConnectPlug,
-      publicKey,
+      publicKey: publicKey === undefined ? '' : publicKey,
       accountId: accountId === false ? undefined : accountId,
-      balanceICP,
-      balanceWICP,
+      balanceICP: balanceICP === undefined ? 0 : balanceICP,
+      balanceWICP: balanceWICP === undefined ? 0 : balanceWICP,
       balancePlug: balance,
       status: PlugStatus.CONNECTED,
     }));
@@ -79,7 +78,7 @@ export function* connectPlugSaga({}:ReturnType<typeof plugConnect>) {
       status: PlugStatus.DISCONNECTED,
     }));
     // sagaExceptionHandler(err);
-    sagaExceptionHandler('State Plug is failed');
+    sagaExceptionHandler('For a correct connection with the Plug wallet, you need to restart your browser');
   }
 }
 
