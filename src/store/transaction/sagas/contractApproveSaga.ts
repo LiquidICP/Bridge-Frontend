@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable no-empty-pattern */
 import { Principal } from '@dfinity/principal';
@@ -6,7 +7,12 @@ import {
   call, put, select, takeLatest,
 } from 'redux-saga/effects';
 import { sagaExceptionHandler } from 'utils';
-import { ethers, ContractTransaction, ContractReceipt } from 'ethers';
+import {
+  BigNumber,
+  ethers,
+  ContractTransaction,
+  ContractReceipt,
+} from 'ethers';
 import { metamaskSelectors } from 'store/metamask/selectors';
 import { plugSelectors } from 'store/plug/selector';
 import { getBridgeContract } from 'api/bridgeContract';
@@ -29,6 +35,15 @@ import { contractApprove, transactionSetState } from '../actionCreator';
 import { transactionSelector } from '../selector';
 import { TransactionActionsType } from '../actionTypes';
 
+function* allowancePolygon(contract: any, userAddress: string, bridgeAddress: string) {
+  const allowanceWei: BigNumber = yield contract.allowance(
+    userAddress,
+    bridgeAddress,
+  );
+  const allowance = allowanceWei.toNumber();
+  return allowance;
+}
+
 function* metamaskToPlug(
   bridgeAddress:string,
   token:string,
@@ -47,18 +62,32 @@ function* metamaskToPlug(
     });
     return;
   }
-  const tx:ContractTransaction = yield contract.approve(
-    bridgeAddress,
-    WICPAmount,
-  );
-  notification.info({
-    message: 'INFO',
-    description: 'Please wait approve',
-    duration: 10,
-  });
-  yield tx.wait();
+
+  try {
+    const tx:ContractTransaction = yield contract.approve(
+      bridgeAddress,
+      WICPAmount,
+    );
+    notification.info({
+      message: 'INFO',
+      description: 'Please wait approve',
+      duration: 10,
+    });
+    yield tx.wait();
+  } catch (err) {
+    console.log(err);
+    sagaExceptionHandler('The transaction has changed. Confirm new transaction');
+  }
+
+  const allowance: number = yield call(allowancePolygon, contract, metamaskAddress, bridgeAddress);
+  // console.log('allowance_no error:', allowance); // *************
 
   const bridgeContract = getBridgeContract();
+  if (allowance <= Number(WICPAmount)) {
+    const delta = Number(WICPAmount) - allowance;
+    const txn:ContractTransaction = yield contract.increaseAllowance(metamaskAddress, delta);
+    yield txn.wait();
+  }
   const bridgeTx:ContractTransaction = yield bridgeContract.requestBridgingToStart(
     token,
     WICPAmount,
@@ -69,6 +98,7 @@ function* metamaskToPlug(
     duration: 10,
   });
   const bridgeData:ContractReceipt = yield bridgeTx.wait();
+
   const responce:TransactionData = yield call(callApi, {
     method: 'POST',
     url: '/save-transaction',
@@ -81,6 +111,7 @@ function* metamaskToPlug(
       polygonTransactionId: bridgeData.transactionHash,
     },
   });
+
   yield put(transactionSetState({
     status: responce.state,
   }));
@@ -187,7 +218,10 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
         from,
       );
     }
-  } catch (err) {
+  } catch (err: any) {
+    // ************************
+    console.log('Approve', err.message, err.fileName);
+    // ***********************
     yield put(transactionSetState({
       status: 'reject',
     }));
