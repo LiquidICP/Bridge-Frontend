@@ -27,7 +27,6 @@ import { plugTransfer } from 'api/plugTransfer';
 import { metamaskGetTokensBalance } from 'store/metamask/actionCreators';
 import {
   metamaskbridgeAddress,
-  tokenAddress,
   plugbridgeAddress,
   canisterAddress,
 } from '../../../global/constants';
@@ -46,11 +45,9 @@ function* allowancePolygon(contract: any, userAddress: string, bridgeAddress: st
 
 function* metamaskToPlug(
   bridgeAddress:string,
-  token:string,
   metamaskAddress:string,
   accountId: string,
   amount:string,
-  from:string,
 ) {
   const WICPAmount = ethers.utils.parseUnits(amount, 8).toString();
   const contract = getContract();
@@ -80,8 +77,6 @@ function* metamaskToPlug(
   }
 
   const allowance: number = yield call(allowancePolygon, contract, metamaskAddress, bridgeAddress);
-  // console.log('allowance_no error:', allowance); // *************
-
   const bridgeContract = getBridgeContract();
   if (allowance <= Number(WICPAmount)) {
     const delta = Number(WICPAmount) - allowance;
@@ -89,8 +84,8 @@ function* metamaskToPlug(
     yield txn.wait();
   }
   const bridgeTx:ContractTransaction = yield bridgeContract.requestBridgingToStart(
-    token,
     WICPAmount,
+    accountId,
   );
   notification.info({
     message: 'INFO',
@@ -99,24 +94,10 @@ function* metamaskToPlug(
   });
   const bridgeData:ContractReceipt = yield bridgeTx.wait();
 
-  const responce:TransactionData = yield call(callApi, {
-    method: 'POST',
-    url: '/save-transaction',
-    data: {
-      sender: metamaskAddress,
-      senderType: from,
-      amount: WICPAmount,
-      recipient: accountId,
-      recipientType: 'dfinity',
-      polygonTransactionId: bridgeData.transactionHash,
-    },
-  });
-
-  yield put(transactionSetState({
-    status: responce.state,
-  }));
-
-  if (responce.state === 'in_progress') {
+  if (bridgeData) {
+    yield put(transactionSetState({
+      status: 'in_progress',
+    }));
     notification.success({
       message: 'Success',
       description: 'Transaction from polygon to dfinity completes successfully',
@@ -211,11 +192,9 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
     } else {
       yield metamaskToPlug(
         metamaskbridgeAddress,
-        tokenAddress,
         address,
         accountId,
         amount,
-        from,
       );
     }
   } catch (err: any) {
