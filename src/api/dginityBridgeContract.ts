@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import token from 'abi/dfinityToken/token';
 import SERVICE from 'abi/dfinityToken/types';
-import { plugbridgeAddressApproveWICP } from 'global';
+import { plugbridgeAddress } from 'global';
 
 declare let window: any;
 
-export const getDfinityContract = async () => {
+export const getDfinityBridgeContract = async () => {
   try {
     const tokenActor = await window.ic.plug.createActor({
-      canisterId: plugbridgeAddressApproveWICP,
+      canisterId: plugbridgeAddress,
       interfaceFactory: token,
     });
     return tokenActor as SERVICE;
@@ -17,4 +18,4 @@ export const getDfinityContract = async () => {
   }
 };
 
-getDfinityContract();
+getDfinityBridgeContract();

@@ -19,12 +19,12 @@ import { getBridgeContract } from 'api/bridgeContract';
 import { getDfinityContract } from 'api/dfinityContract';
 import { notification } from 'antd';
 import { callApi } from 'utils/api';
-import { TransactionData } from 'store/types';
-import {
-  SERVICE,
-} from 'abi/dfinityToken/types';
+
 import { plugTransfer } from 'api/plugTransfer';
 import { metamaskGetTokensBalance } from 'store/metamask/actionCreators';
+import SERVICE from 'abi/dfinityToken/types';
+import BRIDGESERVICE, { SuccesTxReceipt } from 'abi/dfinityBridge/bridgeTypes';
+import { getDfinityBridgeContract } from 'api/dginityBridgeContract';
 import {
   metamaskbridgeAddress,
   plugbridgeAddress,
@@ -143,22 +143,22 @@ function* plugToMetamask(
     description: 'Please wait Transaction',
     duration: 10,
   });
-  const responce:TransactionData = yield call(callApi, {
-    method: 'POST',
-    url: '/save-transaction',
-    data: {
-      sender: accountId,
-      senderType: 'dfinity',
-      amount: ethers.utils.parseUnits(receiving.toString(), 8).toString(),
-      recipient: metamaskAddress,
-      recipientType: 'polygon',
-    },
-  });
-  yield put(transactionSetState({
-    status: responce.state,
-  }));
 
-  if (responce.state === 'in_progress') {
+  const bridgeActor:BRIDGESERVICE = yield getDfinityBridgeContract();
+  const requestBrinddge:SuccesTxReceipt = yield bridgeActor.requestBridgingToEnd(
+    ethers.utils.parseUnits(amount.toString(), 8).toBigInt(),
+    metamaskAddress,
+  );
+  notification.info({
+    message: 'INFO',
+    description: 'Please wait Transaction',
+    duration: 10,
+  });
+
+  if (requestBrinddge.Ok) {
+    yield put(transactionSetState({
+      status: 'in_progress',
+    }));
     notification.success({
       message: 'Success',
       description: 'Transaction from dfinity to polygon completed successfully',

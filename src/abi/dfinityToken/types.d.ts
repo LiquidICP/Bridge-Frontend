@@ -1,4 +1,4 @@
-import type { Principal } from '@dfinity/principal';
+import type { Principal } from '@dfinity/agent';
 
 export interface Metadata {
   'fee' : bigint,
@@ -33,15 +33,14 @@ export type ErrorTxReceipt = {
   { 'BlockUsed' : null } |
   { 'AmountTooSmall' : null }
 };
-
-export interface SERVICE {
+export default interface SERVICE {
   'allowance' : (arg_0: Principal, arg_1: Principal) => Promise<bigint>,
   'approve' : (arg_0: Principal, arg_1: bigint) => Promise<TxReceipt>,
   'balanceOf' : (arg_0: Principal) => Promise<bigint>,
   'burn' : (arg_0: bigint) => Promise<TxReceipt>,
   'canisterBalanceICP' : () => Promise<Tokens>,
   'getAllowanceSize' : () => Promise<bigint>,
-  'getBorMassenger' : () => Promise<Principal>,
+  'getBotMassenger' : () => Promise<Principal>,
   'getDecimals' : () => Promise<number>,
   'getFeeRate' : () => Promise<bigint>,
   'getHolders' : (arg_0: bigint, arg_1: bigint) => Promise<
@@ -74,6 +73,7 @@ export interface SERVICE {
     arg_8: bigint,
   ) => Promise<undefined>,
   'mint' : (arg_0: Principal, arg_1: bigint) => Promise<TxReceipt>,
+  'setBotMassenger' : (arg_0: Principal) => Promise<undefined>,
   'setFee' : (arg_0: bigint) => Promise<undefined>,
   'setFeeRate' : (arg_0: bigint) => Promise<undefined>,
   'setFeeTo' : (arg_0: Principal) => Promise<undefined>,
@@ -87,5 +87,5 @@ export interface SERVICE {
     arg_1: Principal,
     arg_2: bigint,
   ) => Promise<TxReceipt>,
-  'unwrappedWICP' : (arg_0: bigint, arg_1: Principal) => Promise<TxReceipt>,
+  'unwrappedWICP' : (arg_0: bigint) => Promise<TxReceipt>,
 }

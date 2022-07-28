@@ -1,20 +1,17 @@
 /* eslint-disable no-empty-pattern */
 import { Principal } from '@dfinity/principal';
-import { SERVICE } from 'abi/dfinityToken/types';
+import SERVICE, { SuccesTxReceipt, Tokens } from 'abi/dfinityToken/types';
 import { notification } from 'antd';
 import { getDfinityContract } from 'api/dfinityContract';
 import { ethers } from 'ethers';
-import { call, select, takeLatest } from 'redux-saga/effects';
-import { plugSelectors } from 'store/plug/selector';
+import { takeLatest } from 'redux-saga/effects';
 import { sagaExceptionHandler } from 'utils';
-import { callApi } from 'utils/api';
 import { plugbridgeAddressApproveWICP } from '../../../global/constants';
 import { transferWICPToICP } from '../actionCreator';
 import { TransactionActionsType } from '../actionTypes';
 
 export function* transferApproveSaga({ payload: { amount } }:ReturnType<typeof transferWICPToICP>) {
   try {
-    const { accountId } = yield select(plugSelectors.getState);
     const tokenActor:SERVICE = yield getDfinityContract();
     yield tokenActor.approve(
       Principal.fromText(plugbridgeAddressApproveWICP),
@@ -25,19 +22,21 @@ export function* transferApproveSaga({ payload: { amount } }:ReturnType<typeof t
       description: 'Please wait transfer WICP to ICP',
       duration: 25,
     });
-    yield call(callApi, {
-      method: 'POST',
-      url: '/unwrapped-wicp',
-      data: {
-        uAddress: accountId,
-        amount: Number(ethers.utils.parseUnits(amount, 8).toString()),
-      },
-    });
-    notification.info({
-      message: 'INFO',
-      description: 'Unwrapping success',
-      duration: 15,
-    });
+    const balanceICP:Tokens = yield tokenActor.canisterBalanceICP();
+    if ((Number(balanceICP) - 10000) >= Number(ethers.utils.parseUnits(amount, 8))) {
+      const unwrappedWICP:SuccesTxReceipt = yield tokenActor.unwrappedWICP(
+        ethers.utils.parseUnits(amount, 8).toBigInt(),
+      );
+      if (unwrappedWICP.Ok) {
+        notification.info({
+          message: 'INFO',
+          description: 'Unwrapping success',
+          duration: 15,
+        });
+      }
+    } else {
+      return;
+    }
   } catch (err) {
     sagaExceptionHandler(err);
   }
