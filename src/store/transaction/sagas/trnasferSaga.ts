@@ -23,7 +23,7 @@ export function* transferApproveSaga({ payload: { amount } }:ReturnType<typeof t
       duration: 25,
     });
     const balanceICP:Tokens = yield tokenActor.canisterBalanceICP();
-    if ((Number(balanceICP) - 10000) >= Number(ethers.utils.parseUnits(amount, 8))) {
+    if ((Number(balanceICP) - 10001) >= Number(ethers.utils.parseUnits(amount, 8))) {
       const unwrappedWICP:SuccesTxReceipt = yield tokenActor.unwrappedWICP(
         ethers.utils.parseUnits(amount, 8).toBigInt(),
       );
