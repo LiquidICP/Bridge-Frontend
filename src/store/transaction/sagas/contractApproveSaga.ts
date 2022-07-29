@@ -143,7 +143,6 @@ function* plugToMetamask(
     description: 'Please wait Transaction',
     duration: 10,
   });
-
   const bridgeActor:BRIDGESERVICE = yield getDfinityBridgeContract();
   const requestBrinddge:SuccesTxReceipt = yield bridgeActor.requestBridgingToEnd(
     ethers.utils.parseUnits(amount.toString(), 8).toBigInt(),

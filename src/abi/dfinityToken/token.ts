@@ -15,6 +15,7 @@ const idlFactory = ({ IDL }: any) => {
     }),
   });
   const Tokens = IDL.Record({ e8s: IDL.Nat64 });
+  const AccountIdentifier = IDL.Vec(IDL.Nat8);
   const Metadata = IDL.Record({
     fee: IDL.Nat,
     decimals: IDL.Nat8,
@@ -43,8 +44,9 @@ const idlFactory = ({ IDL }: any) => {
     balanceOf: IDL.Func([IDL.Principal], [IDL.Nat], ['query']),
     burn: IDL.Func([IDL.Nat], [TxReceipt], []),
     canisterBalanceICP: IDL.Func([], [Tokens], []),
+    getAccountIndetifier: IDL.Func([], [AccountIdentifier], ['query']),
     getAllowanceSize: IDL.Func([], [IDL.Nat], ['query']),
-    getBorMassenger: IDL.Func([], [IDL.Principal], ['query']),
+    getBotMassenger: IDL.Func([], [IDL.Principal], ['query']),
     getDecimals: IDL.Func([], [IDL.Nat8], ['query']),
     getFeeRate: IDL.Func([], [IDL.Nat], []),
     getHolders: IDL.Func(
@@ -56,6 +58,11 @@ const idlFactory = ({ IDL }: any) => {
     getMetadata: IDL.Func([], [Metadata], ['query']),
     getName: IDL.Func([], [IDL.Text], ['query']),
     getOwner: IDL.Func([], [IDL.Principal], ['query']),
+    getPercentageDistributionOfICPtoOwnerWallet: IDL.Func(
+      [],
+      [IDL.Nat],
+      ['query'],
+    ),
     getPrincipal: IDL.Func([], [IDL.Principal], []),
     getPrincipalCanister: IDL.Func([], [IDL.Principal], []),
     getSymbol: IDL.Func([], [IDL.Text], ['query']),
@@ -85,6 +92,7 @@ const idlFactory = ({ IDL }: any) => {
       ['oneway'],
     ),
     mint: IDL.Func([IDL.Principal, IDL.Nat], [TxReceipt], []),
+    setBotMassenger: IDL.Func([IDL.Principal], [], ['oneway']),
     setFee: IDL.Func([IDL.Nat], [], ['oneway']),
     setFeeRate: IDL.Func([IDL.Nat], [], ['oneway']),
     setFeeTo: IDL.Func([IDL.Principal], [], ['oneway']),
@@ -92,13 +100,18 @@ const idlFactory = ({ IDL }: any) => {
     setLogo: IDL.Func([IDL.Text], [], ['oneway']),
     setName: IDL.Func([IDL.Text], [], ['oneway']),
     setOwner: IDL.Func([IDL.Principal], [], ['oneway']),
+    setPercentageDistributionOfICPtoOwnerWallet: IDL.Func(
+      [IDL.Nat],
+      [],
+      ['oneway'],
+    ),
     transfer: IDL.Func([IDL.Principal, IDL.Nat], [TxReceipt], []),
     transferFrom: IDL.Func(
       [IDL.Principal, IDL.Principal, IDL.Nat],
       [TxReceipt],
       [],
     ),
-    unwrappedWICP: IDL.Func([IDL.Nat, IDL.Principal], [TxReceipt], []),
+    unwrappedWICP: IDL.Func([IDL.Nat], [TxReceipt], []),
   });
 };
 

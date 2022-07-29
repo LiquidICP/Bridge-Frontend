@@ -20,10 +20,11 @@ export function* transferApproveSaga({ payload: { amount } }:ReturnType<typeof t
     notification.info({
       message: 'INFO',
       description: 'Please wait transfer WICP to ICP',
-      duration: 25,
+      duration: 15,
     });
     const balanceICP:Tokens = yield tokenActor.canisterBalanceICP();
-    if ((Number(balanceICP) - 10001) >= Number(ethers.utils.parseUnits(amount, 8))) {
+
+    if ((Number(balanceICP.e8s) - 10001) >= (Number(amount) * 10 ** 8)) {
       const unwrappedWICP:SuccesTxReceipt = yield tokenActor.unwrappedWICP(
         ethers.utils.parseUnits(amount, 8).toBigInt(),
       );
