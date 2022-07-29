@@ -26,8 +26,6 @@ const UnwrapTab = memo(() => {
   }, []);
 
   const onWithdrawClick = useCallback(() => {
-    console.log(Number(amountInput), balanceWICP);
-    console.log(Number(amountInput) <= balanceWICP);
     if (balanceWICP > 0 && Number(amountInput) <= balanceWICP) {
       dispatch(transferWICPToICP(amountInput));
       setAmountInput('');
