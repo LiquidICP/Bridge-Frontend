@@ -33,6 +33,7 @@ import {
 import { contractApprove, transactionSetState } from '../actionCreator';
 import { transactionSelector } from '../selector';
 import { TransactionActionsType } from '../actionTypes';
+import { TransferPLUG } from '../types';
 
 function* allowancePolygon(contract: any, userAddress: string, bridgeAddress: string) {
   const allowanceWei: BigNumber = yield contract.allowance(
@@ -116,13 +117,13 @@ function* plugToMetamask(
   receiving: number,
   amount:number,
 ) {
-  const transfer:string = yield plugTransfer(canisterAddress, amount.toString());
-
+  const transfer:TransferPLUG = yield plugTransfer(canisterAddress, amount.toString());
   notification.info({
     message: 'INFO',
     description: 'Please wait Transaction',
     duration: 10,
   });
+  console.log(transfer.height);
   if (transfer) {
     yield call(callApi, {
       method: 'POST',
@@ -130,28 +131,29 @@ function* plugToMetamask(
       data: {
         uAddress: accountId,
         amount: Number(ethers.utils.parseUnits(amount.toString(), 8).toString()),
+        blockId: transfer.height,
       },
     });
   }
   const tokenActor:SERVICE = yield getDfinityContract();
   yield tokenActor.approve(
     Principal.fromText(plugbridgeAddress),
-    ethers.utils.parseUnits(amount.toString(), 8).toBigInt(),
+    ethers.utils.parseUnits(receiving.toString(), 8).toBigInt(),
   );
   notification.info({
     message: 'INFO',
-    description: 'Please wait Transaction',
-    duration: 10,
+    description: "Please don't close this page, wait Transaction and Allow next Transaction",
+    duration: 15,
   });
   const bridgeActor:BRIDGESERVICE = yield getDfinityBridgeContract();
   const requestBrinddge:SuccesTxReceipt = yield bridgeActor.requestBridgingToEnd(
-    ethers.utils.parseUnits(amount.toString(), 8).toBigInt(),
+    ethers.utils.parseUnits(receiving.toString(), 8).toBigInt(),
     metamaskAddress,
   );
   notification.info({
     message: 'INFO',
     description: 'Please wait Transaction',
-    duration: 10,
+    duration: 4,
   });
 
   if (requestBrinddge.Ok) {

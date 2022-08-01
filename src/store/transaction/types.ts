@@ -7,3 +7,7 @@ export type StateTransaction = {
   status: string,
   transferAmount:string,
 };
+
+export type TransferPLUG = {
+  height:number
+};
