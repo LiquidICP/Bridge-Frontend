@@ -131,7 +131,7 @@ function* plugToMetamask(
       data: {
         uAddress: accountId,
         amount: Number(ethers.utils.parseUnits(amount.toString(), 8).toString()),
-        // blockId: transfer.height,
+        blockId: transfer.height,
       },
     });
   }
