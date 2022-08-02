@@ -61,22 +61,6 @@ function* metamaskToPlug(
     return;
   }
 
-  try {
-    const tx:ContractTransaction = yield contract.approve(
-      bridgeAddress,
-      WICPAmount,
-    );
-    notification.info({
-      message: 'INFO',
-      description: 'Please wait approve',
-      duration: 10,
-    });
-    yield tx.wait();
-  } catch (err) {
-    console.log(err);
-    sagaExceptionHandler('The transaction has changed. Confirm new transaction');
-  }
-
   const allowance: number = yield call(allowancePolygon, contract, metamaskAddress, bridgeAddress);
   const bridgeContract = getBridgeContract();
   if (allowance <= Number(WICPAmount)) {

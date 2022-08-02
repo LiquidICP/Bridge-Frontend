@@ -43,7 +43,7 @@ export const CongratsModal: FC<CongratsModalProps> = ({
   };
 
   const addressExplorer = from === 'polygon'
-    ? 'https://icscan.io/account/'
+    ? 'https://icscan.io/principal/'
     : 'https://polygonscan.com/address/';
 
   return (
