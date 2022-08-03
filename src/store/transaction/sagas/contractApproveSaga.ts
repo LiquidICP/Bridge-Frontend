@@ -108,7 +108,6 @@ function* plugToMetamask(
     description: 'Please wait Transaction',
     duration: 10,
   });
-  console.log(transfer.height);
   if (transfer) {
     yield call(callApi, {
       method: 'POST',

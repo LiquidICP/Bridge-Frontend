@@ -49,7 +49,6 @@ const Step1 = memo(({
   const {
     isPlugConnected, plugAddress, balanceICP, status,
   } = usePlugWallet();
-
   const onChangeAmount = useCallback((t: string) => {
     setAmountInput(validatingNumberInput(t));
   }, []);
@@ -120,7 +119,7 @@ const Step1 = memo(({
       });
       return;
     }
-    if (balanceICP > 0 && parseFloat(amountInput) < balanceICP && from === 'plug') {
+    if (balanceICP > 0 && parseFloat(amountInput) <= balanceICP && from === 'plug') {
       dispatch(transactionSetState({
         fee: amountFee,
         receiving,
@@ -131,7 +130,7 @@ const Step1 = memo(({
       await getBalanceMetaMask();
     } else if (
       tokensBalance > 0 &&
-      parseFloat(amountInput) < tokensBalance &&
+      parseFloat(amountInput) <= tokensBalance &&
       from === 'polygon'
     ) {
       dispatch(transactionSetState({
