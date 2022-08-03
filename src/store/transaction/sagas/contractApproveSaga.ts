@@ -79,10 +79,8 @@ function* metamaskToPlug(
     duration: 10,
   });
   const bridgeData:ContractReceipt = yield bridgeTx.wait();
-  console.log('bridgeData:', bridgeData);
 
   if (bridgeData) {
-    console.log('succes');
     yield put(transactionSetState({
       status: 'in_progress',
     }));
