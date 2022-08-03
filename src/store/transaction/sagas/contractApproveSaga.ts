@@ -63,9 +63,10 @@ function* metamaskToPlug(
 
   const allowance: number = yield call(allowancePolygon, contract, metamaskAddress, bridgeAddress);
   const bridgeContract = getBridgeContract();
-  if (allowance <= Number(WICPAmount)) {
+  if (allowance < Number(WICPAmount)) {
     const delta = Number(WICPAmount) - allowance;
-    const txn:ContractTransaction = yield contract.increaseAllowance(metamaskAddress, delta);
+    const txn:ContractTransaction =
+    yield contract.increaseAllowance(bridgeAddress, delta);
     yield txn.wait();
   }
   const bridgeTx:ContractTransaction = yield bridgeContract.requestBridgingToStart(
@@ -183,9 +184,16 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
       );
     }
   } catch (err: any) {
-    // ************************
-    console.log('Approve', err.message, err.fileName);
-    // ***********************
+    if (err?.replacement && err?.reason === 'repriced') {
+      yield put(transactionSetState({
+        status: 'in_progress',
+      }));
+      notification.success({
+        message: 'Success',
+        description: 'Transaction from polygon to dfinity completes successfully',
+      });
+      return;
+    }
     yield put(transactionSetState({
       status: 'reject',
     }));
