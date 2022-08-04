@@ -30,12 +30,17 @@ export function* transferApproveSaga({ payload: { amount } }:ReturnType<typeof t
       );
       if (unwrappedWICP.Ok) {
         notification.info({
-          message: 'INFO',
+          message: 'Success',
           description: 'Unwrapping success',
           duration: 15,
         });
       }
     } else {
+      notification.info({
+        message: 'Info',
+        description: 'There is not enough of ICP balance on the canister. Inform the website owner',
+        duration: 15,
+      });
       return;
     }
   } catch (err) {
