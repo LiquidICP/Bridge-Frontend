@@ -44,31 +44,11 @@ function* allowancePolygon(contract: any, userAddress: string, bridgeAddress: st
   return allowance;
 }
 
-function* metamaskToPlug(
-  bridgeAddress:string,
-  metamaskAddress:string,
-  accountId: string,
-  amount:string,
+function* callRequestBridgingToStart(
+  bridgeContract:any,
+  WICPAmount:string,
+  accountId:string,
 ) {
-  const WICPAmount = ethers.utils.parseUnits(amount, 8).toString();
-  const contract = getContract();
-  if (!contract) {
-    notification.info({
-      message: 'ERROR',
-      description: 'Please install Metamask',
-      duration: 10,
-    });
-    return;
-  }
-
-  const allowance: number = yield call(allowancePolygon, contract, metamaskAddress, bridgeAddress);
-  const bridgeContract = getBridgeContract();
-  if (allowance < Number(WICPAmount)) {
-    const delta = Number(WICPAmount) - allowance;
-    const txn:ContractTransaction =
-    yield contract.increaseAllowance(bridgeAddress, delta);
-    yield txn.wait();
-  }
   const bridgeTx:ContractTransaction = yield bridgeContract.requestBridgingToStart(
     WICPAmount,
     accountId,
@@ -93,6 +73,39 @@ function* metamaskToPlug(
       message: 'Error',
       description: 'Transaction from polygon to dfinity failed',
     });
+  }
+}
+
+function* metamaskToPlug(
+  bridgeAddress:string,
+  metamaskAddress:string,
+  accountId: string,
+  amount:string,
+) {
+  const contract = getContract();
+  if (!contract) {
+    notification.info({
+      message: 'ERROR',
+      description: 'Please install Metamask',
+      duration: 10,
+    });
+    return;
+  }
+  const WICPAmount = ethers.utils.parseUnits(amount, 8).toString();
+  const allowance: number = yield call(allowancePolygon, contract, metamaskAddress, bridgeAddress);
+  const bridgeContract = getBridgeContract();
+  if (allowance < Number(WICPAmount)) {
+    const delta = Number(WICPAmount) - allowance;
+    try {
+      const txn:ContractTransaction =
+    yield contract.increaseAllowance(bridgeAddress, delta);
+      yield txn.wait();
+      yield callRequestBridgingToStart(bridgeContract, WICPAmount, accountId);
+    } catch (err: any) {
+      if (err?.replacement && err?.reason === 'repriced') {
+        yield callRequestBridgingToStart(bridgeContract, WICPAmount, accountId);
+      }
+    }
   }
 }
 
@@ -159,14 +172,15 @@ function* plugToMetamask(
 }
 
 export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
+  const { address } = yield select(metamaskSelectors.getState);
+  const { accountId } = yield select(plugSelectors.getState);
+  const {
+    from,
+    amount,
+    receiving,
+  } = yield select(transactionSelector.getState);
+
   try {
-    const { address } = yield select(metamaskSelectors.getState);
-    const { accountId } = yield select(plugSelectors.getState);
-    const {
-      from,
-      amount,
-      receiving,
-    } = yield select(transactionSelector.getState);
     if (from === 'plug') {
       yield plugToMetamask(
         address,
