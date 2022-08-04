@@ -98,15 +98,17 @@ function* metamaskToPlug(
     const delta = Number(WICPAmount) - allowance;
     try {
       const txn:ContractTransaction =
-    yield contract.increaseAllowance(bridgeAddress, delta);
+      yield contract.increaseAllowance(bridgeAddress, delta);
       yield txn.wait();
-      yield callRequestBridgingToStart(bridgeContract, WICPAmount, accountId);
     } catch (err: any) {
       if (err?.replacement && err?.reason === 'repriced') {
         yield callRequestBridgingToStart(bridgeContract, WICPAmount, accountId);
+        return;
       }
+      throw new Error(err);
     }
   }
+  yield callRequestBridgingToStart(bridgeContract, WICPAmount, accountId);
 }
 
 function* plugToMetamask(
