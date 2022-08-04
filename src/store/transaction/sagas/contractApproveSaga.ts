@@ -199,6 +199,7 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
       );
     }
   } catch (err: any) {
+    console.log(err.message);
     if (err?.replacement && err?.reason === 'repriced') {
       yield put(transactionSetState({
         status: 'in_progress',
@@ -206,6 +207,12 @@ export function* contractApproveSaga({}:ReturnType<typeof contractApprove>) {
       notification.success({
         message: 'Success',
         description: 'Transaction from polygon to dfinity completes successfully',
+      });
+      return;
+    } if (err?.reason === 'cancelled' && err?.cancelled === true) {
+      notification.error({
+        message: 'Error',
+        description: 'Transaction was cancelled by user',
       });
       return;
     }
