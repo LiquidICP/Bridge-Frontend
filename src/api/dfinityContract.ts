@@ -8,7 +8,7 @@ declare let window: any;
 export const getDfinityContract = async () => {
   try {
     const tokenActor = await window.ic.plug.createActor({
-      canisterId: 'oh7zz-gyaaa-aaaai-qfm3a-cai',
+      canisterId: 'nq3q7-ryaaa-aaaap-aalqq-cai',
       interfaceFactory: token,
     });
     return tokenActor as SERVICE;
