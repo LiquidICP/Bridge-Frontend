@@ -35,11 +35,7 @@ const idlFactory = ({ IDL }: any) => {
     feeTo: IDL.Principal,
   });
   return IDL.Service({
-    allowance: IDL.Func(
-      [IDL.Principal, IDL.Principal],
-      [IDL.Nat],
-      ['query'],
-    ),
+    allowance: IDL.Func([IDL.Principal, IDL.Principal], [IDL.Nat], ['query']),
     approve: IDL.Func([IDL.Principal, IDL.Nat], [TxReceipt], []),
     balanceOf: IDL.Func([IDL.Principal], [IDL.Nat], ['query']),
     burn: IDL.Func([IDL.Nat], [TxReceipt], []),
@@ -49,6 +45,7 @@ const idlFactory = ({ IDL }: any) => {
     getBotMassenger: IDL.Func([], [IDL.Principal], ['query']),
     getDecimals: IDL.Func([], [IDL.Nat8], ['query']),
     getFeeRate: IDL.Func([], [IDL.Nat], []),
+    getFeeWallet: IDL.Func([], [IDL.Principal], ['query']),
     getHolders: IDL.Func(
       [IDL.Nat, IDL.Nat],
       [IDL.Vec(IDL.Tuple(IDL.Principal, IDL.Nat))],
@@ -105,6 +102,7 @@ const idlFactory = ({ IDL }: any) => {
       [],
       ['oneway'],
     ),
+    setSymbol: IDL.Func([IDL.Text], [], ['oneway']),
     transfer: IDL.Func([IDL.Principal, IDL.Nat], [TxReceipt], []),
     transferFrom: IDL.Func(
       [IDL.Principal, IDL.Principal, IDL.Nat],

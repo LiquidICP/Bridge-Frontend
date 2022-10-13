@@ -22,6 +22,11 @@ const idlFactory = ({ IDL }: any) => {
   });
   return IDL.Service({
     canisterTokenBalance: IDL.Func([], [IDL.Nat], []),
+    deleteRequestBridgingToEndInfosFromList: IDL.Func(
+      [IDL.Vec(IDL.Nat)],
+      [IDL.Bool],
+      [],
+    ),
     evacuateTokens: IDL.Func([IDL.Principal, IDL.Nat], [TxReceipt], []),
     getBotMassenger: IDL.Func([], [IDL.Principal], ['query']),
     getOwner: IDL.Func([], [IDL.Principal], ['query']),
@@ -31,11 +36,7 @@ const idlFactory = ({ IDL }: any) => {
       ['query'],
     ),
     init: IDL.Func([IDL.Principal, IDL.Principal], [], ['oneway']),
-    performBridgingToStart: IDL.Func(
-      [IDL.Nat, IDL.Principal],
-      [TxReceipt],
-      [],
-    ),
+    performBridgingToStart: IDL.Func([IDL.Nat, IDL.Principal], [TxReceipt], []),
     requestBridgingToEnd: IDL.Func([IDL.Nat, IDL.Text], [TxReceipt], []),
     setBotMassenger: IDL.Func([IDL.Principal], [IDL.Bool], []),
     setOwner: IDL.Func([IDL.Principal], [IDL.Bool], []),
